@@ -1,0 +1,107 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>(;) About Semicolon Math</title>
+		<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
+	</head>
+	<body>
+		<div style="display: flex; justify-content: space-between; align-items: center;">
+			<div>
+				<h1>(;) About Semicolon Math</h1>
+			</div>
+			<div style="float: right;">
+				{% if user.is_authenticated %}
+					<a href="{% url 'profile' %}">{{ user.username }}</a> |
+					<a href="{% url 'logout' %}">Logout</a>
+				{% else %}
+					<a href="{% url 'login' %}">Login</a> |
+					<a href="{% url 'register' %}">Register</a>
+				{% endif %}
+			</div>
+		</div>
+		<nav>
+			<a href="{% url 'blog-home' %}">Home</a> |
+			<a href="{% url 'contests-home' %}">Contests</a> |
+			<a href="{% url 'problemset-home' %}">Problemset</a> |
+			<a href="#">About</a>
+		</nav>
+		{% if messages %}
+			{% for message in messages %}
+				<div class="alert alert-{{ message.tags }}">
+					{{ message }}
+				</div>
+			{% endfor %}
+		{% endif %}
+		<h2>Table of contents</h2>
+		<ul>
+			<li><a href="#what">What is Semicolon Math?</a></li>
+			<li><a href="#privacy">Privacy Notice</a></li>
+			<li><a href="#rules">Contest Rules</a></li>
+			<li><a href="#contact">Contact Information</a></li>
+		</ul>
+
+		<h2 id="what">What is Semicolon Math?</h2>
+		<p>
+			Semicolon Math is a platform that tries to be the math version of
+			<a href="https://codeforces.com">Codeforces</a>.
+			We offer various contests.
+		</p>
+		<p>
+			All problems on this website are licensed under a
+			<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+				Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+		</p>
+		<p>
+			The code for this website is available on <a href="">Github (coming soon)</a> under a GPL license.
+		</p>
+
+		<h2 id="privacy">Privacy Notice</h2>
+		<p>
+			We store your username and a <b>hashed and salted</b> version of your password.
+			However, you <b>should use a unique and strong password</b> for this website for security reasons.
+		</p>
+		<p>
+			We also store the answers you submit to a problem, your rating, the scores of the contests you participate in,
+			and during a contest, the time you submitted a problem in order to calculate your score.
+		</p>
+		<p>
+			We do not knowingly log any other personal data, such as your email.
+		</p>
+		<h2 id="rules">Contest Rules</h2>
+		<p>We try to simulate the AMC</p>
+		<ul>
+			<li>You CAN ONLY use scratch paper, pencils, erasers, colored pencils/pens/markers, rulers, and compasses</li>
+			<li>You CANNOT use protractors or graph paper</li>
+			<li>
+				You CANNOT use any calculator (online or offline) or any computing services
+				(like WolframAlpha). You also cannot write any code to solve the problems.
+				All problems must be solved by YOU and not a computer.
+			</li>
+			<li>
+				You CANNOT discuss the problems with any other person when the contest is RUNNING.
+				ONLY SOLVE THE PROBLEMS BY YOURSELF.
+			</li>
+			<li>
+				If you have a question DURING the contest, please DM mathmastersd on AoPS.
+				DO NOT ASK ON THE FORUM. DO NOT ask how to solve a problem, or the answer to a problem.
+			</li>
+			<li>
+				Failure to follow the rules MAY result in your account getting DELETED.
+			</li>
+		</ul>
+		<p>
+			If you know someone who cheated, please contact us with information. It is difficult to get around
+			cheating, so please do not be discouraged. The point of these contests is to have fun, at the end
+			of the day!
+		</p>
+		<h2 id="contact">Contact Information</h2>
+		<p>To contact us DURING a contest, please DM mathmastersd on AoPS.</p>
+		<p>Other inquries can be asked on the PUBLIC AoPS forum.</p>
+		<ul>
+			<li>Our AoPS forum</li>
+		</ul>
+  	</body>
+</html>

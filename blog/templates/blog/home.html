@@ -1,0 +1,53 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>(;) Semicolon Math</title>
+		<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />   
+	</head>
+	<body>
+		<div style="display: flex; justify-content: space-between; align-items: center;">
+			<div>
+				<h1>(;) Semicolon Math</h1>
+			</div>
+			<div style="float: right;">
+				{% if user.is_authenticated %}
+					<a href="{% url 'profile' %}">{{ user.username }}</a> |
+					<a href="{% url 'logout' %}">Logout</a>
+				{% else %}
+					<a href="{% url 'login' %}">Login</a> |
+					<a href="{% url 'register' %}">Register</a>
+				{% endif %}
+			</div>
+		</div>
+		<nav>
+			<a href="#">Home</a> |
+			<a href="{% url 'contests-home' %}">Contests</a> |
+			<a href="{% url 'problemset-home' %}">Problemset</a> |
+			<a href="{% url 'blog-about' %}">About</a>
+		</nav>
+		{% if messages %}
+			{% for message in messages %}
+				<div class="alert alert-{{ message.tags }}">
+					{{ message }}
+				</div>
+			{% endfor %}
+		{% endif %}
+		<h2>New to Semicolon Math? Check out our about page!</h2>
+		<hr/>
+		<h2>Annoucements</h2>
+		{% block content %}
+			{% for post in posts %}
+				<div class="box">
+					<h3>{{ post.title }}</h3>
+					<p>On {{ post.date_posted }}</p>
+					<div>{{ post.content|safe }}</div>
+				</div>
+			{% endfor %}
+		{% endblock content %}
+		<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+		<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  	</body>
+</html>
