@@ -48,7 +48,11 @@
 					<tr>
 						<td>{{ problem.id }}</td>
 						<td><a href="{% url 'problemset-view' problem.id %}">{{ problem.name }}</a></td>
-						<td>N/A</td>
+						{% if problem.solved %}
+							<td style="color: lightgreen;">Solved</td>
+						{% else %}
+							<td style="color: tomato;">Not solved</td>
+						{% endif %}
 					</tr>
 					{% endif %}
 				{% endfor %}

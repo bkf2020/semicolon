@@ -5,8 +5,19 @@ from .models import Problem, Submission
 from .forms import ProblemForm
 
 def home(request):
+    problemset = Problem.objects.all()
+    for problem in problemset:
+        problem.solved = False
+
+        user_submissions = Submission.objects.filter(
+            user_id=request.user.id,
+            problem_id=problem.id
+        )
+        if(len(user_submissions) > 0):
+            problem.solved = user_submissions[0].problem_solved
+
     context = {
-        'problemset': reversed(Problem.objects.all())
+        'problemset': reversed(problemset)
     }
     return render(request, 'problemset/home.html', context)
 
