@@ -1,0 +1,63 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>(;) Semicolon Math: {{ problem.name }}</title>
+		<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
+	</head>
+	<body>
+		<div style="display: flex; justify-content: space-between; align-items: center;">
+			<div>
+				<h1>(;) Semicolon Math: {{ problem.name }}</h1>
+			</div>
+			<div style="float: right;">
+				{% if user.is_authenticated %}
+					<a href="{% url 'profile' %}">{{ user.username }}</a> |
+					<a href="{% url 'logout' %}">Logout</a>
+				{% else %}
+					<a href="{% url 'login' %}">Login</a> |
+					<a href="{% url 'register' %}">Register</a>
+				{% endif %}
+			</div>
+		</div>
+		<nav>
+			<a href="{% url 'blog-home' %}">Home</a> |
+			<a href="{% url 'contests-home' %}">Contests</a> |
+			<a href="{% url 'problemset-home' %}">Problemset</a> |
+			<a href="{% url 'blog-about' %}">About</a>
+		</nav>
+		{% if messages %}
+			{% for message in messages %}
+				<div class="alert alert-{{ message.tags }}">
+					{{ message }}
+				</div>
+			{% endfor %}
+		{% endif %}
+		<div class="box">
+			<h2>{{ problem.name }} (ID: {{ problem.id }})</h3>
+			{% if problem_solved %}
+				<h3 style="color: lightgreen;">Problem status: solved</h2>
+			{% else %}
+				<h3 style="color: tomato;">Problem status: not solved</h2>
+			{% endif %}
+
+			<div>{{ problem.content|safe }}</div>
+			
+			{% if user.is_authenticated %}
+				<form method="POST">
+					{% csrf_token %}
+					{{ form.as_p }}
+					<button type="submit">Submit</button>
+				</form>
+			{% else %}
+				<div class="alert alert-error">
+					Please login before submitting this problem.
+				</div>
+			{% endif %}
+		</div>
+		<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+		<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  	</body>
+</html>

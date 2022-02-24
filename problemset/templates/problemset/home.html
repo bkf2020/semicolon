@@ -1,0 +1,59 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>(;) Semicolon Math Problemset</title>
+		<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
+	</head>
+	<body>
+		<div style="display: flex; justify-content: space-between; align-items: center;">
+			<div>
+				<h1>(;) Semicolon Math Problemset</h1>
+			</div>
+			<div style="float: right;">
+				{% if user.is_authenticated %}
+					<a href="{% url 'profile' %}">{{ user.username }}</a> |
+					<a href="{% url 'logout' %}">Logout</a>
+				{% else %}
+					<a href="{% url 'login' %}">Login</a> |
+					<a href="{% url 'register' %}">Register</a>
+				{% endif %}
+			</div>
+		</div>
+		<nav>
+			<a href="{% url 'blog-home' %}">Home</a> |
+			<a href="{% url 'contests-home' %}">Contests</a> |
+			<a href="#">Problemset</a> |
+			<a href="{% url 'blog-about' %}">About</a>
+		</nav>
+		{% if messages %}
+			{% for message in messages %}
+				<div class="alert alert-{{ message.tags }}">
+					{{ message }}
+				</div>
+			{% endfor %}
+		{% endif %}
+		<table>
+			<tbody>
+			<tr>
+				<th>ID</th>
+				<th>Problem Name</th>
+				<th>Solved</th>
+			</tr>
+			{% if problemset %}
+				{% for problem in problemset %}
+					{% if problem.visible %}
+					<tr>
+						<td>{{ problem.id }}</td>
+						<td><a href="{% url 'problemset-view' problem.id %}">{{ problem.name }}</a></td>
+						<td>N/A</td>
+					</tr>
+					{% endif %}
+				{% endfor %}
+			{% endif %}
+			</tbody>
+		</table>
+  	</body>
+</html>
