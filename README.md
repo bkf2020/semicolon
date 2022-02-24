@@ -1,6 +1,29 @@
 # (;) semicolon math
 (;) Semicolon Math: a platform that tries to be the math version of Codeforces. We try to offer contests every month
 
+# Project info
+Annoucement: https://artofproblemsolving.com/community/c5h2779644
+AoPS Forum: coming soon
+
+- `blog/`: Simple pages to display annoucements and info about the website, should change name?
+- `contests/`: app that allows users to take contests
+- `problems/`: allows users to submit answers to a problemset that contains all the problems on the website
+- `semicolon_src/`: contains django settings
+- `static/`: contains global static settings
+- `users/`: user authentication and profiles
+
+Current goal: work on contests
+
+Each contest needs:
+- Which problems to pull from the problemset
+- Start time and end time
+- Allow users to register
+- Only allow registered users to participate
+- Display a scoreboard of all the users
+- Calculate the scores of each user (based on submission time)
+- Limit number of submissions for each problem (maybe?)
+- Subtract points from a problem for every wrong submission (depends on scoring format?)
+
 # LICENSE
 Licensed under the GNU Affero General Public License v3.0.
 
