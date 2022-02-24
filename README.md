@@ -3,7 +3,10 @@
 
 # Project info
 - **Original Annoucement**: https://artofproblemsolving.com/community/c5h2779644
-- **AoPS Forum**: coming soon
+- **AoPS Forum**: https://artofproblemsolving.com/community/c2999448__semicolon_math
+
+## Contributing
+See `CONTRIBUTING.md`
 
 ## Mirrors
 - https://github.com/bkf2020/semicolon
