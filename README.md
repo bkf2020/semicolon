@@ -4,7 +4,8 @@
 # LICENSE
 Licensed under the GNU Affero General Public License v3.0.
 
-However, the following notices must be displayed:
+However, the following notices must be displayed for [django](https://github.com/django/django) and
+[CoreyMSchafer/code_snippets](https://github.com/CoreyMSchafer/code_snippets):
 ```
 Copyright (c) Django Software Foundation and individual contributors.
 All rights reserved.
