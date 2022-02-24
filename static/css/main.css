@@ -1,0 +1,85 @@
+body {
+	max-width: 50em;
+	width: 90%;
+	margin-left: auto;
+	margin-right: auto;
+	color: #eee;
+	background-color: #111;
+	font-family: Helvetica, Arial, sans-serif;
+	line-height: 1.6;
+	font-size: 18px;
+}
+h1, h2, h3 {
+	line-height: 1.2;
+}
+a {
+	color: lightblue;
+}
+h1 {
+	color: aquamarine;
+}
+h2 {
+	color: violet;
+}
+h3 {
+	color: orange;
+}
+.box {
+	border-style: double;
+	padding-left: 1em;
+	padding-right: 1em;
+	padding-bottom: 1em;
+	margin-bottom: 1em;
+}
+.alert {
+	border-radius: 1em;
+	border-style: dotted;
+	border-color: white;
+	color: black;
+	padding-left: 1em;
+	padding-top: 1em;
+	padding-bottom: 1em;
+	padding-right: 1em;
+}
+.errorlist, .alert-error {
+	color: black;
+	border-radius: 1em;
+	border-style: dotted;
+	border-color: white;
+	background-color: lightcoral;
+}
+.alert-success {
+	background-color: yellowgreen;
+}
+.alert-warning {
+	background-color: yellow;
+}
+.alert-info {
+	background-color: skyblue;
+}
+button {
+	background-color: orange;
+	color: black;
+	font-size: 18px;
+	font-family: Helvetica, Arial, sans-serif;
+	cursor: pointer;
+	margin-top: 0.5em;
+	padding: 0.5em;
+	border-style: none;
+	border-radius: 0.3em;
+}
+button:hover {
+	background-color: gold;
+}
+nav {
+	margin-bottom: 1em;
+}
+table {
+	margin-left: auto;
+	margin-right: auto;
+	width: 100%;
+}
+td, th {
+	padding: 8px;
+	border: 1px solid #eee;
+}
