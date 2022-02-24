@@ -2,9 +2,15 @@
 (;) Semicolon Math: a platform that tries to be the math version of Codeforces. We try to offer contests every month
 
 # Project info
-Annoucement: https://artofproblemsolving.com/community/c5h2779644
-AoPS Forum: coming soon
+- **Original Annoucement**: https://artofproblemsolving.com/community/c5h2779644
+- **AoPS Forum**: coming soon
 
+## Mirrors
+- https://github.com/bkf2020/semicolon
+- https://gitlab.com/bkf2020/semicolon
+- https://codeberg.org/bkf2020/semicolon
+
+## Structure
 - `blog/`: Simple pages to display annoucements and info about the website, should change name?
 - `contests/`: app that allows users to take contests
 - `problems/`: allows users to submit answers to a problemset that contains all the problems on the website
