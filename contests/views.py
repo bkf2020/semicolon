@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from .models import Contest, Registration
 from .forms import RegisterForm
 
@@ -23,6 +24,7 @@ def home(request):
     }
     return render(request, 'contests/home.html', context)
 
+@login_required
 def register(request, index):
     contest = Contest.objects.get(pk=index)
     registered = False
