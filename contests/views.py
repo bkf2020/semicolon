@@ -24,8 +24,11 @@ def home(request):
     }
     return render(request, 'contests/home.html', context)
 
-@login_required
 def register(request, index):
+    if not request.user.is_authenticated:
+        messages.error(request, "Please log in before registering for the contest!")
+        return redirect(f'/login/?next={request.path}')
+
     contest = Contest.objects.get(pk=index)
     registered = False
     
