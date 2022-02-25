@@ -65,6 +65,15 @@
 							<td>
 								<a href="{{ contest.announcement_link }}">View</a>
 							</td>
+							<td>
+								{% if contest.registered %}
+									<p style="color: lightgreen;">
+										You have registered
+									</p>
+								{% else %}
+									<a href="#">Register</a>
+								{% endif %}
+							</td>
 						</tr>
 					{% endif %}
 				{% endfor %}
