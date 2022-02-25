@@ -7,6 +7,9 @@ class Contest(models.Model):
     start_time = models.DateTimeField(default=timezone.now)
     end_time = models.DateTimeField(default=timezone.now)
     visible = models.BooleanField(default=False)
+    start_time_url = models.URLField(default="")
+    end_time_url = models.URLField(default="")
+    announcement_link = models.URLField(default="")
     
     def __str__(self):
         return self.name

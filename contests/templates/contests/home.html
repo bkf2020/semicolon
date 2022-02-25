@@ -53,8 +53,17 @@
 							<td>{{ contest.id }}</td>
 							<td>{{ contest.name }}</td>
 							<td>
-								<p><b>Start:</b> {{ contest.start_time }}</p>
-								<p><b>End:</b> {{ contest.end_time }}</p>
+								<p>
+									<b>Start:</b>
+									<a href="{{ contest.start_time_url }}">{{ contest.start_time }}</a>
+								</p>
+								<p>
+									<b>End:</b>
+									<a href="{{ contest.end_time_url }}">{{ contest.end_time }}</a>
+								</p>
+							</td>
+							<td>
+								<a href="{{ contest.announcement_link }}">View</a>
 							</td>
 						</tr>
 					{% endif %}
