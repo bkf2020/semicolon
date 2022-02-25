@@ -71,7 +71,7 @@
 										You have registered
 									</p>
 								{% else %}
-									<a href="#">Register</a>
+								<a href="{% url 'contests-register' contest.id %}">Register</a>
 								{% endif %}
 							</td>
 						</tr>
