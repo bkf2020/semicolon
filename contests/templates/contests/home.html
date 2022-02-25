@@ -35,5 +35,33 @@
 				</div>
 			{% endfor %}
 		{% endif %}
+
+		<table style="font-size: 14px;">
+		<tbody>
+		<tr>
+			<th>ID</th>
+			<th>Contest name</th>
+			<th>Contest times (UTC)</th>
+			<th>Announcement</th>
+			<th>Register</th>
+			<th>Standings</th>
+			{% load tz %}
+			{% if contests %}
+				{% for contest in contests %}
+					{% if contest.visible %}
+						<tr>
+							<td>{{ contest.id }}</td>
+							<td>{{ contest.name }}</td>
+							<td>
+								<p><b>Start:</b> {{ contest.start_time }}</p>
+								<p><b>End:</b> {{ contest.end_time }}</p>
+							</td>
+						</tr>
+					{% endif %}
+				{% endfor %}
+			{% endif %}
+		</tbody>
+		</table>
+
   	</body>
 </html>
