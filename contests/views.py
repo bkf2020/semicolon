@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 from .models import Contest, Registration
 from .forms import RegisterForm
 
@@ -19,18 +20,25 @@ def home(request):
         if(len(user_registration) > 0):
             contest.registered = True
 
+        if timezone.now() >= contest.start_time:
+            contest.registration_closed = True
+
     context = {
         'contests': reversed(contests)
     }
     return render(request, 'contests/home.html', context)
 
 def register(request, index):
+    contest = Contest.objects.get(pk=index)
+    registered = False
+
+    if timezone.now() >= contest.start_time:
+        messages.error(request, "Registration has closed")
+        return redirect('contests-home')
+
     if not request.user.is_authenticated:
         messages.error(request, "Please log in before registering for the contest!")
         return redirect(f'/login/?next={request.path}')
-
-    contest = Contest.objects.get(pk=index)
-    registered = False
     
     if request.method == 'POST':
         form = RegisterForm(request.POST)
