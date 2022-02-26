@@ -40,6 +40,8 @@ h3 {
 	padding-top: 1em;
 	padding-bottom: 1em;
 	padding-right: 1em;
+	margin-top: 1em;
+	margin-bottom: 1em;
 }
 .errorlist, .alert-error {
 	color: black;
