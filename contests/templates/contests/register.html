@@ -61,12 +61,11 @@
 			<p style="font-size: 22px;"><b>
 				Registration closes at
 				<a href="{{ contest.start_time_url }}" style="color: blue;">
-					{{ contest.start_time }}</a>.
+					{{ contest.start_time }}</a> (UTC).
 			</b></p>
 			<p style="font-size: 22px;"><b>
 				Registration closes in:
 				<span class="timer" end-time="{{ contest.start_time|date:"U"}}"></span>
-				(UTC)
 			</b></p>
 
 			</div>
