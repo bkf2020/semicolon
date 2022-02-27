@@ -58,6 +58,16 @@
 				Failing to follow the rules may result in your account
 				getting DELETED.
 			</b></p>
+			<p style="font-size: 22px;"><b>
+				Registration closes at
+				<a href="{{ contest.start_time_url }}" style="color: blue;">
+					{{ contest.start_time }}</a>.
+			</b></p>
+			<p style="font-size: 22px;"><b>
+				Registration closes in:
+				<span class="timer" end-time="{{ contest.start_time|date:"U"}}"></span>
+				(UTC)
+			</b></p>
 
 			</div>
 
@@ -66,6 +76,41 @@
 				{{ form.as_p }}
 				<button type="submit">Register</button>
 			</form>
+
 		{% endif %}
+		<script>
+			function updateTimers() {
+				var timers = document.getElementsByClassName('timer');
+				for(var i = 0; i < timers.length; i++) {
+					var endTime = Number(timers[i].getAttribute('end-time')) * 1000;
+					var millisecondsLeft = endTime - Date.now();
+					if(millisecondsLeft > 0) {
+						var totSeconds = Math.ceil(millisecondsLeft / 1000);
+						var seconds = totSeconds % 60;
+						totSeconds -= totSeconds % 60;
+						totSeconds /= 60;
+
+						var minutes = totSeconds % 60;
+						totSeconds -= totSeconds % 60;
+						totSeconds /= 60;
+
+						var hours = totSeconds % 60;
+						totSeconds -= totSeconds % 60;
+						totSeconds /= 60;
+
+						var days = totSeconds % 24;
+						totSeconds -= totSeconds % 24;
+						totSeconds /= 24;
+
+						var timeToDisplay = days.toString() + "d " + hours.toString() + "h " + minutes.toString() + "m " + seconds.toString() + "s";
+						timers[i].innerText = timeToDisplay;
+
+						} else {
+							location.reload();
+						}
+					}
+				}
+				setInterval(updateTimers, 100);
+		</script>
   	</body>
 </html>
