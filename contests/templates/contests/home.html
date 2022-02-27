@@ -60,6 +60,13 @@
 								<p>
 									<b>End:</b>
 									<a href="{{ contest.end_time_url }}">{{ contest.end_time }}</a>
+									{% if contest.registration_closed %}
+									{% else %}
+										<p>
+											Starts in:
+											<span class="timer" end-time="{{ contest.start_time|date:"U"}}"></span>
+										</p>
+									{% endif %}
 								</p>
 							</td>
 							<td>
@@ -75,7 +82,12 @@
 										You have registered
 									</p>
 								{% else %}
-								<a href="{% url 'contests-register' contest.id %}">Register</a>
+									<a href="{% url 'contests-register' contest.id %}">Register</a>
+									<p>
+										Closes in:
+										<span class="timer" end-time="{{ contest.start_time|date:"U"}}"></span>
+
+									</p>
 								{% endif %}
 							</td>
 						</tr>
@@ -84,6 +96,40 @@
 			{% endif %}
 		</tbody>
 		</table>
+		
+		<script>
+			function updateTimers() {
+				var timers = document.getElementsByClassName('timer');
+				for(var i = 0; i < timers.length; i++) {
+					var endTime = Number(timers[i].getAttribute('end-time')) * 1000;
+					var millisecondsLeft = endTime - Date.now();
+					if(millisecondsLeft > 0) {
+						var totSeconds = Math.ceil(millisecondsLeft / 1000);
+						var seconds = totSeconds % 60;
+						totSeconds -= totSeconds % 60;
+						totSeconds /= 60;
 
+						var minutes = totSeconds % 60;
+						totSeconds -= totSeconds % 60;
+						totSeconds /= 60;
+
+						var hours = totSeconds % 60;
+						totSeconds -= totSeconds % 60;
+						totSeconds /= 60;
+						
+						var days = totSeconds % 24;
+						totSeconds -= totSeconds % 24;
+						totSeconds /= 24;
+
+						var timeToDisplay = days.toString() + "d " + hours.toString() + "h " + minutes.toString() + "m " + seconds.toString() + "s";
+						timers[i].innerText = timeToDisplay;
+
+					} else {
+						location.reload();
+					}
+				}
+			}
+			setInterval(updateTimers, 100);
+		</script>
   	</body>
 </html>
