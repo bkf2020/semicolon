@@ -59,7 +59,13 @@
 								<p>
 									<b>End:</b>
 									<a href="{{ contest.end_time_url }}">{{ contest.end_time }}</a>
-									{% if contest.registration_closed %}
+									{% if contest.ended %}
+										<p><b>Contest has finished.</b></p>
+									{% elif contest.started %}
+										<p>
+											Ends in
+											<span class="timer" end-time="{{ contest.end_time|date:"U"}}"></span>
+										</p>
 									{% else %}
 										<p>
 											Starts in:
@@ -72,21 +78,35 @@
 								<a href="{{ contest.announcement_link }}">View</a>
 							</td>
 							<td>
-								{% if contest.registration_closed %}
-									<p style="color: lightcoral;">
-										Registration has closed
-									</p>
-								{% elif contest.registered %}
-									<p style="color: lightgreen;">
-										You have registered
-									</p>
-								{% else %}
-									<a href="{% url 'contests-register' contest.id %}">Register</a>
-									<p>
-										Closes in:
-										<span class="timer" end-time="{{ contest.start_time|date:"U"}}"></span>
+								{% if contest.ended %}
 
-									</p>
+									<a href="#" style="color: lightgreen;">Enter contest arena</a>
+
+								{% elif contest.started %}
+
+									{% if contest.registered %}
+										<a href="#" style="color: lightgreen;">Enter contest arena</a>
+									{% else %}
+										<p style="color: lightcoral;">
+											Registration has closed
+										</p>
+									{% endif %}
+
+								{% else %}
+
+									{% if contest.registered %}
+										<p style="color: lightgreen;">
+											You have registered
+										</p>
+										<a href="#">Enter waiting room</a>
+									{% else %}
+										<a href="{% url 'contests-register' contest.id %}">Register</a>
+										<p>
+											Closes in:
+											<span class="timer" end-time="{{ contest.start_time|date:"U"}}"></span>
+										</p>
+									{% endif %}
+
 								{% endif %}
 							</td>
 						</tr>
