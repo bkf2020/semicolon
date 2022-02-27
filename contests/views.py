@@ -22,6 +22,8 @@ def home(request):
 
         if timezone.now() >= contest.start_time:
             contest.registration_closed = True
+            if timezone.now() <= contest.end_time:
+                messages.info(request, f"{contest.name} is in progress!")
 
     context = {
         'contests': reversed(contests)
