@@ -36,7 +36,7 @@ def register(request, index):
     registered = False
 
     if timezone.now() >= contest.start_time:
-        messages.error(request, "Registration has closed")
+        messages.error(request, f"Registration has closed for {contest.name}.")
         return redirect('contests-home')
 
     if not request.user.is_authenticated:
