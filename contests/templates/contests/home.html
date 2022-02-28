@@ -80,12 +80,12 @@
 							<td>
 								{% if contest.ended %}
 
-									<a href="#" style="color: lightgreen;">Enter contest arena</a>
+									<a href="{% url 'contests-arena' contest.id %}" style="color: lightgreen;">Enter contest arena</a>
 
 								{% elif contest.started %}
 
 									{% if contest.registered %}
-										<a href="#" style="color: lightgreen;">Enter contest arena</a>
+										<a href="{% url 'contests-arena' contest.id %}" style="color: lightgreen;">Enter contest arena</a>
 									{% else %}
 										<p style="color: lightcoral;">
 											Registration has closed
@@ -98,7 +98,7 @@
 										<p style="color: lightgreen;">
 											You have registered
 										</p>
-										<a href="#">Enter waiting room</a>
+										<a href="{% url 'contests-waiting' contest.id %}">Enter waiting room</a>
 									{% else %}
 										<a href="{% url 'contests-register' contest.id %}">Register</a>
 										<p>
