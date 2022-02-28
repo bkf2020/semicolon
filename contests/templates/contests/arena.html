@@ -8,7 +8,8 @@
 		<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
 	</head>
 	<body>
-		<div style="display: flex; justify-content: space-between; align-items: center;">
+		<div style="position: sticky; top: 0; background-color: #111; padding-bottom: 1em;">
+			<div style="display: flex; justify-content: space-between; align-items: center;">
 			<div>
 				<h1>(;) Semicolon Math: {{ contest.name }} </h1>
 			</div>
@@ -21,13 +22,26 @@
 					<a href="{% url 'register' %}">Register</a>
 				{% endif %}
 			</div>
+			</div>
+
+			<nav>
+				<a href="{% url 'blog-home' %}">Home</a> |
+				<a href="{% url 'contests-home' %}">Contests</a> |
+				<a href="{% url 'problemset-home' %}">Problemset</a> |
+				<a href="{% url 'blog-about' %}">About</a>
+			</nav>
+
+			{% if contest.running %}
+				<div class="timerDiv">
+					<h2>
+						Time left:
+						<span class="timer" end-time="{{ contest.end_time|date:"U" }}"></span>
+					</h2>
+				</div>
+			{% endif %}
+			<hr/>
 		</div>
-		<nav>
-			<a href="{% url 'blog-home' %}">Home</a> |
-			<a href="{% url 'contests-home' %}">Contests</a> |
-			<a href="{% url 'problemset-home' %}">Problemset</a> |
-			<a href="{% url 'blog-about' %}">About</a>
-		</nav>
+
 		{% if messages %}
 			{% for message in messages %}
 				<div class="alert alert-{{ message.tags }}">
