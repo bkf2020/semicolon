@@ -86,10 +86,14 @@
 
 									{% if contest.registered %}
 										<a href="{% url 'contests-arena' contest.id %}" style="color: lightgreen;">Enter contest arena</a>
-									{% else %}
+									{% elif user.is_authenticated %}
 										<p style="color: lightcoral;">
 											Registration has closed
 										</p>
+									{% else %}
+										<p><a href="{% url 'contests-arena' contest.id %}" style="color: lightgreen;">
+											Enter the contest arena</a></p>
+										<p><b>Note:</b> users registered for the contest only</a>
 									{% endif %}
 
 								{% else %}

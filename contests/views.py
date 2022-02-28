@@ -98,6 +98,23 @@ def waiting(request, index):
 
 def arena(request, index):
     contest = Contest.objects.get(pk=index)
+    user_registration = Registration.objects.filter(
+        user_id=request.user.id,
+        contest_id=index
+    )
+    
+    if timezone.now() < contest.start_time:
+        messages.error(request, f"{contest.name} hasn't started yet!")
+        return redirect('contests-home')
+    elif timezone.now() <= contest.end_time:
+        contest.running = True
+        if not request.user.is_authenticated:
+            messages.error(request, f"Please login before taking {contest.name}! Note you must be registered on your account!")
+            return redirect(f'/login/?next={request.path}')
+        elif len(user_registration) == 0:
+            messages.error(request, f"You can't take {contest.name} because you haven't registered!")
+            return redirect('contests-home')
+
     context = {
         'contest': contest
     }
