@@ -50,6 +50,15 @@
 			{% endfor %}
 		{% endif %}
 
+		{% if contest_problems %}
+			{% for contest_problem in contest_problems %}
+				<div class="box">
+					<h2>{{ contest_problem.problem.name }}</h2>
+					<div>{{ contest_problem.problem.content|safe }}</div>
+				</div>
+			{% endfor %}
+		{% endif %}
+
 		<script>
 			function updateTimers() {
 				var timers = document.getElementsByClassName('timer');
@@ -84,5 +93,7 @@
 			}
 			setInterval(updateTimers, 100);
 		</script>
+		<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+		<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   	</body>
 </html>

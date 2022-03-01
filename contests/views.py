@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
-from .models import Contest, Registration
+from .models import Contest, ContestProblem, Registration
 from .forms import RegisterForm
 
 # Create your views here.
@@ -102,6 +102,10 @@ def arena(request, index):
         user_id=request.user.id,
         contest_id=index
     )
+    contest_problems = ContestProblem.objects.filter(
+        contest=contest
+    )
+    print(contest_problems)
     
     if timezone.now() < contest.start_time:
         messages.error(request, f"{contest.name} hasn't started yet!")
@@ -116,6 +120,7 @@ def arena(request, index):
             return redirect('contests-home')
 
     context = {
-        'contest': contest
+        'contest': contest,
+        'contest_problems': contest_problems
     }
     return render(request, 'contests/arena.html', context)

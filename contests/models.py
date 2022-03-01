@@ -15,8 +15,8 @@ class Contest(models.Model):
         return self.name
 
 class ContestProblem(models.Model):
-    contest = models.OneToOneField(Contest, on_delete=models.CASCADE)
-    problem = models.OneToOneField(Problem, on_delete=models.CASCADE)
+    contest = models.ForeignKey(Contest, on_delete=models.CASCADE)
+    problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
 
 class Registration(models.Model):
     user_id = models.IntegerField()
