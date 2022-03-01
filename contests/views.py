@@ -105,7 +105,6 @@ def arena(request, index):
     contest_problems = ContestProblem.objects.filter(
         contest=contest
     )
-    print(contest_problems)
     
     if timezone.now() < contest.start_time:
         messages.error(request, f"{contest.name} hasn't started yet!")
