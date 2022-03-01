@@ -36,11 +36,11 @@
 			{% endfor %}
 		{% endif %}
 		<div class="box">
-			<h2>{{ problem.name }} (ID: {{ problem.id }})</h3>
+			<h2>{{ problem.name }} (ID: {{ problem.id }})</h2>
 			{% if problem_solved %}
-				<h3 style="color: lightgreen;">Problem status: solved</h2>
+				<h3 style="color: lightgreen;">Problem status: solved</h3>
 			{% else %}
-				<h3 style="color: tomato;">Problem status: not solved</h2>
+				<h3 style="color: tomato;">Problem status: not solved</h3>
 			{% endif %}
 
 			<div>{{ problem.content|safe }}</div>
