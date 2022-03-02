@@ -10,6 +10,7 @@ class Contest(models.Model):
     start_time_url = models.URLField(default="")
     end_time_url = models.URLField(default="")
     announcement_link = models.URLField(default="")
+    time_limit = models.IntegerField(default=0)
     
     def __str__(self):
         return self.name

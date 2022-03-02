@@ -52,6 +52,7 @@
 							<td>{{ contest.id }}</td>
 							<td>{{ contest.name }}</td>
 							<td>
+								<p>Contest window information:</p>
 								<p>
 									<b>Start:</b>
 									<a href="{{ contest.start_time_url }}">{{ contest.start_time }}</a>
@@ -59,20 +60,23 @@
 								<p>
 									<b>End:</b>
 									<a href="{{ contest.end_time_url }}">{{ contest.end_time }}</a>
-									{% if contest.ended %}
-										<p><b>Contest has finished.</b></p>
-									{% elif contest.started %}
-										<p>
-											Ends in
-											<span class="timer" end-time="{{ contest.end_time|date:"U"}}"></span>
-										</p>
-									{% else %}
-										<p>
-											Starts in:
-											<span class="timer" end-time="{{ contest.start_time|date:"U"}}"></span>
-										</p>
-									{% endif %}
 								</p>
+								<p>
+									<b>Time limit:</b> {{ contest.time_limit }} minutes
+								</p>
+								{% if contest.ended %}
+									<p><b>Contest has finished.</b></p>
+								{% elif contest.started %}
+									<p>
+										Ends in
+										<span class="timer" end-time="{{ contest.end_time|date:"U"}}"></span>
+									</p>
+								{% else %}
+									<p>
+										Starts in:
+										<span class="timer" end-time="{{ contest.start_time|date:"U"}}"></span>
+									</p>
+								{% endif %}
 							</td>
 							<td>
 								<a href="{{ contest.announcement_link }}">View</a>
