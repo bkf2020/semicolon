@@ -74,28 +74,6 @@ def register(request, index):
     }
     return render(request, 'contests/register.html', context)
 
-def waiting(request, index):
-    contest = Contest.objects.get(pk=index)
-    user_registration = Registration.objects.filter(
-        user_id=request.user.id,
-        contest_id=index
-    )
-    if(len(user_registration) == 0):
-        messages.error(request, f"You need to register for {contest.name} before entering the waiting room.")
-        return redirect('contests-home')
-
-    if timezone.now() > contest.end_time:
-        messages.info(request, f"{contest.name} has finished!")
-        return redirect('contests-home')
-    elif timezone.now() >= contest.start_time:
-        messages.info(request, f"{contest.name} has started!")
-        return redirect(f'/contests/{contest.id}/arena')
-
-    context = {
-        'contest': contest
-    }
-    return render(request, 'contests/waiting.html', context)
-
 def arena(request, index):
     contest = Contest.objects.get(pk=index)
     user_registration = Registration.objects.filter(
