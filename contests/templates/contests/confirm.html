@@ -36,14 +36,11 @@
 			{% endfor %}
 		{% endif %}
 		
-		{% if registered %}
-			<h2>You have already registered!</h2>
-		{% else %}
-			<h2>Registering for contest: {{ contest.name }}</h2>
-			<div class="alert alert-warning">
+		<h2>Joining contest: {{ contest.name }}</h2>
+		<div class="alert alert-warning">
 
 			<p style="font-size: 22px;"><b>
-				Before registering, make sure you are familiar with
+				Before joining, make sure you are familiar with
 				<a href="{% url 'blog-about' %}#rules" style="color: blue;">
 					the rules</a>,
 				and you have read
@@ -51,7 +48,7 @@
 					the contest announcement</a>.
 			</b></p>
 			<p style="font-size: 22px;"><b>
-				By clicking the 'register' button, you agree you will
+				By clicking the 'join contest' button, you agree you will
 				follow
 				<a href="{% url 'blog-about' %}#rules" style="color: blue;">
 					the rules</a>.
@@ -59,24 +56,23 @@
 				getting DELETED.
 			</b></p>
 			<p style="font-size: 22px;"><b>
-				Registration closes at
-				<a href="{{ contest.start_time_url }}" style="color: blue;">
-					{{ contest.start_time }}</a> (UTC).
+				Contest ends at
+				<a href="{{ contest.end_time_url }}" style="color: blue;">
+					{{ contest.end_time }}</a> (UTC).
 			</b></p>
 			<p style="font-size: 22px;"><b>
-				Registration closes in:
+				Contest ends in:
 				<span class="timer" end-time="{{ contest.start_time|date:"U"}}"></span>
 			</b></p>
 
-			</div>
+		</div>
 
-			<form method="POST">
-				{% csrf_token %}
-				{{ form.as_p }}
-				<button type="submit">Register</button>
-			</form>
+		<form method="POST">
+			{% csrf_token %}
+			{{ form.as_p }}
+			<button type="submit">Register</button>
+		</form>
 
-		{% endif %}
 		<script>
 			function updateTimers() {
 				var timers = document.getElementsByClassName('timer');
