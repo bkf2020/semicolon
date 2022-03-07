@@ -91,7 +91,7 @@
 									{% if contest.registered %}
 										<a href="{% url 'contests-arena' contest.id %}" style="color: lightgreen;">Enter contest arena</a>
 									{% else %}
-										<a href="{% url 'contests-register' contest.id %}" style="color: lightgreen;">Join the contest</a>
+										<a href="{% url 'contests-confirm' contest.id %}" style="color: lightgreen;">Join the contest</a>
 									{% endif %}
 
 								{% endif %}
