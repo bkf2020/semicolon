@@ -61,7 +61,7 @@ def confirm(request, index):
                 )
                 new_user_registration.save()
                 messages.success(request, f"You have joined {contest.name}!")
-                return redirect('contests-home')
+                return redirect(f'/contests/{index}/arena/')
 
     else:
         form = RegisterForm()
