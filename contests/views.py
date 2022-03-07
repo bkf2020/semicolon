@@ -31,16 +31,16 @@ def home(request):
     }
     return render(request, 'contests/home.html', context)
 
-def register(request, index):
+def confirm(request, index):
     contest = Contest.objects.get(pk=index)
     registered = False
 
-    if timezone.now() >= contest.start_time:
-        messages.error(request, f"Registration has closed for {contest.name}.")
+    if timezone.now() > contest.end_time:
+        messages.error(request, f"You cannot take {contest.name} officially anymore.")
         return redirect('contests-home')
 
     if not request.user.is_authenticated:
-        messages.error(request, "Please log in before registering for the contest!")
+        messages.error(request, "Please log in before joining the contest!")
         return redirect(f'/login/?next={request.path}')
     
     if request.method == 'POST':
@@ -72,7 +72,7 @@ def register(request, index):
         'form': form,
         'registered': registered
     }
-    return render(request, 'contests/register.html', context)
+    return render(request, 'contests/confirm.html', context)
 
 def arena(request, index):
     contest = Contest.objects.get(pk=index)
