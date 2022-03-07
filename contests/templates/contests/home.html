@@ -67,10 +67,25 @@
 								{% if contest.ended %}
 									<p><b>Contest has finished.</b></p>
 								{% elif contest.started %}
-									<p>
-										Ends in
-										<span class="timer" end-time="{{ contest.end_time|date:"U"}}"></span>
-									</p>
+									{% if contest.joined %}
+										{% if contest.running %}
+										<p>
+											Your attempt ends in
+											<span class="timer" end-time="{{ contest.user_end_time|date:"U"}}"></span>
+										</p>
+										{% else %}
+										<p>Your attempt has finished</p>
+										<p>
+											Ends in
+											<span class="timer" end-time="{{ contest.end_time|date:"U"}}"></span>
+										</p>
+										{% endif %}
+									{% else %}
+										<p>
+											Ends in
+											<span class="timer" end-time="{{ contest.end_time|date:"U"}}"></span>
+										</p>
+									{% endif %}
 								{% else %}
 									<p>
 										Starts in:
