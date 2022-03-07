@@ -90,7 +90,7 @@ def arena(request, index):
     elif timezone.now() <= contest.end_time:
         contest.running = True
         if not request.user.is_authenticated:
-            messages.error(request, f"Please login before taking {contest.name}! Note you must be registered on your account!")
+            messages.error(request, f"Please login before taking {contest.name}! Note you must have started this contest on your account!")
             return redirect(f'/login/?next={request.path}')
         elif len(user_registration) == 0:
             messages.error(request, f"You can't take {contest.name} because you haven't registered!")
