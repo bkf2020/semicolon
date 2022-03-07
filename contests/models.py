@@ -22,3 +22,5 @@ class ContestProblem(models.Model):
 class Registration(models.Model):
     user_id = models.IntegerField()
     contest_id = models.IntegerField()
+    time_joined = models.DateTimeField(default=timezone.now)
+
