@@ -1,3 +1,4 @@
+import datetime
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib import messages
@@ -87,13 +88,19 @@ def arena(request, index):
         messages.error(request, f"{contest.name} hasn't started yet!")
         return redirect('contests-home')
     elif timezone.now() <= contest.end_time:
-        contest.running = True
         if not request.user.is_authenticated:
             messages.error(request, f"Please login before taking {contest.name}! Note you must have started this contest on your account!")
             return redirect(f'/login/?next={request.path}')
         elif len(user_registration) == 0:
             messages.error(request, f"You can't take {contest.name} because you haven't joined! Please confirm before joining!")
             return redirect(f'/contests/{index}/confirm')
+        else:
+            time_diff = datetime.timedelta(minutes=contest.time_limit)
+            contest.user_end_time = user_registration[0].time_joined + time_diff
+            if contest.user_end_time > contest.end_time:
+                contest_user_end_time = contest.end_time
+            if timezone.now() <= contest.user_end_time:
+                contest.running = True
 
     context = {
         'contest': contest,
