@@ -11,14 +11,14 @@ from .forms import RegisterForm
 def home(request):
     contests = Contest.objects.all()
     for contest in contests:
-        contest.registered = False
+        contest.joined = False
 
         user_registration = Registration.objects.filter(
             user_id=request.user.id,
             contest_id=contest.id
         )
         if(len(user_registration) > 0):
-            contest.registered = True
+            contest.joined = True
 
         if timezone.now() > contest.end_time:
             contest.ended = True
@@ -33,7 +33,6 @@ def home(request):
 
 def confirm(request, index):
     contest = Contest.objects.get(pk=index)
-    registered = False
 
     if timezone.now() > contest.end_time:
         messages.error(request, f"You cannot take {contest.name} officially anymore.")
@@ -54,7 +53,7 @@ def confirm(request, index):
                     contest_id = contest.id
                 )
                 new_user_registration.save()
-                messages.success(request, f"You have registered for {contest.name}!")
+                messages.success(request, f"You have joined {contest.name}!")
                 return redirect('contests-home')
 
     else:
