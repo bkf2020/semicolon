@@ -65,12 +65,12 @@ def confirm(request, index):
         contest_id=index
     )
     if(len(user_registration) > 0):
-        registered = True
+        messages.success(request, f"You already have joined this contest!")
+        return redirect(f'/contests/{index}/arena/')
 
     context = {
         'contest': contest,
         'form': form,
-        'registered': registered
     }
     return render(request, 'contests/confirm.html', context)
 
@@ -93,8 +93,8 @@ def arena(request, index):
             messages.error(request, f"Please login before taking {contest.name}! Note you must have started this contest on your account!")
             return redirect(f'/login/?next={request.path}')
         elif len(user_registration) == 0:
-            messages.error(request, f"You can't take {contest.name} because you haven't registered!")
-            return redirect('contests-home')
+            messages.error(request, f"You can't take {contest.name} because you haven't joined! Please confirm before joining!")
+            return redirect(f'/contests/{index}/confirm')
 
     context = {
         'contest': contest,
