@@ -105,8 +105,14 @@ def arena(request, index):
             contest.user_end_time = user_registration[0].time_joined + time_diff
             if contest.user_end_time > contest.end_time:
                 contest_user_end_time = contest.end_time
+            
             if timezone.now() <= contest.user_end_time:
                 contest.running = True
+            else:
+                messages.info(request, "Your attempt for the contest has finished. You can view and submit the problems unofficially. \
+                Make sure to follow the rules regarding discussion!")
+    else:
+        messages.info(request, "The contest is over, but you can view and submit the problems unofficially.")
 
     context = {
         'contest': contest,
