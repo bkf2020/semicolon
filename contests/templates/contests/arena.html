@@ -7,7 +7,7 @@
 		<title>(;) Semicolon Math: {{ contest.name }}</title>
 		<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
 	</head>
-	<body>
+	<body style="max-width: 60em !important;">
 		<div style="display: flex; justify-content: space-between; align-items: center;">
 			<div>
 				<h1>(;) Semicolon Math: {{ contest.name }} </h1>
@@ -29,8 +29,9 @@
 			<a href="{% url 'problemset-home' %}">Problemset</a> |
 			<a href="{% url 'blog-about' %}">About</a>
 		</nav>
-			
-		<div style="position: sticky; top: 0; background-color: #111; padding: 1em 0em; margin-bottom: 1em; border-bottom: dotted; border-bottom-color: #bbb;">
+		
+		<div>
+		<div style="float: right; width: 10em; position: sticky; top: 1em;background-color: #111; padding: 1em 1em; border-style: double;">
 			{% if contest.running %}
 				<div class="timerDiv">
 					<h2>
@@ -46,16 +47,24 @@
 					</div>
 				{% endfor %}
 			{% endif %}
+			{% if contest_problems %}
+				{% for contest_problem in contest_problems %}
+					<a href="#{{ forloop.counter }}">Problem {{ forloop.counter }}</a> /
+				{% endfor %}
+			{% endif %}
 		</div>
 
 		{% if contest_problems %}
+			<div style="margin-right: 13em;">
 			{% for contest_problem in contest_problems %}
-				<div class="box">
+				<div class="box" id="{{ forloop.counter }}">
 					<h2>Problem {{ forloop.counter }}: {{ contest_problem.problem.name }}</h2>
 					<div>{{ contest_problem.problem.content|safe }}</div>
 				</div>
 			{% endfor %}
+			</div>
 		{% endif %}
+		</div>
 
 		<script>
 			function updateTimers() {
