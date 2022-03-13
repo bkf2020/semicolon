@@ -53,7 +53,7 @@
 		{% if contest_problems %}
 			{% for contest_problem in contest_problems %}
 				<div class="box">
-					<h2>{{ contest_problem.problem.name }}</h2>
+					<h2>Problem {{ forloop.counter }}: {{ contest_problem.problem.name }}</h2>
 					<div>{{ contest_problem.problem.content|safe }}</div>
 				</div>
 			{% endfor %}
