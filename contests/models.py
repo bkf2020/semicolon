@@ -19,6 +19,9 @@ class ContestProblem(models.Model):
     contest = models.ForeignKey(Contest, on_delete=models.CASCADE)
     problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f"Contest: {self.contest.name}, Problem: {self.problem.name}"
+
 class Registration(models.Model):
     user_id = models.IntegerField()
     contest_id = models.IntegerField()
