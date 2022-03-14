@@ -60,11 +60,29 @@
 				<div class="box" id="{{ forloop.counter }}">
 					<h2>Problem {{ forloop.counter }}: {{ contest_problem.problem.name }}</h2>
 					<div>{{ contest_problem.problem.content|safe }}</div>
+					{% if user.is_authenticated %}
+						<form method="POST">
+							{% csrf_token %}
+							{{ contest_problem.form.as_p }}
+							<button type="submit">Submit</button>
+						</form>
+					{% else %}
+						<div class="alert alert-error">
+							Please login before submitting this problem.
+						</div>
+					{% endif %}
 				</div>
 			{% endfor %}
 			</div>
 		{% endif %}
 		</div>
+
+		<style>
+			#id_problem_id {
+				display: none;
+			}
+		</style>
+
 
 		<script>
 			function updateTimers() {

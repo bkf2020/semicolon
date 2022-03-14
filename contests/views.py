@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from .models import Contest, ContestProblem, Registration
-from .forms import RegisterForm
+from .forms import RegisterForm, ProblemForm
 
 # Create your views here.
 
@@ -89,6 +89,20 @@ def arena(request, index):
     contest_problems = ContestProblem.objects.filter(
         contest=contest
     )
+
+    if request.method == 'POST':
+        form = ProblemForm(request.POST)
+        redirect_url = '/contests/' + str(index) + '/arena/'
+        if form.is_valid():
+            problem_id = int(form.cleaned_data.get('problem_id'))
+            user_answer = form.cleaned_data.get('answer')
+            redirect_url += '#' + str(problem_id + 1)
+        return redirect(redirect_url)
+    else:
+        idx = 0
+        for problem in contest_problems:
+            problem.form = ProblemForm(initial={'problem_id': idx})
+            idx += 1
     
     if timezone.now() < contest.start_time:
         messages.error(request, f"{contest.name} hasn't started yet!")
