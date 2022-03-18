@@ -68,11 +68,19 @@
 					<div>{{ contest_problem.problem.content|safe }}</div>
 
 					{% if user.is_authenticated %}
-						<form method="POST">
-							{% csrf_token %}
-							{{ contest_problem.form.as_p }}
-							<button type="submit">Submit</button>
-						</form>
+						{% if contest.running and not contest_problem.solved %}
+							<form method="POST">
+								{% csrf_token %}
+								{{ contest_problem.form.as_p }}
+								<button type="submit">Submit</button>
+							</form>
+						{% elif not contest.running %}
+							<form method="POST">
+								{% csrf_token %}
+								{{ contest_problem.form.as_p }}
+								<button type="submit">Submit</button>
+							</form>
+						{% endif %}
 					{% else %}
 						<div class="alert alert-error">
 							Please login before submitting this problem.
