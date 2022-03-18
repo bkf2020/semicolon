@@ -114,7 +114,7 @@ def arena(request, index):
             if(len(user_submissions) == 0):
                 new_user_submission = Submission(
                     user_id=request.user.id,
-                    problem_id=index,
+                    problem_id=problem.id,
                     problem_solved=problem_solved,
                     penalty=0
                 )
