@@ -59,7 +59,14 @@
 			{% for contest_problem in contest_problems %}
 				<div class="box" id="{{ forloop.counter }}">
 					<h2>Problem {{ forloop.counter }}: {{ contest_problem.problem.name }}</h2>
+					{% if contest_problem.solved %}
+						<h3 style="color: lightgreen;">Problem status: solved</h3>
+					{% else %}
+						<h3 style="color: tomato;">Problem status: not solved</h3>
+					{% endif %}
+
 					<div>{{ contest_problem.problem.content|safe }}</div>
+
 					{% if user.is_authenticated %}
 						<form method="POST">
 							{% csrf_token %}

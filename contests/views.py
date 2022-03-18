@@ -155,6 +155,14 @@ def arena(request, index):
     else:
         messages.info(request, "The contest is over, but you can view and submit the problems unofficially.")
 
+
+    for problem in contest_problems:
+        user_submissions = Submission.objects.filter(
+            user_id=request.user.id,
+            problem_id=problem.problem.id
+        )
+        problem.solved = len(user_submissions) > 0 and user_submissions[0].problem_solved
+
     context = {
         'contest': contest,
         'contest_problems': contest_problems
