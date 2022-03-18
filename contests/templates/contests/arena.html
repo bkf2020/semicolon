@@ -49,8 +49,15 @@
 			{% endif %}
 			{% if contest_problems %}
 				{% for contest_problem in contest_problems %}
-					<a href="#{{ forloop.counter }}">Problem {{ forloop.counter }}</a> /
+					{% if contest_problem.solved %}
+						<a href="#{{ forloop.counter }}" style="color: lightgreen;">Problem {{ forloop.counter }} (s)</a> /
+					{% else %}
+						<a href="#{{ forloop.counter }}" style="color: tomato;">Problem {{ forloop.counter }} (u)</a> /
+					{% endif %}
 				{% endfor %}
+				<small><p>
+					Note <b>'s'</b> means solved and <b>'u'</b> means unsolved.
+				</p></small>
 			{% endif %}
 		</div>
 
