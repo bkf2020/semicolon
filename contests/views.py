@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from .models import Contest, ContestProblem, Registration
 from .forms import RegisterForm, ProblemForm
+from problemset.models import Submission
 
 # Create your views here.
 
@@ -95,8 +96,29 @@ def arena(request, index):
         redirect_url = '/contests/' + str(index) + '/arena/'
         if form.is_valid():
             problem_id = int(form.cleaned_data.get('problem_id'))
+            problem = contest_problems[problem_id]
             user_answer = form.cleaned_data.get('answer')
             redirect_url += '#' + str(problem_id + 1)
+
+            user_submissions = Submission.objects.filter(
+                user_id=request.user.id,
+                problem_id=problem.id
+            )
+            problem_solved = (user_answer == problem.correct_answer)
+
+            if(len(user_submissions) == 0):
+                new_user_submission = Submission(
+                    user_id=request.user.id,
+                    problem_id=index,
+                    problem_solved=problem_solved,
+                    penalty=0
+                )
+                new_user_submission.save()
+            else:
+                current_user_submission = user_submissions[0]
+                current_user_submission.problem_solved = problem_solved
+                current_user_submission.save()
+
         return redirect(redirect_url)
     else:
         idx = 0
