@@ -15,4 +15,4 @@ class Submission(models.Model):
     user_id = models.IntegerField(default=0)
     problem_id = models.IntegerField(default=0)
     problem_solved = models.BooleanField(default=False)
-    num_submissions_in_contest = models.IntegerField(default=0)
+    penalty = models.IntegerField(default=0)
