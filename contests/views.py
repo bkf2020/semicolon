@@ -96,7 +96,7 @@ def arena(request, index):
         redirect_url = '/contests/' + str(index) + '/arena/'
         if form.is_valid():
             problem_id = int(form.cleaned_data.get('problem_id'))
-            problem = contest_problems[problem_id]
+            problem = contest_problems[problem_id].problem
             user_answer = form.cleaned_data.get('answer')
             redirect_url += '#' + str(problem_id + 1)
 
@@ -105,6 +105,11 @@ def arena(request, index):
                 problem_id=problem.id
             )
             problem_solved = (user_answer == problem.correct_answer)
+
+            if(problem_solved):
+                messages.success(request, f"You answer {user_answer} for problem {problem_id + 1} is correct!")
+            else:
+                messages.error(request, f"You answer {user_answer} is problem {problem_id + 1} is wrong!")
 
             if(len(user_submissions) == 0):
                 new_user_submission = Submission(
