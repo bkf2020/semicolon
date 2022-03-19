@@ -121,7 +121,7 @@ def arena(request, index):
                 new_user_submission.save()
             else:
                 current_user_submission = user_submissions[0]
-                current_user_submission.problem_solved = problem_solved
+                current_user_submission.problem_solved |= problem_solved
                 current_user_submission.save()
 
         return redirect(redirect_url)
