@@ -16,3 +16,5 @@ class Submission(models.Model):
     problem_id = models.IntegerField(default=0)
     problem_solved = models.BooleanField(default=False)
     penalty = models.IntegerField(default=0)
+    time_solved_in_contest = models.IntegerField(default=0)
+    wrong_submissions_in_contest = models.IntegerField(default=0)
