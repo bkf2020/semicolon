@@ -110,6 +110,15 @@ def arena(request, index):
                 messages.success(request, f"You answer {user_answer} for problem {problem_id + 1} is correct!")
             else:
                 messages.error(request, f"You answer {user_answer} is problem {problem_id + 1} is wrong!")
+    
+            contest_running = False
+            time_diff = datetime.timedelta(minutes=contest.time_limit)
+            if(len(user_registration) > 0):
+                user_end_time = user_registration[0].time_joined + time_diff
+                if user_end_time > contest.end_time:
+                    user_end_time = contest.end_time
+                if timezone.now() <= user_end_time:
+                    contest_running = True
 
             if(len(user_submissions) == 0):
                 new_user_submission = Submission(
