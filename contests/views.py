@@ -24,7 +24,7 @@ def home(request):
             time_diff = datetime.timedelta(minutes=contest.time_limit)
             contest.user_end_time = user_registration[0].time_joined + time_diff
             if contest.user_end_time > contest.end_time:
-                contest_user_end_time = contest.end_time
+                contest.user_end_time = contest.end_time
             if timezone.now() <= contest.user_end_time:
                 contest.running = True
 
