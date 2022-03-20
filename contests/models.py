@@ -26,4 +26,6 @@ class Registration(models.Model):
     user_id = models.IntegerField()
     contest_id = models.IntegerField()
     time_joined = models.DateTimeField(default=timezone.now)
+    total_points = models.IntegerField(default=0)
+    total_penalty = models.IntegerField(default=0)
 
