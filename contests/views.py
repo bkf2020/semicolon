@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from .models import Contest, ContestProblem, Registration
 from .forms import RegisterForm, ProblemForm
+import math
 from problemset.models import Submission
 
 # Create your views here.
@@ -126,17 +127,11 @@ def arena(request, index):
             if(contest_running):
                 if(problem_solved):
                     time_since_start = timezone.now() - user_registration[0].time_joined
-                    try:
-                        penalty_diff = time_since_start.minutes
-                        time_solved_in_contest = time_since_start.minutes
-                        user_registration[0].total_penalty += penalty_diff
-                        user_registration[0].total_points += contest_problems[problem_id].value
-                        user_registration[0].save()
-                    except:
-                        penalty_diff = 0
-                        time_solved_in_contest = 0
-                        user_registration[0].total_points += contest_problems[problem_id].value
-                        user_registration[0].save()
+                    penalty_diff = int(math.floor(time_since_start.seconds / 60))
+                    time_solved_in_contest = int(math.floor(time_since_start.seconds / 60))
+                    user_registration[0].total_penalty += penalty_diff
+                    user_registration[0].total_points += contest_problems[problem_id].value
+                    user_registration[0].save()
                 else:
                     penalty_diff = 10 # 10 point penalty for every wrong submission
                     wrong_submissions_diff = 1
