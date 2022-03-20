@@ -71,6 +71,7 @@
 					{% else %}
 						<h3 style="color: tomato;">Problem status: not solved</h3>
 					{% endif %}
+					<h3>Value (if solved during a running contest): {{ contest_problem.value }}</h3>
 
 					<div>{{ contest_problem.problem.content|safe }}</div>
 
