@@ -135,6 +135,8 @@ def arena(request, index):
                     except:
                         penalty_diff = 0
                         time_solved_in_contest = 0
+                        user_registration[0].total_points += contest_problems[problem_id].value
+                        user_registration[0].save()
                 else:
                     penalty_diff = 10 # 10 point penalty for every wrong submission
                     wrong_submissions_diff = 1
