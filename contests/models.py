@@ -18,6 +18,7 @@ class Contest(models.Model):
 class ContestProblem(models.Model):
     contest = models.ForeignKey(Contest, on_delete=models.CASCADE)
     problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
+    value = models.IntegerField(default=0)
 
     def __str__(self):
         return f"Contest: {self.contest.name}, Problem: {self.problem.name}"
