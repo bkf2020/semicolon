@@ -129,12 +129,16 @@ def arena(request, index):
                     try:
                         penalty_diff = time_since_start.minutes
                         time_solved_in_contest = time_since_start.minutes
+                        user_registration[0].total_penalty += penalty_diff
+                        user_registration[0].save()
                     except:
                         penalty_diff = 0
                         time_solved_in_contest = 0
                 else:
                     penalty_diff = 10 # 10 point penalty for every wrong submission
                     wrong_submissions_diff = 1
+                    user_registration[0].total_penalty += penalty_diff
+                    user_registration[0].save()
 
             if(len(user_submissions) == 0):
                 new_user_submission = Submission(
