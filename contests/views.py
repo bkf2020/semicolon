@@ -119,18 +119,39 @@ def arena(request, index):
                     user_end_time = contest.end_time
                 if timezone.now() <= user_end_time:
                     contest_running = True
+            
+            penalty_diff = 0
+            time_solved_in_contest = 0
+            wrong_submissions_diff = 0
+            if(contest_running):
+                if(problem_solved):
+                    time_since_start = timezone.now() - user_registration[0].time_joined
+                    try:
+                        penalty_diff = time_since_start.minutes
+                        time_solved_in_contest = time_since_start.minutes
+                    except:
+                        penalty_diff = 0
+                        time_solved_in_contest = 0
+                else:
+                    penalty_diff = 10 # 10 point penalty for every wrong submission
+                    wrong_submissions_diff = 1
 
             if(len(user_submissions) == 0):
                 new_user_submission = Submission(
                     user_id=request.user.id,
                     problem_id=problem.id,
                     problem_solved=problem_solved,
-                    penalty=0
+                    penalty=penalty_diff,
+                    time_solved_in_contest=time_solved_in_contest,
+                    wrong_submissions_in_contest=wrong_submissions_diff
                 )
                 new_user_submission.save()
             else:
                 current_user_submission = user_submissions[0]
                 current_user_submission.problem_solved |= problem_solved
+                current_user_submission.penalty += penalty_diff
+                current_user_submission.time_solved_in_contest = time_solved_in_contest
+                current_user_submission.wrong_submissions_in_contest += wrong_submissions_diff
                 current_user_submission.save()
 
         return redirect(redirect_url)
