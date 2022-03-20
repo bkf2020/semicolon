@@ -130,6 +130,7 @@ def arena(request, index):
                         penalty_diff = time_since_start.minutes
                         time_solved_in_contest = time_since_start.minutes
                         user_registration[0].total_penalty += penalty_diff
+                        user_registration[0].total_points += contest_problems[problem_id].value
                         user_registration[0].save()
                     except:
                         penalty_diff = 0
