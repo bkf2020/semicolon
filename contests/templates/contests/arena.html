@@ -47,6 +47,12 @@
 					</div>
 				{% endfor %}
 			{% endif %}
+			{% if contest.user_finished_but_running %}
+				<p>
+					Your attempt has finished, contest ends in:
+					<span class="timer" current-server-time="{{ current_server_time }}" end-time="{{ contest.end_time|date:"U" }}"></span>
+				</p>
+			{% endif %}
 			{% if contest_problems %}
 				{% for contest_problem in contest_problems %}
 					{% if contest_problem.solved %}

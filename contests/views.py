@@ -184,6 +184,7 @@ def arena(request, index):
             if timezone.now() <= contest.user_end_time:
                 contest.running = True
             else:
+                contest.user_finished_but_running = True
                 messages.info(request, "Your attempt for the contest has finished. You can view and submit the problems unofficially. \
                 Make sure to follow the rules regarding discussion!")
     else:
