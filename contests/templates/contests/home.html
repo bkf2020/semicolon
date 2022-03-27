@@ -71,25 +71,25 @@
 										{% if contest.running %}
 										<p>
 											Your attempt ends in
-											<span class="timer" end-time="{{ contest.user_end_time|date:"U"}}"></span>
+											<span class="timer" current-server-time="{{ current_server_time }}" end-time="{{ contest.user_end_time|date:"U"}}"></span>
 										</p>
 										{% else %}
 										<p>Your attempt has finished</p>
 										<p>
-											Ends in
-											<span class="timer" end-time="{{ contest.end_time|date:"U"}}"></span>
+											Contest ends in
+											<span class="timer" current-server-time="{{ current_server_time }}" end-time="{{ contest.end_time|date:"U"}}"></span>
 										</p>
 										{% endif %}
 									{% else %}
 										<p>
 											Ends in
-											<span class="timer" end-time="{{ contest.end_time|date:"U"}}"></span>
+											<span class="timer" current-server-time="{{ current_server_time }}" end-time="{{ contest.end_time|date:"U"}}"></span>
 										</p>
 									{% endif %}
 								{% else %}
 									<p>
 										Starts in:
-										<span class="timer" end-time="{{ contest.start_time|date:"U"}}"></span>
+										<span class="timer" current-server-time="{{ current_server_time }}" end-time="{{ contest.start_time|date:"U"}}"></span>
 									</p>
 								{% endif %}
 							</td>
@@ -118,39 +118,6 @@
 		</tbody>
 		</table>
 		
-		<script>
-			function updateTimers() {
-				var timers = document.getElementsByClassName('timer');
-				for(var i = 0; i < timers.length; i++) {
-					var endTime = Number(timers[i].getAttribute('end-time')) * 1000;
-					var millisecondsLeft = endTime - Date.now();
-					if(millisecondsLeft > 0) {
-						var totSeconds = Math.ceil(millisecondsLeft / 1000);
-						var seconds = totSeconds % 60;
-						totSeconds -= totSeconds % 60;
-						totSeconds /= 60;
-
-						var minutes = totSeconds % 60;
-						totSeconds -= totSeconds % 60;
-						totSeconds /= 60;
-
-						var hours = totSeconds % 60;
-						totSeconds -= totSeconds % 60;
-						totSeconds /= 60;
-						
-						var days = totSeconds % 24;
-						totSeconds -= totSeconds % 24;
-						totSeconds /= 24;
-
-						var timeToDisplay = days.toString() + "d " + hours.toString() + "h " + minutes.toString() + "m " + seconds.toString() + "s";
-						timers[i].innerText = timeToDisplay;
-
-					} else {
-						location.reload();
-					}
-				}
-			}
-			setInterval(updateTimers, 100);
-		</script>
+		<script type="text/javascript" src="{% static 'js/timers.js' %}"></script>
   	</body>
 </html>

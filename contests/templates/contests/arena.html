@@ -36,7 +36,7 @@
 				<div class="timerDiv">
 					<h2>
 						Time left:
-						<span class="timer" end-time="{{ contest.user_end_time|date:"U" }}"></span>
+						<span class="timer" current-server-time="{{ current_server_time }}" end-time="{{ contest.user_end_time|date:"U" }}"></span>
 					</h2>
 				</div>
 			{% endif %}
@@ -107,40 +107,7 @@
 		</style>
 
 
-		<script>
-			function updateTimers() {
-				var timers = document.getElementsByClassName('timer');
-				for(var i = 0; i < timers.length; i++) {
-					var endTime = Number(timers[i].getAttribute('end-time')) * 1000;
-					var millisecondsLeft = endTime - Date.now();
-					if(millisecondsLeft > 0) {
-						var totSeconds = Math.ceil(millisecondsLeft / 1000);
-						var seconds = totSeconds % 60;
-						totSeconds -= totSeconds % 60;
-						totSeconds /= 60;
-
-						var minutes = totSeconds % 60;
-						totSeconds -= totSeconds % 60;
-						totSeconds /= 60;
-
-						var hours = totSeconds % 60;
-						totSeconds -= totSeconds % 60;
-						totSeconds /= 60;
-						
-						var days = totSeconds % 24;
-						totSeconds -= totSeconds % 24;
-						totSeconds /= 24;
-
-						var timeToDisplay = days.toString() + "d " + hours.toString() + "h " + minutes.toString() + "m " + seconds.toString() + "s";
-						timers[i].innerText = timeToDisplay;
-
-					} else {
-						location.reload();
-					}
-				}
-			}
-			setInterval(updateTimers, 100);
-		</script>
+		<script type="text/javascript" src="{% static 'js/timers.js' %}"></script>
 		<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 		<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   	</body>

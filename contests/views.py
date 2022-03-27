@@ -36,7 +36,8 @@ def home(request):
             messages.info(request, f"{contest.name} is in progress!")
 
     context = {
-        'contests': reversed(contests)
+        'contests': reversed(contests),
+        'current_server_time': math.floor(timezone.now().timestamp())
     }
     return render(request, 'contests/home.html', context)
 
@@ -79,6 +80,7 @@ def confirm(request, index):
     context = {
         'contest': contest,
         'form': form,
+        'current_server_time': math.floor(timezone.now().timestamp())
     }
     return render(request, 'contests/confirm.html', context)
 
@@ -197,6 +199,7 @@ def arena(request, index):
 
     context = {
         'contest': contest,
-        'contest_problems': contest_problems
+        'contest_problems': contest_problems,
+        'current_server_time': math.floor(timezone.now().timestamp())
     }
     return render(request, 'contests/arena.html', context)
