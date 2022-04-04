@@ -211,4 +211,8 @@ def scoreboard(request, index):
     if(timezone.now() <= contest.end_time):
         messages.error(request, f"You cannot view the scoreboard because the contest '{contest.name}' has not finished yet!")
         return redirect('contests-home')
-    return render(request, 'contests/scoreboard.html')
+
+    context = {
+        'contest': contest
+    }
+    return render(request, 'contests/scoreboard.html', context)

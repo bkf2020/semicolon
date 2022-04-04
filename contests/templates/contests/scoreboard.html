@@ -4,13 +4,13 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		<title>(;) Semicolon Math Scoreboard</title>
+		<title>(;) Semicolon Math Scoreboard: {{ contest.name }}</title>
 		<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
 	</head>
 	<body>
 		<div style="display: flex; justify-content: space-between; align-items: center;">
 			<div>
-				<h1>(;) Semicolon Math Scoreboard</h1>
+				<h1>(;) Semicolon Math Scoreboard: {{ contest.name }}</h1>
 			</div>
 			<div style="float: right;">
 				{% if user.is_authenticated %}
