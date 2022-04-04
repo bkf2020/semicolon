@@ -266,3 +266,16 @@ def scoreboard(request, index):
         'user_registrations': user_registrations
     }
     return render(request, 'contests/scoreboard.html', context)
+
+def preview(request, index):
+    contest = Contest.objects.get(pk=index)
+    contest_problems = ContestProblem.objects.filter(
+        contest=contest
+    )
+    context = {
+        'contest': contest,
+        'contest_problems': contest_problems
+    }
+    if not request.user.is_superuser:
+        return redirect('contests-home')
+    return render(request, 'contests/preview.html', context)
