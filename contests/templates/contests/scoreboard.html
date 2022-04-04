@@ -42,6 +42,9 @@
 				<th>Username</th>
 				<th>Total points</th>
 				<th>Total penalty</th>
+				{% for contest_problem in contest_problems %}
+					<th><a href="/contests/{{ contest.id }}/arena/#{{ forloop.counter }}">{{ forloop.counter }}</a></th>
+				{% endfor %}
 			</tr>
 			{% if user_registrations %}
 			{% for user in user_registrations %}

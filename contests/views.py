@@ -209,6 +209,9 @@ def arena(request, index):
 
 def scoreboard(request, index):
     contest = Contest.objects.get(pk=index)
+    contest_problems = ContestProblem.objects.filter(
+        contest=contest
+    )
     user_registrations = Registration.objects.filter(
         contest_id=contest.id
     ).order_by('-total_points', 'total_penalty')
@@ -226,6 +229,7 @@ def scoreboard(request, index):
 
     context = {
         'contest': contest,
+        'contest_problems': contest_problems,
         'user_registrations': user_registrations
     }
     return render(request, 'contests/scoreboard.html', context)
