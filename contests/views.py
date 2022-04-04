@@ -134,7 +134,7 @@ def arena(request, index):
                     time_solved_in_contest = int(math.floor(time_since_start.seconds / 60))
                     prev_penalty = 0
                     if(len(user_submissions) > 0):
-                        prev_penalty = user_sumbissions[0].penalty
+                        prev_penalty = user_submissions[0].penalty
                     user_registration[0].total_penalty += prev_penalty + penalty_diff
                     user_registration[0].total_points += contest_problems[problem_id].value
                     user_registration[0].save()
