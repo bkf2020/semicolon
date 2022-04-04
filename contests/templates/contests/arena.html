@@ -47,7 +47,9 @@
 					</div>
 				{% endfor %}
 			{% endif %}
-			{% if contest.user_finished_but_running %}
+			{% if contest.ended_for_all %}
+				<a href="{% url 'contests-scoreboard' contest.id %}">View scoreboard</a> /
+			{% elif contest.user_finished_but_running %}
 				<p>
 					Your attempt has finished, contest ends in:
 					<span class="timer" current-server-time="{{ current_server_time }}" end-time="{{ contest.end_time|date:"U" }}"></span>

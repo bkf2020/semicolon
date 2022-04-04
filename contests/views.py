@@ -189,6 +189,7 @@ def arena(request, index):
                 Make sure to follow the rules regarding discussion!")
     else:
         messages.info(request, "The contest is over, but you can view and submit the problems unofficially.")
+        contest.ended_for_all = True
 
 
     for problem in contest_problems:
