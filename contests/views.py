@@ -227,6 +227,20 @@ def scoreboard(request, index):
         else:
             user.username = "N/A"
 
+        user_problem_info = []
+        for contest_problem in contest_problems:
+            user_submissions = Submission.objects.filter(
+                user_id=user.user_id,
+                problem_id=contest_problem.problem.id
+            )
+            if len(user_submissions) > 0:
+                user_submissions[0].value = contest_problem.value
+                user_problem_info.append(user_submissions[0])
+            else:
+                user_problem_info.append(False)
+        
+        user.problem_info = user_problem_info
+
     context = {
         'contest': contest,
         'contest_problems': contest_problems,
