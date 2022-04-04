@@ -49,7 +49,7 @@
 			{% if user_registrations %}
 			{% for user in user_registrations %}
 			<tr>
-				<td>{{ forloop.counter }}</td>
+				<td>{{ user.rank }}</td>
 				<td>{{ user.username }}</td>
 				<td>{{ user.total_points }}</td>
 				<td>{{ user.total_penalty }}</td>

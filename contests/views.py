@@ -225,7 +225,21 @@ def scoreboard(request, index):
         messages.error(request, f"You cannot view the scoreboard because the contest '{contest.name}' has not finished yet!")
         return redirect('contests-home')
     
+    current_rank = 1
+    first = True
+    prev_score = 0
+    prev_penalty = 0
     for user in user_registrations:
+        if first:
+            prev_score = user.total_points
+            prev_penalty = user.total_penalty
+            first = False
+        elif user.total_points < prev_score or user.total_penalty > prev_penalty:
+            prev_score = user.total_points
+            prev_penalty = user.total_penalty
+            current_rank += 1
+        user.rank = current_rank
+
         possible_users = User.objects.filter(pk=user.user_id)
         if len(possible_users) > 0:
             user.username = possible_users[0].username
