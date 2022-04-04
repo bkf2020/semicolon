@@ -60,9 +60,11 @@
 						<span style="color: lightgreen;"><b>{{ problem.value }}</b></span>
 						{% endif %}
 						<span style="color: tomato;"><b>({{ problem.wrong_submissions_in_contest }})</b></span></br>
+						{% if problem.solved_in_contest %}
 						<small>
 						<span style="color: lightgray;">{{ problem.time_solved_in_contest }} minute(s)</span>
 						</small>
+						{% endif %}
 					{% endif %}
 				</td>
 				{% endfor %}
