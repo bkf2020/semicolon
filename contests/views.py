@@ -204,3 +204,6 @@ def arena(request, index):
         'current_server_time': math.floor(timezone.now().timestamp())
     }
     return render(request, 'contests/arena.html', context)
+
+def scoreboard(request, index):
+    return render(request, 'contests/scoreboard.html')
