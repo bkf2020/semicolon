@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.utils import timezone
 from .models import Contest, ContestProblem, Registration
 from .forms import RegisterForm, ProblemForm
@@ -215,6 +216,13 @@ def scoreboard(request, index):
     if(timezone.now() <= contest.end_time):
         messages.error(request, f"You cannot view the scoreboard because the contest '{contest.name}' has not finished yet!")
         return redirect('contests-home')
+    
+    for user in user_registrations:
+        possible_users = User.objects.filter(pk=user.user_id)
+        if len(possible_users) > 0:
+            user.username = possible_users[0].username
+        else:
+            user.username = "N/A"
 
     context = {
         'contest': contest,
