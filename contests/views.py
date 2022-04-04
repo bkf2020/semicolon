@@ -127,8 +127,10 @@ def arena(request, index):
             penalty_diff = 0
             time_solved_in_contest = 0
             wrong_submissions_diff = 0
+            solved_in_contest = False
             if(contest_running):
                 if(problem_solved):
+                    solved_in_contest = True
                     time_since_start = timezone.now() - user_registration[0].time_joined
                     penalty_diff = int(math.floor(time_since_start.seconds / 60))
                     time_solved_in_contest = int(math.floor(time_since_start.seconds / 60))
@@ -147,6 +149,7 @@ def arena(request, index):
                     user_id=request.user.id,
                     problem_id=problem.id,
                     problem_solved=problem_solved,
+                    solved_in_contest=solved_in_contest,
                     penalty=penalty_diff,
                     time_solved_in_contest=time_solved_in_contest,
                     wrong_submissions_in_contest=wrong_submissions_diff
@@ -155,6 +158,7 @@ def arena(request, index):
             else:
                 current_user_submission = user_submissions[0]
                 current_user_submission.problem_solved |= problem_solved
+                current_user_submission.solved_in_contest |= solved_in_contest
                 current_user_submission.penalty += penalty_diff
                 current_user_submission.time_solved_in_contest = time_solved_in_contest
                 current_user_submission.wrong_submissions_in_contest += wrong_submissions_diff

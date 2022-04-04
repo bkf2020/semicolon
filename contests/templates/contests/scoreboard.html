@@ -56,7 +56,7 @@
 				{% for problem in user.problem_info %}
 				<td>
 					{% if problem %}
-						{% if problem.problem_solved %}
+						{% if problem.solved_in_contest %}
 						<span style="color: lightgreen;"><b>{{ problem.value }}</b></span>
 						{% endif %}
 						<span style="color: tomato;"><b>({{ problem.wrong_submissions_in_contest }})</b></span></br>
