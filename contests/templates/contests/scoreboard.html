@@ -38,6 +38,7 @@
 		<table>
 		<tbody>
 			<tr>
+				<th>Rank</th>
 				<th>Username</th>
 				<th>Total points</th>
 				<th>Total penalty</th>
@@ -45,9 +46,10 @@
 			{% if user_registrations %}
 			{% for user in user_registrations %}
 			<tr>
-				<th>{{ user.username }}</th>
-				<th>{{ user.total_points }}</th>
-				<th>{{ user.total_penalty }}</th>
+				<td>{{ forloop.counter }}</td>
+				<td>{{ user.username }}</td>
+				<td>{{ user.total_points }}</td>
+				<td>{{ user.total_penalty }}</td>
 			</tr>
 			{% endfor %}
 			{% endif %}
