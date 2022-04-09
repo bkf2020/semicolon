@@ -6,9 +6,6 @@ from notifications.signals import notify
 
 @receiver(post_save, sender=Announcement)
 def create_notification(sender, instance, created, **kwargs):
-    print(sender)
-    print(instance)
-    print(created)
     if created:
         announcement = instance
         registrations = Registration.objects.filter(contest_id=announcement.contest.id)
