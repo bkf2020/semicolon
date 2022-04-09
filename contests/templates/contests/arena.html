@@ -78,7 +78,8 @@
 					<h2>Announcements</h2>
 					<ol>
 					{% for announcement in announcements %}
-						<li>{{ announcement.content }}</li>
+					<li>{{ announcement.content }}</li>
+					<small>Posted {{ announcement.time_posted|date:"r" }} (UTC)</small>
 					{% endfor %}
 					</ol>
 				</div>

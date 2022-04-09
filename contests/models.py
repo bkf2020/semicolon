@@ -33,6 +33,7 @@ class Registration(models.Model):
 class Announcement(models.Model):
     content = models.TextField()
     contest = models.ForeignKey(Contest, on_delete=models.CASCADE)
+    time_posted = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return f"Contest: {self.contest.name}, ID: {self.id}"
