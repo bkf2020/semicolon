@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.utils import timezone
-from .models import Contest, ContestProblem, Registration
+from .models import Contest, ContestProblem, Registration, Announcement
 from .forms import RegisterForm, ProblemForm
 import math
 from problemset.models import Submission
@@ -96,6 +96,9 @@ def arena(request, index):
         contest_id=index
     )
     contest_problems = ContestProblem.objects.filter(
+        contest=contest
+    )
+    announcements = Announcement.objects.filter(
         contest=contest
     )
 
@@ -212,6 +215,7 @@ def arena(request, index):
     context = {
         'contest': contest,
         'contest_problems': contest_problems,
+        'announcements': reversed(announcements),
         'current_server_time': math.floor(timezone.now().timestamp())
     }
     return render(request, 'contests/arena.html', context)

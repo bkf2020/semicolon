@@ -47,6 +47,7 @@
 					</div>
 				{% endfor %}
 			{% endif %}
+			<a href="#announcements">View announcements</a> /
 			{% if contest.ended_for_all %}
 				<a href="{% url 'contests-scoreboard' contest.id %}">View scoreboard</a> /
 			{% elif contest.user_finished_but_running %}
@@ -68,9 +69,20 @@
 				</p></small>
 			{% endif %}
 		</div>
+		
 
 		{% if contest_problems %}
 			<div style="margin-right: 13em;">
+			{% if announcements %}
+				<div class="box" id="announcements">
+					<h2>Announcements</h2>
+					<ol>
+					{% for announcement in announcements %}
+						<li>{{ announcement.content }}</li>
+					{% endfor %}
+					</ol>
+				</div>
+			{% endif %}
 			{% for contest_problem in contest_problems %}
 				<div class="box" id="{{ forloop.counter }}">
 					<h2>Problem {{ forloop.counter }}: {{ contest_problem.problem.name }}</h2>
