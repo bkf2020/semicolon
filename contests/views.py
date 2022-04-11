@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator
 from django.utils import timezone
 from .models import Contest, ContestProblem, Registration, Announcement
 from .forms import RegisterForm, ProblemForm
@@ -13,7 +14,7 @@ from problemset.models import Submission
 # Create your views here.
 
 def home(request):
-    contests = Contest.objects.all()
+    contests = Contest.objects.all().order_by('-id')
     for contest in contests:
         contest.joined = False
 
@@ -36,8 +37,12 @@ def home(request):
             contest.started = True
             messages.info(request, f"{contest.name} is in progress!")
 
+    paginator = Paginator(contests, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        'contests': reversed(contests),
+        'page_obj': page_obj,
         'current_server_time': math.floor(timezone.now().timestamp())
     }
     return render(request, 'contests/home.html', context)

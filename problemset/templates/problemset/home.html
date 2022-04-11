@@ -42,8 +42,8 @@
 				<th>Problem Name</th>
 				<th>Solved</th>
 			</tr>
-			{% if problemset %}
-				{% for problem in problemset %}
+			{% if page_obj %}
+				{% for problem in page_obj %}
 					{% if problem.visible %}
 					<tr>
 						<td>{{ problem.id }}</td>
@@ -59,5 +59,18 @@
 			{% endif %}
 			</tbody>
 		</table>
+
+		<div class="pagination">
+			{% with ''|center:page_obj.paginator.num_pages as range %}
+			{% for i in range %}
+				{% if forloop.counter == page_obj.number %}
+					<a class="paginationLink paginationSelected" href="?page={{ forloop.counter }}">{{ forloop.counter }}</a>
+				{% else %}
+					<a class="paginationLink" href="?page={{ forloop.counter }}">{{ forloop.counter }}</a>
+				{% endif %}
+			{% endfor %}
+			{% endwith %}
+		</div>
+
   	</body>
 </html>

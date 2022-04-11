@@ -46,8 +46,8 @@
 			<th>Enter</th>
 		</tr>
 			{% load tz %}
-			{% if contests %}
-				{% for contest in contests %}
+			{% if page_obj %}
+				{% for contest in page_obj %}
 					{% if contest.visible %}
 						<tr>
 							<td>{{ contest.id }}</td>
@@ -118,6 +118,18 @@
 			{% endif %}
 		</tbody>
 		</table>
+		
+		<div class="pagination">
+			{% with ''|center:page_obj.paginator.num_pages as range %}
+			{% for i in range %}
+				{% if forloop.counter == page_obj.number %}
+					<a class="paginationLink paginationSelected" href="?page={{ forloop.counter }}">{{ forloop.counter }}</a>
+				{% else %}
+					<a class="paginationLink" href="?page={{ forloop.counter }}">{{ forloop.counter }}</a>
+				{% endif %}
+			{% endfor %}
+			{% endwith %}
+		</div>
 		
 		<script type="text/javascript" src="{% static 'js/timers.js' %}"></script>
   	</body>
