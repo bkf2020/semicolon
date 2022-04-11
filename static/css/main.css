@@ -86,3 +86,14 @@ td, th {
 	padding: 8px;
 	border: 1px solid #eee;
 }
+.pagination {
+	padding-top: 1em;
+}
+.paginationLink {
+	padding: 0.25em;
+}
+.paginationSelected {
+	font-weight: 700;
+	border: 1px solid #333;
+	background-color: #444;
+}

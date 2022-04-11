@@ -39,13 +39,25 @@
 		<hr/>
 		<h2>Annoucements</h2>
 		{% block content %}
-			{% for post in posts %}
+			{% for post in page_obj %}
 				<div class="box">
 					<h3>{{ post.title }}</h3>
 					<p>On {{ post.date_posted }}</p>
 					<div>{{ post.content|safe }}</div>
 				</div>
 			{% endfor %}
+
+			<div class="pagination">
+				{% with ''|center:page_obj.paginator.num_pages as range %}
+				{% for i in range %}
+					{% if forloop.counter == page_obj.number %}
+						<a class="paginationLink paginationSelected" href="?page={{ forloop.counter }}">{{ forloop.counter }}</a>
+					{% else %}
+						<a class="paginationLink" href="?page={{ forloop.counter }}">{{ forloop.counter }}</a>
+					{% endif %}
+				{% endfor %}
+				{% endwith %}
+			</div>
 		{% endblock content %}
 		<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 		<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
