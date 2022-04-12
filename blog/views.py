@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from .models import Post
 
 def home(request):
-    posts = Post.objects.all()
+    posts = Post.objects.all().order_by('-id')
     paginator = Paginator(posts, 5)
     
     page_number = request.GET.get('page')
