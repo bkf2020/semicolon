@@ -246,6 +246,8 @@ def scoreboard(request, index):
     first = True
     prev_score = 0
     prev_penalty = 0
+    current_user_rank = 0
+
     for user in user_registrations:
         if first:
             prev_score = user.total_points
@@ -256,6 +258,8 @@ def scoreboard(request, index):
             prev_penalty = user.total_penalty
             current_rank += 1
         user.rank = current_rank
+        if(user.user_id == request.user.id):
+            current_user_rank = current_rank
 
         possible_users = User.objects.filter(pk=user.user_id)
         if len(possible_users) > 0:
@@ -276,6 +280,8 @@ def scoreboard(request, index):
                 user_problem_info.append(False)
         
         user.problem_info = user_problem_info
+    
+    total_num_ranks = current_rank
 
     paginator = Paginator(user_registrations, 25)
     page_number = request.GET.get('page')
@@ -284,7 +290,9 @@ def scoreboard(request, index):
     context = {
         'contest': contest,
         'contest_problems': contest_problems,
-        'page_obj': page_obj
+        'page_obj': page_obj,
+        'current_user_rank': current_user_rank,
+        'total_num_ranks': total_num_ranks
     }
     return render(request, 'contests/scoreboard.html', context)
 

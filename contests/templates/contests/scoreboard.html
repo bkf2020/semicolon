@@ -35,6 +35,11 @@
 				</div>
 			{% endfor %}
 		{% endif %}
+		
+		{% if current_user_rank != 0 %}
+			<h2>Your rank: {{ current_user_rank }} out of {{ total_num_ranks }}</h2>
+		{% endif %}
+
 		<p><a href="{% url 'contests-arena' contest.id %}">Back to contest arena</a></p>
 		<table>
 		<tbody>
