@@ -4,13 +4,13 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		<title>(;) Semicolon Math</title>
+		<title>{{ post.title }} - (;) Semicolon Math</title>
 		<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />   
 	</head>
 	<body>
 		<div style="display: flex; justify-content: space-between; align-items: center;">
 			<div>
-				<h1>(;) Semicolon Math</h1>
+				<h1>{{ post.title }} - (;) Semicolon Math</h1>
 			</div>
 			<div style="float: right;">
 				{% if user.is_authenticated %}
@@ -23,7 +23,7 @@
 			</div>
 		</div>
 		<nav>
-			<a href="#">Home</a> |
+			<a href="{% url 'blog-home' %}">Home</a> |
 			<a href="{% url 'contests-home' %}">Contests</a> |
 			<a href="{% url 'problemset-home' %}">Problemset</a> |
 			<a href="{% url 'blog-about' %}">About</a>
@@ -35,31 +35,13 @@
 				</div>
 			{% endfor %}
 		{% endif %}
-		<h2>New to Semicolon Math? Check out our about page!</h2>
-		<hr/>
-		<h2>Annoucements</h2>
-		{% block content %}
-			{% for post in page_obj %}
-				<div class="box">
-					<h3>{{ post.title }}</h3>
-					<p>On {{ post.date_posted }}</p>
-					<div>{{ post.content|safe }}</div>
-					<p><a href="{% url 'blog-view-post' post.id %}">Read more</a></p>
-				</div>
-			{% endfor %}
+		
+		<div class="box">
+			<h2>{{ post.title }}</h2>
+			<p>On {{ post.date_posted }}</p>
+			<div>{{ post.content|safe }}</div>
+		</div>
 
-			<div class="pagination">
-				{% with ''|center:page_obj.paginator.num_pages as range %}
-				{% for i in range %}
-					{% if forloop.counter == page_obj.number %}
-						<a class="paginationLink paginationSelected" href="?page={{ forloop.counter }}">{{ forloop.counter }}</a>
-					{% else %}
-						<a class="paginationLink" href="?page={{ forloop.counter }}">{{ forloop.counter }}</a>
-					{% endif %}
-				{% endfor %}
-				{% endwith %}
-			</div>
-		{% endblock content %}
 		<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 		<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   	</body>

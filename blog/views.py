@@ -14,6 +14,13 @@ def home(request):
     }
     return render(request, 'blog/home.html', context)
 
+def view_post(request, index):
+    post = Post.objects.get(pk=index)
+    context = {
+        'post': post
+    }
+    return render(request, 'blog/view_post.html', context)
+
 def about(request):
     return render(request, 'blog/about.html')
 
