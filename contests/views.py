@@ -15,6 +15,7 @@ from problemset.models import Submission
 
 def home(request):
     contests = Contest.objects.all().order_by('-id')
+    visible_contests = []
     for contest in contests:
         contest.joined = False
 
@@ -37,7 +38,10 @@ def home(request):
             contest.started = True
             messages.info(request, f"{contest.name} is in progress!")
 
-    paginator = Paginator(contests, 5)
+        if(contest.visible):
+            visible_contests.append(contest)
+
+    paginator = Paginator(visible_contests, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 

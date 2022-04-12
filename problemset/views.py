@@ -7,6 +7,7 @@ from .forms import ProblemForm
 
 def home(request):
     problemset = Problem.objects.all().order_by('-id')
+    visible_problems = []
     for problem in problemset:
         problem.solved = False
 
@@ -16,8 +17,11 @@ def home(request):
         )
         if(len(user_submissions) > 0):
             problem.solved = user_submissions[0].problem_solved
+        
+        if(problem.visible):
+            visible_problems.append(problem)
     
-    paginator = Paginator(problemset, 25)
+    paginator = Paginator(visible_problems, 25)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
