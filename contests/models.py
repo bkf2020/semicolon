@@ -11,6 +11,8 @@ class Contest(models.Model):
     end_time_url = models.URLField(default="")
     announcement_link = models.URLField(default="")
     time_limit = models.IntegerField(default=0)
+    has_solutions = models.BooleanField(default=False)
+    solutions_url = models.URLField(default="")
     
     def __str__(self):
         return self.name

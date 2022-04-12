@@ -48,6 +48,9 @@
 				{% endfor %}
 			{% endif %}
 			<a href="#announcements">View announcements</a> /
+			{% if contest.has_solutions %}
+				<a href="{{ contest.solutions_url }}">View contest solutions</a> /
+			{% endif %}
 			{% if contest.ended_for_all %}
 				<a href="{% url 'contests-scoreboard' contest.id %}">View scoreboard</a> /
 			{% elif contest.user_finished_but_running %}
