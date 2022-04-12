@@ -277,10 +277,14 @@ def scoreboard(request, index):
         
         user.problem_info = user_problem_info
 
+    paginator = Paginator(user_registrations, 25)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     context = {
         'contest': contest,
         'contest_problems': contest_problems,
-        'user_registrations': user_registrations
+        'page_obj': page_obj
     }
     return render(request, 'contests/scoreboard.html', context)
 
