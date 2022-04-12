@@ -56,6 +56,15 @@
 					Please login before submitting this problem.
 				</div>
 			{% endif %}
+
+			{% if contest_problems|length != 0 %}
+				<br/>
+				<medium>From these contests:
+				{% for contest_problem in contest_problems %}
+					<a href="{% url 'contests-arena' contest_problem.contest.id %}">{{ contest_problem.contest.name }}</a> /
+				{% endfor %}
+				</medium>
+			{% endif %}
 		</div>
 		<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 		<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>

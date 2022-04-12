@@ -1,3 +1,4 @@
+from contests.models import ContestProblem
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
@@ -36,6 +37,9 @@ def problem(request, index):
         user_id=request.user.id,
         problem_id=index
     )
+    contest_problems = ContestProblem.objects.filter(
+        problem=problem
+    )
 
     if(not problem.visible and not request.user.is_superuser):
         return render(request, 'problemset/blocked.html')
@@ -72,6 +76,7 @@ def problem(request, index):
     context = {
         'problem': problem,
         'form': form,
-        'problem_solved': problem_solved
+        'problem_solved': problem_solved,
+        'contest_problems': contest_problems
     }
     return render(request, 'problemset/problem.html', context)
