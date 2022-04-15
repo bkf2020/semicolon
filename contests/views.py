@@ -106,10 +106,10 @@ def arena(request, index):
     )
     contest_problems = ContestProblem.objects.filter(
         contest=contest
-    )
+    ).order_by('id')
     announcements = Announcement.objects.filter(
         contest=contest
-    )
+    ).order_by('-time_posted')
 
     if request.method == 'POST':
         form = ProblemForm(request.POST)
@@ -224,7 +224,7 @@ def arena(request, index):
     context = {
         'contest': contest,
         'contest_problems': contest_problems,
-        'announcements': reversed(announcements),
+        'announcements': announcements,
         'current_server_time': math.floor(timezone.now().timestamp())
     }
     return render(request, 'contests/arena.html', context)
@@ -233,7 +233,7 @@ def scoreboard(request, index):
     contest = Contest.objects.get(pk=index)
     contest_problems = ContestProblem.objects.filter(
         contest=contest
-    )
+    ).order_by('id')
     user_registrations = Registration.objects.filter(
         contest_id=contest.id
     ).order_by('-total_points', 'total_penalty')
@@ -300,7 +300,7 @@ def preview(request, index):
     contest = Contest.objects.get(pk=index)
     contest_problems = ContestProblem.objects.filter(
         contest=contest
-    )
+    ).order_by('id')
     context = {
         'contest': contest,
         'contest_problems': contest_problems
