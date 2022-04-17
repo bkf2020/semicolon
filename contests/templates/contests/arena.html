@@ -47,7 +47,7 @@
 					</div>
 				{% endfor %}
 			{% endif %}
-			<a href="#announcements">View announcements</a> /
+			<a href="#announcements">Note on announcements</a> /
 			{% if contest.has_solutions %}
 				<a href="{{ contest.solutions_url }}">View contest solutions</a> /
 			{% endif %}
@@ -76,17 +76,13 @@
 
 		{% if contest_problems %}
 			<div style="margin-right: 13em;">
-			{% if announcements %}
-				<div class="box" id="announcements">
-					<h2>Announcements</h2>
-					<ol>
-					{% for announcement in announcements %}
-					<li>{{ announcement.content }}</li>
-					<small>Posted {{ announcement.time_posted|date:"r" }} (UTC)</small>
-					{% endfor %}
-					</ol>
-				</div>
-			{% endif %}
+			<div class="box" id="announcements">
+				<h2>Announcements</h2>
+				<p>Announcements are available on our Discord server (not available yet).</p>
+				<p>They will only be regarding problems with our servers.</p>
+				<p>We will post fixes to any problems AFTER the contest has finished, to make it fair to everyone.</p>
+			</div>
+
 			{% for contest_problem in contest_problems %}
 				<div class="box" id="{{ forloop.counter }}">
 					<h2>Problem {{ forloop.counter }}: {{ contest_problem.problem.name }}</h2>
@@ -132,7 +128,6 @@
 
 
 		<script type="text/javascript" src="{% static 'js/timers.js' %}"></script>
-		<script type="text/javascript" src="{% static 'js/notifications.js' %}"></script>
 		<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 		<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   	</body>

@@ -32,11 +32,3 @@ class Registration(models.Model):
     total_points = models.IntegerField(default=0)
     total_penalty = models.IntegerField(default=0)
 
-class Announcement(models.Model):
-    content = models.TextField()
-    contest = models.ForeignKey(Contest, on_delete=models.CASCADE)
-    time_posted = models.DateTimeField(default=timezone.now)
-
-    def __str__(self):
-        return f"Contest: {self.contest.name}, ID: {self.id}"
-
