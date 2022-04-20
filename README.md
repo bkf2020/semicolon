@@ -1,6 +1,8 @@
 # (;) semicolon math
 (;) Semicolon Math: a platform that tries to be the math version of Codeforces. We try to offer contests every month
 
+Access it at: https://scmath.herokuapp.com
+
 # Project info
 - **Original Announcement**: https://artofproblemsolving.com/community/c5h2779644
 - **AoPS Forum**: https://artofproblemsolving.com/community/c2999448__semicolon_math
