@@ -107,9 +107,6 @@ def arena(request, index):
     contest_problems = ContestProblem.objects.filter(
         contest=contest
     ).order_by('id')
-    announcements = Announcement.objects.filter(
-        contest=contest
-    ).order_by('-time_posted')
 
     if request.method == 'POST':
         form = ProblemForm(request.POST)
@@ -224,7 +221,6 @@ def arena(request, index):
     context = {
         'contest': contest,
         'contest_problems': contest_problems,
-        'announcements': announcements,
         'current_server_time': math.floor(timezone.now().timestamp())
     }
     return render(request, 'contests/arena.html', context)
