@@ -5,7 +5,9 @@ Access it at: https://scmath.herokuapp.com
 
 # Project info
 - **Original Announcement**: https://artofproblemsolving.com/community/c5h2779644
-- **AoPS Forum**: https://artofproblemsolving.com/community/c2999448__semicolon_math
+- **New AoPS Announcement**: https://artofproblemsolving.com/community/c5h2823066
+- **Discord**: https://discord.gg/9deBe7WnEM
+- **Website link**: https://scmath.herokuapp.com/
 
 ## Contributing
 See `CONTRIBUTING.md`
