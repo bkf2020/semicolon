@@ -95,10 +95,6 @@ def confirm(request, index):
     return render(request, 'contests/confirm.html', context)
 
 def arena(request, index):
-    try:
-        request.user.notifications.mark_all_as_read()
-    except:
-        pass
     contest = Contest.objects.get(pk=index)
     user_registration = Registration.objects.filter(
         user_id=request.user.id,
