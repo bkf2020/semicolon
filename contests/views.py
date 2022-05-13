@@ -126,7 +126,7 @@ def arena(request, index):
             if(problem_solved):
                 messages.success(request, f"You answer {user_answer} for problem {problem_id + 1} is correct!")
             else:
-                messages.error(request, f"You answer {user_answer} is problem {problem_id + 1} is wrong!")
+                messages.error(request, f"You answer {user_answer} for problem {problem_id + 1} is wrong!")
     
             contest_running = False
             time_diff = datetime.timedelta(minutes=contest.time_limit)
