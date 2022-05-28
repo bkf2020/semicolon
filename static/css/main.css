@@ -1,12 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 body {
 	max-width: 50em;
 	width: 90%;
 	margin-left: auto;
 	margin-right: auto;
-	color: #eee;
-	background-color: #111;
-	font-family: Helvetica, Arial, sans-serif;
-	line-height: 1.6;
+	color: #fff;
+	background-color: #181818;
+	font-family: "Roboto", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+	line-height: 1.8;
 	font-size: 18px;
 }
 h1, h2, h3 {
@@ -64,7 +65,7 @@ button {
 	background-color: orange;
 	color: black;
 	font-size: 18px;
-	font-family: Helvetica, Arial, sans-serif;
+	font-family: "Roboto", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
 	cursor: pointer;
 	margin-top: 0.5em;
 	padding: 0.5em;
