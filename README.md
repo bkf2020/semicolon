@@ -1,5 +1,7 @@
 # (;) semicolon math
-(;) Semicolon Math: a platform that tries to be the math version of Codeforces. We try to offer contests every month
+(;) Semicolon Math is a platform that offers math contests every month with 2 easy, 2 medium, and 2 hard AIME level problems.
+The format is similar to contests you will find on some competitive programming contests.
+
 
 Access it at: https://scmath.herokuapp.com
 
