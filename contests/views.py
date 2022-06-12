@@ -118,12 +118,7 @@ def arena(request, index):
                 problem_id=problem.id
             )
             problem_solved = (user_answer == problem.correct_answer)
-
-            if(problem_solved):
-                messages.success(request, f"Your answer {user_answer} for problem {problem_id + 1} is correct!")
-            else:
-                messages.error(request, f"Your answer {user_answer} for problem {problem_id + 1} is wrong!")
-    
+            
             contest_running = False
             time_diff = datetime.timedelta(minutes=contest.time_limit)
             if(len(user_registration) > 0):
@@ -132,13 +127,30 @@ def arena(request, index):
                     user_end_time = contest.end_time
                 if timezone.now() <= user_end_time:
                     contest_running = True
+
+            submissions_remaining = 5
+            if(contest_running and len(user_submissions) > 0):
+                submissions_remaining = 5 - user_submissions[0].wrong_submissions_in_contest
+
+            if(submissions_remaining == 0):
+                pass
+            elif(problem_solved):
+                messages.success(request, f"Your answer {user_answer} for problem {problem_id + 1} is correct!")
+            else:
+                if(contest_running):
+                    messages.error(request, f"Your answer {user_answer} for problem {problem_id + 1} is wrong! You have {submissions_remaining - 1} submissions left.")
+                else:
+                    messages.error(request, f"Your answer {user_answer} for problem {problem_id + 1} is wrong!")
             
             penalty_diff = 0
             time_solved_in_contest = 0
             wrong_submissions_diff = 0
             solved_in_contest = False
             if(contest_running):
-                if(problem_solved):
+                if(len(user_submissions) > 0 and user_submissions[0].wrong_submissions_in_contest == 5):
+                    problem_solved = False
+                    messages.error(request, f"You have already made 5 submissions to {problem_id + 1} and cannot make anymore!")
+                elif(problem_solved):
                     solved_in_contest = True
                     time_since_start = timezone.now() - user_registration[0].time_joined
                     penalty_diff = int(math.floor(time_since_start.seconds / 60))
