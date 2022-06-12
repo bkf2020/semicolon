@@ -46,6 +46,7 @@
 			<tr>
 				<th>Rank</th>
 				<th>Username</th>
+				<th>Adjusted Score</th>
 				<th>Total points</th>
 				<th>Total penalty</th>
 				{% for contest_problem in contest_problems %}
@@ -63,6 +64,7 @@
 
 				<td>{{ user.rank }}</td>
 				<td>{{ user.username }}</td>
+				<td>{{ user.total_points - user.total_penalty}}</td>
 				<td>{{ user.total_points }}</td>
 				<td>{{ user.total_penalty }}</td>
 				{% for problem in user.problem_info %}
