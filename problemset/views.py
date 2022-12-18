@@ -52,7 +52,8 @@ def problem(request, index):
         
         if form.is_valid():
             user_answer = form.cleaned_data.get('answer')
-            problem_solved = (user_answer == problem.correct_answer)
+            problem_solved = (problem.multiple_choice and user_answer == problem.correct_answer_choice)
+            problem_solved |= (not problem.multiple_choice and user_answer == problem.correct_answer)
 
             if(problem_solved):
                 messages.success(request, f"You answer {user_answer} is correct!")
