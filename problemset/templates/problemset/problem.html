@@ -69,7 +69,7 @@
 				<br/>
 				<medium>From these contests:
 				{% for contest_problem in contest_problems %}
-					<a href="{% url 'contests-arena' contest_problem.contest.id %}">{{ contest_problem.contest.name }}</a> /
+					<a href="{% url 'contests-semiarena' contest_problem.contest.id %}">{{ contest_problem.contest.name }}</a> /
 				{% endfor %}
 				</medium>
 			{% endif %}
