@@ -29,7 +29,7 @@ function updateTimers() {
 			timers[i].innerText = timeToDisplay;
 
 		} else {
-			location.reload();
+			setTimeout(location.reload(), 1000);
 		}
 	}
 }
