@@ -74,7 +74,7 @@ def confirm(request, index):
                 )
                 new_user_registration.save()
                 messages.success(request, f"You have joined {contest.name}!")
-                return redirect(f'/contests/{index}/arena/')
+                return redirect(f'/contests/{index}/semiarena/')
 
     else:
         form = RegisterForm()
@@ -85,7 +85,7 @@ def confirm(request, index):
     )
     if(len(user_registration) > 0):
         messages.success(request, f"You already have joined this contest!")
-        return redirect(f'/contests/{index}/arena/')
+        return redirect(f'/contests/{index}/semiarena/')
 
     context = {
         'contest': contest,
@@ -94,7 +94,7 @@ def confirm(request, index):
     }
     return render(request, 'contests/confirm.html', context)
 
-def arena(request, index):
+def semiarena(request, index):
     contest = Contest.objects.get(pk=index)
     user_registration = Registration.objects.filter(
         user_id=request.user.id,
@@ -106,7 +106,7 @@ def arena(request, index):
 
     if request.method == 'POST':
         form = ProblemForm(request.POST)
-        redirect_url = '/contests/' + str(index) + '/arena/'
+        redirect_url = '/contests/' + str(index) + '/semiarena/'
         if form.is_valid():
             problem_id = int(form.cleaned_data.get('problem_id'))
             problem = contest_problems[problem_id].problem
@@ -231,7 +231,7 @@ def arena(request, index):
         'contest_problems': contest_problems,
         'current_server_time': math.floor(timezone.now().timestamp())
     }
-    return render(request, 'contests/arena.html', context)
+    return render(request, 'contests/semiarena.html', context)
 
 def scoreboard(request, index):
     contest = Contest.objects.get(pk=index)

@@ -100,12 +100,12 @@
 							<td>
 								{% if contest.ended %}
 
-									<a href="{% url 'contests-arena' contest.id %}" style="color: lightgreen;">Enter contest arena</a>
+									<a href="{% url 'contests-semiarena' contest.id %}" style="color: lightgreen;">Enter contest arena</a>
 
 								{% elif contest.started %}
 
 									{% if contest.joined %}
-										<a href="{% url 'contests-arena' contest.id %}" style="color: lightgreen;">Enter contest arena</a>
+										<a href="{% url 'contests-semiarena' contest.id %}" style="color: lightgreen;">Enter contest arena</a>
 									{% else %}
 										<a href="{% url 'contests-confirm' contest.id %}" style="color: lightgreen;">Join the contest</a>
 									{% endif %}
