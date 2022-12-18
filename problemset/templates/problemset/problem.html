@@ -49,6 +49,14 @@
 				<form method="POST">
 					{% csrf_token %}
 					{{ form.as_p }}
+					{% if problem.multiple_choice %}
+						<style>
+							#id_answer {
+								display: grid;
+								grid-template-columns: 50px 50px 50px 50px 50px;
+							};
+						</style>
+					{% endif %}
 					<button type="submit">Submit</button>
 				</form>
 			{% else %}

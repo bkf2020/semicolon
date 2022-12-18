@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib import messages
 from .models import Problem, Submission
-from .forms import ProblemForm
+from .forms import ProblemForm, MultipleChoiceForm
 
 def home(request):
     problemset = Problem.objects.all().order_by('-id')
@@ -45,7 +45,11 @@ def problem(request, index):
         return render(request, 'problemset/blocked.html')
 
     if request.method == 'POST':
-        form = ProblemForm(request.POST)
+        if problem.multiple_choice:
+            form = MultipleChoiceForm(request.POST)
+        else:
+            form = ProblemForm(request.POST)
+        
         if form.is_valid():
             user_answer = form.cleaned_data.get('answer')
             problem_solved = (user_answer == problem.correct_answer)
@@ -70,7 +74,10 @@ def problem(request, index):
         return redirect('/problemset/' + str(index) + '/')
 
     else:
-        form = ProblemForm()
+        if problem.multiple_choice:
+            form = MultipleChoiceForm()
+        else:
+            form = ProblemForm()
     
     problem_solved = len(user_submissions) >= 1 and user_submissions[0].problem_solved
     context = {
