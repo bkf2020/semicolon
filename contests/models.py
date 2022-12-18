@@ -2,6 +2,13 @@ from django.db import models
 from django.utils import timezone
 from problemset.models import Problem
 
+CONTEST_FORMATS = (
+    ('AMC8', 'AMC8'),
+    ('AMC10', 'AMC10'),
+    ('AIME', 'AIME'),
+    ('Semicolon', 'Semicolon')
+)
+
 class Contest(models.Model):
     name = models.CharField(max_length=100)
     start_time = models.DateTimeField(default=timezone.now)
@@ -13,6 +20,7 @@ class Contest(models.Model):
     time_limit = models.IntegerField(default=0)
     has_solutions = models.BooleanField(default=False)
     solutions_url = models.URLField(default="")
+    contest_format = models.CharField(max_length=9, choices=CONTEST_FORMATS, default='Semicolon')
     
     def __str__(self):
         return self.name
