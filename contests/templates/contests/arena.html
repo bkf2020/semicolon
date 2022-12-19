@@ -1,0 +1,150 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>(;) Semicolon Math: {{ contest.name }}</title>
+		<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
+	</head>
+	<body style="max-width: 60em !important;">
+		<div style="display: flex; justify-content: space-between; align-items: center;">
+			<div>
+				<h1>(;) Semicolon Math: {{ contest.name }} </h1>
+			</div>
+			<div style="float: right;">
+				{% if user.is_authenticated %}
+					<a href="{% url 'profile' %}">{{ user.username }}</a> |
+					<a href="{% url 'logout' %}">Logout</a>
+				{% else %}
+					<a href="{% url 'login' %}?next={{ request.path }}">Login</a> |
+					<a href="{% url 'register' %}">Register</a>
+				{% endif %}
+			</div>
+		</div>
+
+		<nav>
+			<a href="{% url 'blog-home' %}">Home</a> |
+			<a href="{% url 'contests-home' %}">Contests</a> |
+			<a href="{% url 'problemset-home' %}">Problemset</a> |
+			<a href="{% url 'blog-about' %}">About</a>
+		</nav>
+		
+		<div style="min-width: 550px;">
+		<div style="float: right; width: 10em; position: sticky; top: 1em; padding: 1em 1em; border-style: double;">
+			{% if contest.running %}
+				<div class="timerDiv">
+					<h2>
+						Time left:
+						<span class="timer" current-server-time="{{ current_server_time }}" end-time="{{ contest.user_end_time|date:"U" }}"></span>
+					</h2>
+				</div>
+			{% endif %}
+			{% if messages %}
+				{% for message in messages %}
+					<div class="alert alert-{{ message.tags }}">
+						{{ message }}
+					</div>
+				{% endfor %}
+			{% endif %}
+			<a href="#announcements">Note on announcements</a> /
+			{% if contest.has_solutions %}
+				<a href="{{ contest.solutions_url }}">View contest solutions</a> /
+			{% endif %}
+			{% if contest.ended_for_all %}
+				<a href="{% url 'contests-scoreboard' contest.id %}">View scoreboard</a> /
+			{% elif contest.user_finished_but_running %}
+				<p>
+					Your attempt has finished, contest ends in:
+					<span class="timer" current-server-time="{{ current_server_time }}" end-time="{{ contest.end_time|date:"U" }}"></span>
+				</p>
+			{% endif %}
+			{% if contest_problems %}
+				{% for contest_problem in contest_problems %}
+					{% if contest_problem.solved %}
+						<a href="#{{ forloop.counter }}" style="color: lightgreen;">Problem {{ forloop.counter }} (s)</a> /
+					{% else %}
+						<a href="#{{ forloop.counter }}" style="color: tomato;">Problem {{ forloop.counter }} (u)</a> /
+					{% endif %}
+				{% endfor %}
+				<small><p>
+					Note <b>'s'</b> means solved and <b>'u'</b> means unsolved.
+				</p></small>
+			{% endif %}
+		</div>
+		
+
+		{% if contest_problems %}
+			<div style="margin-right: 13em;">
+			<div class="box" id="announcements">
+				<h2>Announcements</h2>
+				<p>Announcements are available on <a href="https://discord.gg/9deBe7WnEM">our Discord server</a>.</p>
+				<p>They will only be regarding technical issues.</p>
+				<p>
+					We will post fixes to any problems AFTER the contest has finished, to make it fair to everyone.
+					The fixes will be available in the problem statements.
+				</p>
+			</div>
+
+			{% for contest_problem in contest_problems %}
+				<div class="box" id="{{ forloop.counter }}">
+					<h2>Problem {{ forloop.counter }}</h2>
+					{% if contest_problem.solved %}
+						<h3 style="color: lightgreen;">Problem status: solved</h3>
+					{% else %}
+						<h3 style="color: tomato;">Problem status: not solved</h3>
+					{% endif %}
+
+					<div>{{ contest_problem.problem.content|safe }}</div>
+
+					{% if user.is_authenticated %}
+						{% if contest.running and not contest_problem.solved %}
+							<form method="POST">
+								{% csrf_token %}
+								{{ contest_problem.form.as_p }}
+							</form>
+						{% elif not contest.running %}
+							<form method="POST">
+								{% csrf_token %}
+								{{ contest_problem.form.as_p }}
+								<button type="submit">Submit</button>
+							</form>
+						{% endif %}
+					{% else %}
+						<div class="alert alert-error">
+							Please login before submitting this problem.
+						</div>
+					{% endif %}
+				</div>
+			{% endfor %}
+			</div>
+		{% endif %}
+		</div>
+		<style>
+			.problemId {
+				display: none;
+			}
+			div.answerForm {
+				display: grid;
+				grid-template-columns: repeat(6, auto);
+				max-width: 450px;
+			}
+			div.answerForm label {
+				background-color: skyblue;
+				padding: 0.5em;
+				border-radius: 0.4em;
+				display: inline-block;
+				cursor: pointer;
+				color: black;
+				margin: 0.25em;
+			}
+			input[type=radio] {
+				cursor: pointer;
+			}
+		</style>
+
+		<script type="text/javascript" src="{% static 'js/timers.js' %}"></script>
+		<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+		<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  	</body>
+</html>

@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.utils import timezone
 from .models import Contest, ContestProblem, Registration
-from .forms import RegisterForm, ProblemForm
+from .forms import RegisterForm, ProblemForm, MultipleChoiceForm
 import math
 from problemset.models import Submission
 
@@ -232,6 +232,57 @@ def semiarena(request, index):
         'current_server_time': math.floor(timezone.now().timestamp())
     }
     return render(request, 'contests/semiarena.html', context)
+
+def arena(request, index):
+    contest = Contest.objects.get(pk=index)
+    user_registration = Registration.objects.filter(
+        user_id=request.user.id,
+        contest_id=index
+    )
+    contest_problems = ContestProblem.objects.filter(
+        contest=contest
+    ).order_by('id')
+
+    if timezone.now() < contest.start_time:
+        messages.error(request, f"{contest.name} hasn't started yet!")
+        return redirect('contests-home')
+    elif timezone.now() <= contest.end_time:
+        if not request.user.is_authenticated:
+            messages.error(request, f"Please login before taking {contest.name}! Note you must have started this contest on your account!")
+            return redirect(f'/login/?next={request.path}')
+        elif len(user_registration) == 0:
+            messages.error(request, f"You can't take {contest.name} because you haven't joined! Please confirm before joining!")
+            return redirect(f'/contests/{index}/confirm')
+        else:
+            time_diff = datetime.timedelta(minutes=contest.time_limit)
+            contest.user_end_time = user_registration[0].time_joined + time_diff
+            if contest.user_end_time > contest.end_time:
+                contest.user_end_time = contest.end_time
+            
+            if timezone.now() <= contest.user_end_time:
+                contest.running = True
+            else:
+                contest.user_finished_but_running = True
+                messages.info(request, "Your attempt for the contest has finished. You can view the problems and submit after the contest \
+                ends for everyone. Make sure to follow the rules regarding discussion!")
+    else:
+        messages.info(request, "The contest is over, but you can view and submit the problems unofficially.")
+        contest.ended_for_all = True
+    
+    idx = 0
+    for problem in contest_problems:
+        if(problem.problem.multiple_choice):
+            problem.form = MultipleChoiceForm(auto_id=str(idx) + '_%s', initial={'problem_id': idx, 'answer': 'Blank'})
+        else:
+            problem.form = ProblemForm(initial={'problem_id': idx})
+        idx += 1
+    
+    context = {
+        'contest': contest,
+        'contest_problems': contest_problems,
+        'current_server_time': math.floor(timezone.now().timestamp())
+    }
+    return render(request, 'contests/arena.html', context)
 
 def scoreboard(request, index):
     contest = Contest.objects.get(pk=index)
