@@ -20,6 +20,8 @@ class Submission(models.Model):
     user_id = models.IntegerField(default=0)
     problem_id = models.IntegerField(default=0)
     problem_solved = models.BooleanField(default=False)
+    answer_choice_in_contest = models.CharField(max_length=5, choices=ANSWER_CHOICES, default='Blank')
+    answer_in_contest = models.IntegerField(default=0)
     solved_in_contest = models.BooleanField(default=False)
     penalty = models.IntegerField(default=0)
     time_solved_in_contest = models.IntegerField(default=0)
