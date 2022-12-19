@@ -142,6 +142,21 @@
 				cursor: pointer;
 			}
 		</style>
+		<script>
+			var numForms = document.getElementsByClassName("box").length - 1;
+			for(var i = 0; i < numForms; i++) {
+				var form = document.getElementById(i.toString() + "_answer");
+				var answerChoices = ['A', 'B', 'C', 'D', 'E', 'Blank'];
+				for(var j = 0; j < form.children.length; j++) {
+					var radioButton = document.getElementById(i.toString() + "_answer_" + j.toString());
+					radioButton.problemNum = i + 1;
+					radioButton.answerChoice = answerChoices[j];
+					radioButton.addEventListener('change', function(e) {
+						console.log("problem " + e.currentTarget.problemNum.toString() + " changed to " + e.currentTarget.answerChoice);
+    				});
+				}
+			}
+		</script>
 
 		<script type="text/javascript" src="{% static 'js/timers.js' %}"></script>
 		<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
