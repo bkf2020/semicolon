@@ -273,6 +273,16 @@ def arena(request, index):
     for problem in contest_problems:
         if(problem.problem.multiple_choice):
             problem.form = MultipleChoiceForm(auto_id=str(idx) + '_%s', initial={'problem_id': idx, 'answer': 'Blank'})
+            user_submissions = Submission.objects.filter(
+                user_id=request.user.id,
+                problem_id=problem.problem.id
+            )
+            if(len(user_submissions) == 0):
+                new_user_submission = Submission(
+                    user_id=request.user.id,
+                    problem_id=problem.problem.id,
+                )
+                new_user_submission.save()
         else:
             problem.form = ProblemForm(initial={'problem_id': idx})
         idx += 1
