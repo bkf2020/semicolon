@@ -53,8 +53,21 @@
 						<style>
 							#id_answer {
 								display: grid;
-								grid-template-columns: 50px 50px 50px 50px 50px;
-							};
+								grid-template-columns: repeat(5, auto);
+								max-width: 350px;
+							}
+							#id_answer label {
+								background-color: skyblue;
+								padding: 0.5em;
+								border-radius: 0.4em;
+								display: inline-block;
+								cursor: pointer;
+								color: black;
+								margin: 0.25em;
+							}
+							input[type=radio] {
+								cursor: pointer;
+							}
 						</style>
 					{% endif %}
 					<button type="submit">Submit</button>
