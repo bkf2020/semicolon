@@ -88,7 +88,12 @@
 
 			{% for contest_problem in contest_problems %}
 				<div class="box" id="{{ forloop.counter }}">
-					<h2>Problem {{ forloop.counter }}</h2>
+					<div style="display: flex; align-items: center; gap: 1em;">
+						<h2>Problem {{ forloop.counter }}</h2>
+						{% if user.is_authenticated and contest.running %}
+							<span id="status{{ forloop.counter }}" style="opacity: 0; transition: opacity 0.5s linear;">Problem saved!</span>
+						{% endif %}
+					</div>
 
 					<div>{{ contest_problem.problem.content|safe }}</div>
 
@@ -153,7 +158,11 @@
 					radioButton.problemNum = i + 1;
 					radioButton.answerChoice = answerChoices[j];
 					radioButton.addEventListener('change', function(e) {
-						console.log("problem " + e.currentTarget.problemNum.toString() + " changed to " + e.currentTarget.answerChoice);
+						var status = document.getElementById("status" + e.currentTarget.problemNum.toString());
+						status.style = "opacity: 1; color: lightgreen; font-weight: bold; transition: opacity 0.5s linear;";
+						setTimeout(function() {
+							status.style = "color: lightgreen; font-weight: bold; opacity: 0; transition: opacity 0.5s linear;";
+						}, 1500);
     				});
 				}
 			}
