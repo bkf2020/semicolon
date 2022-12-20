@@ -93,12 +93,12 @@
 					<div>{{ contest_problem.problem.content|safe }}</div>
 
 					{% if user.is_authenticated %}
-						{% if contest.running and not contest_problem.solved %}
+						{% if contest.running %}
 							<form method="POST">
 								{% csrf_token %}
 								{{ contest_problem.form.as_p }}
 							</form>
-						{% elif not contest.running %}
+						{% elif contest.ended_for_all %}
 							{% if contest_problem.solved %}
 								<h3 style="color: lightgreen;">Problem status: solved</h3>
 							{% else %}
@@ -142,6 +142,7 @@
 				cursor: pointer;
 			}
 		</style>
+		{% if contest.running %}
 		<script>
 			var numForms = document.getElementsByClassName("box").length - 1;
 			for(var i = 0; i < numForms; i++) {
@@ -157,6 +158,7 @@
 				}
 			}
 		</script>
+		{% endif %}
 
 		<script type="text/javascript" src="{% static 'js/timers.js' %}"></script>
 		<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
