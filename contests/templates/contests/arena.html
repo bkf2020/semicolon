@@ -152,17 +152,30 @@
 			var numForms = document.getElementsByClassName("box").length - 1;
 			for(var i = 0; i < numForms; i++) {
 				var form = document.getElementById(i.toString() + "_answer");
-				var answerChoices = ['A', 'B', 'C', 'D', 'E', 'Blank'];
 				for(var j = 0; j < form.children.length; j++) {
 					var radioButton = document.getElementById(i.toString() + "_answer_" + j.toString());
 					radioButton.problemNum = i + 1;
-					radioButton.answerChoice = answerChoices[j];
 					radioButton.addEventListener('change', function(e) {
 						var status = document.getElementById("status" + e.currentTarget.problemNum.toString());
-						status.style = "opacity: 1; color: lightgreen; font-weight: bold; transition: opacity 0.5s linear;";
-						setTimeout(function() {
-							status.style = "color: lightgreen; font-weight: bold; opacity: 0; transition: opacity 0.5s linear;";
-						}, 1500);
+						status.style = "opacity: 1; color: orange; font-weight: bold; transition: opacity 0.5s linear;";
+						status.innerText = "Saving answer..."
+						var XHR = new XMLHttpRequest();
+						var userAnswer = new FormData(document.getElementsByTagName("form")[e.currentTarget.problemNum - 1]);
+						XHR.open("POST", document.URL);
+						XHR.addEventListener("load", (event) => {
+							if(XHR.status === 200) {
+								status.style = "color: lightgreen; font-weight: bold;";
+								status.innerText = "Answer saved successfully!";
+							} else {
+								status.style = "color: tomato; font-weight: bold;";
+								status.innerText = "An error occured when submitting! Try checking your connection. Maybe refresh the page.";
+							}
+    					});
+						XHR.addEventListener("error", (event) => {
+							status.style = "color: tomato; font-weight: bold;";
+							status.innerText = "An error occured when submitting! Try checking your connection. Maybe refresh the page.";
+    					});
+						XHR.send(userAnswer);
     				});
 				}
 			}
