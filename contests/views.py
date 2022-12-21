@@ -282,13 +282,13 @@ def arena(request, index):
                 user_answer = form.cleaned_data.get('answer')
                 user_submissions = Submission.objects.filter(
                     user_id=request.user.id,
-                    problem_id=problem.problem.id
+                    problem_id=problem.id
                 )
                 if(len(user_submissions) == 0):
                     if(contest.contest_format == 'AIME'):
                         new_user_submission = Submission(
                             user_id=request.user.id,
-                            problem_id=problem.problem.id,
+                            problem_id=problem.id,
                             answer_in_contest=user_answer,
                             solved_in_contest=True
                         )
@@ -296,7 +296,7 @@ def arena(request, index):
                     else:
                         new_user_submission = Submission(
                             user_id=request.user.id,
-                            problem_id=problem.problem.id,
+                            problem_id=problem.id,
                             answer_choice_in_contest=user_answer
                         )
                         new_user_submission.save()
@@ -308,7 +308,7 @@ def arena(request, index):
                     else:
                         user_submissions[0].answer_choice_in_contest = user_answer
                         user_submissions[0].save()
-        return JsonResponse(status=200)
+        return JsonResponse(status=200, data={})
 
     idx = 0
     for problem in contest_problems:
