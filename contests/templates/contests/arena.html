@@ -148,19 +148,52 @@
 			}
 		</style>
 		{% if contest.running %}
-		<script>
-			var numForms = document.getElementsByClassName("box").length - 1;
-			for(var i = 0; i < numForms; i++) {
-				var form = document.getElementById(i.toString() + "_answer");
-				for(var j = 0; j < form.children.length; j++) {
-					var radioButton = document.getElementById(i.toString() + "_answer_" + j.toString());
-					radioButton.problemNum = i + 1;
-					radioButton.addEventListener('change', function(e) {
+			{% if contest.contest_format != "AIME" %}
+			<script>
+				var numForms = document.getElementsByClassName("box").length - 1;
+				for(var i = 0; i < numForms; i++) {
+					var form = document.getElementById(i.toString() + "_answer");
+					for(var j = 0; j < form.children.length; j++) {
+						var radioButton = document.getElementById(i.toString() + "_answer_" + j.toString());
+						radioButton.problemNum = i + 1;
+						radioButton.addEventListener('change', function(e) {
+							var status = document.getElementById("status" + e.currentTarget.problemNum.toString());
+							status.style = "color: orange; font-weight: bold;";
+							status.innerText = "Saving answer..."
+							var XHR = new XMLHttpRequest();
+							var userAnswer = new FormData(document.getElementsByTagName("form")[e.currentTarget.problemNum - 1]);
+							XHR.open("POST", document.URL);
+							XHR.addEventListener("load", (event) => {
+								if(XHR.status === 200) {
+									status.style = "color: lightgreen; font-weight: bold;";
+									status.innerText = "Answer saved successfully!";
+								} else {
+									status.style = "color: tomato; font-weight: bold;";
+									status.innerText = "An error occured when submitting! Try checking your connection. Maybe refresh the page.";
+								}
+							});
+							XHR.addEventListener("error", (event) => {
+								status.style = "color: tomato; font-weight: bold;";
+								status.innerText = "An error occured when submitting! Try checking your connection. Maybe refresh the page.";
+							});
+							XHR.send(userAnswer);
+						});
+					}
+				}
+			</script>
+			{% else %}
+			<script>
+				var numForms = document.getElementsByClassName("box").length - 1;
+				for(var i = 0; i < numForms; i++) {
+					var form = document.getElementById(i.toString() + "_answer");
+					form.problemNum = i + 1;
+					form.addEventListener('change', function(e) {
 						var status = document.getElementById("status" + e.currentTarget.problemNum.toString());
 						status.style = "color: orange; font-weight: bold;";
 						status.innerText = "Saving answer..."
 						var XHR = new XMLHttpRequest();
-						var userAnswer = new FormData(document.getElementsByTagName("form")[e.currentTarget.problemNum - 1]);
+						var form2 = document.getElementById((e.currentTarget.problemNum - 1).toString() + "_answer");
+						var userAnswer = new FormData(form2.parentElement.parentElement);
 						XHR.open("POST", document.URL);
 						XHR.addEventListener("load", (event) => {
 							if(XHR.status === 200) {
@@ -170,16 +203,16 @@
 								status.style = "color: tomato; font-weight: bold;";
 								status.innerText = "An error occured when submitting! Try checking your connection. Maybe refresh the page.";
 							}
-    					});
+						});
 						XHR.addEventListener("error", (event) => {
 							status.style = "color: tomato; font-weight: bold;";
 							status.innerText = "An error occured when submitting! Try checking your connection. Maybe refresh the page.";
-    					});
+						});
 						XHR.send(userAnswer);
-    				});
+					});
 				}
-			}
-		</script>
+			</script>
+			{% endif %}
 		{% endif %}
 
 		<script type="text/javascript" src="{% static 'js/timers.js' %}"></script>
