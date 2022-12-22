@@ -91,7 +91,7 @@
 					<div style="display: flex; align-items: center; gap: 1em;">
 						<h2>Problem {{ forloop.counter }}</h2>
 						{% if user.is_authenticated and contest.running %}
-							<span id="status{{ forloop.counter }}" style="opacity: 0; transition: opacity 0.5s linear;">Problem saved!</span>
+							<span id="status{{ forloop.counter }}" style="font-weight: bold; color: skyblue;">(This is current saved answer.)</span>
 						{% endif %}
 					</div>
 
@@ -157,7 +157,7 @@
 					radioButton.problemNum = i + 1;
 					radioButton.addEventListener('change', function(e) {
 						var status = document.getElementById("status" + e.currentTarget.problemNum.toString());
-						status.style = "opacity: 1; color: orange; font-weight: bold; transition: opacity 0.5s linear;";
+						status.style = "color: orange; font-weight: bold;";
 						status.innerText = "Saving answer..."
 						var XHR = new XMLHttpRequest();
 						var userAnswer = new FormData(document.getElementsByTagName("form")[e.currentTarget.problemNum - 1]);
