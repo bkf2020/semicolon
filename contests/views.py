@@ -74,7 +74,10 @@ def confirm(request, index):
                 )
                 new_user_registration.save()
                 messages.success(request, f"You have joined {contest.name}!")
-                return redirect(f'/contests/{index}/semiarena/')
+                if(contest.contest_format == 'Semicolon'):
+                    return redirect(f'/contests/{index}/semiarena/')
+                else:
+                    return redirect(f'/contests/{index}/arena/')
 
     else:
         form = RegisterForm()
@@ -85,7 +88,10 @@ def confirm(request, index):
     )
     if(len(user_registration) > 0):
         messages.success(request, f"You already have joined this contest!")
-        return redirect(f'/contests/{index}/semiarena/')
+        if(contest.contest_format == 'Semicolon'):
+            return redirect(f'/contests/{index}/semiarena/')
+        else:
+            return redirect(f'/contests/{index}/arena')
 
     context = {
         'contest': contest,
@@ -103,6 +109,10 @@ def semiarena(request, index):
     contest_problems = ContestProblem.objects.filter(
         contest=contest
     ).order_by('id')
+
+    if(contest.contest_format != 'Semicolon'):
+        messages.error(request, "You can't use this arena for this type of contest!")
+        return redirect('/contests/')
 
     if request.method == 'POST':
         form = ProblemForm(request.POST)
@@ -242,6 +252,10 @@ def arena(request, index):
     contest_problems = ContestProblem.objects.filter(
         contest=contest
     ).order_by('id')
+
+    if(contest.contest_format == 'Semicolon'):
+        messages.error(request, "You can't use this arena for this type of contest!")
+        return redirect('/contests/')
 
     if timezone.now() < contest.start_time:
         messages.error(request, f"{contest.name} hasn't started yet!")
