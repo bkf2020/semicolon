@@ -342,7 +342,17 @@ def arena(request, index):
                 inital_answer = user_submissions[0].answer_choice_in_contest
             problem.form = MultipleChoiceForm(auto_id=str(idx) + '_%s', initial={'problem_id': idx, 'answer': inital_answer})
         else:
-            problem.form = ProblemForm(initial={'problem_id': idx})
+            inital_answer = ''
+            user_submissions = Submission.objects.filter(
+                user_id=request.user.id,
+                problem_id=problem.problem.id
+            )
+            if(len(user_submissions) > 0):
+                inital_answer = user_submissions[0].answer_in_contest
+            if(inital_answer != ''):
+                problem.form = ProblemForm(auto_id=str(idx) + '_%s', initial={'problem_id': idx, 'answer': inital_answer})
+            else:
+                problem.form = ProblemForm(auto_id=str(idx) + '_%s', initial={'problem_id': idx})
         idx += 1
     
     context = {
