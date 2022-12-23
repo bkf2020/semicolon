@@ -103,6 +103,7 @@
 								{% csrf_token %}
 								{{ contest_problem.form.as_p }}
 							</form>
+							<button id="save{{ forloop.counter }}">Save</button>
 						{% elif contest.ended_for_all %}
 							{% if contest_problem.solved %}
 								<h3 style="color: lightgreen;">Problem status: solved</h3>
@@ -184,21 +185,43 @@
 			{% else %}
 			<script>
 				var numForms = document.getElementsByClassName("box").length - 1;
-				for(var i = 0; i < numForms; i++) {
-					var form = document.getElementById(i.toString() + "_answer");
-					form.problemNum = i + 1;
-					form.addEventListener('change', function(e) {
+				for(var j = 1; j <= numForms; j++) {
+					var form = document.getElementById((j - 1).toString() + "_answer");
+					status.innerText = "Currently saved answer: " + form.value.toString();
+					if(form.value.toString() === "") {
+						document.getElementById("status" + j.toString()).innerText = "Currently saved answer: N/A";
+					} else {
+						document.getElementById("status" + j.toString()).innerText = "Currently saved answer: " + form.value.toString();
+					}
+				}
+				for(var i = 1; i <= numForms; i++) {
+					var saveButton = document.getElementById("save" + i.toString());
+					saveButton.problemNum = i;
+					saveButton.previousAnswer = document.getElementById((i - 1).toString() + "_answer").value;
+					saveButton.addEventListener('click', function(e) {
 						var status = document.getElementById("status" + e.currentTarget.problemNum.toString());
 						status.style = "color: orange; font-weight: bold;";
 						status.innerText = "Saving answer..."
 						var XHR = new XMLHttpRequest();
-						var form2 = document.getElementById((e.currentTarget.problemNum - 1).toString() + "_answer");
-						var userAnswer = new FormData(form2.parentElement.parentElement);
+						var form = document.getElementById((e.currentTarget.problemNum - 1).toString() + "_answer");
+						var userAnswer = new FormData(form.parentElement.parentElement);
+						var previousAnswer = e.currentTarget.previousAnswer;
 						XHR.open("POST", document.URL);
 						XHR.addEventListener("load", (event) => {
 							if(XHR.status === 200) {
 								status.style = "color: lightgreen; font-weight: bold;";
 								status.innerText = "Answer saved successfully!";
+								setTimeout(function() {
+									status.style = "color: skyblue; font-weight: bold;";
+									status.innerText = "Currently saved answer: " + form.value.toString();
+								}, 2000);
+							} else if(XHR.status === 400) {
+								status.style = "color: tomato; font-weight: bold;";
+								status.innerText = "Your submission was not accepted! It likely was not a valid integer!";
+								status.innerText += " Currently saved answer: " + previousAnswer.toString();
+								if(previousAnswer.toString() === "") {
+									status.innerText += "N/A";
+								}
 							} else {
 								status.style = "color: tomato; font-weight: bold;";
 								status.innerText = "An error occured when submitting! Try checking your connection. Maybe refresh the page.";

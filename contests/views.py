@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.utils import timezone
 from .models import Contest, ContestProblem, Registration
-from .forms import RegisterForm, ProblemForm, MultipleChoiceForm
+from .forms import RegisterForm, ProblemForm, MultipleChoiceForm, AIMEProblemForm
 import math
 from problemset.models import Submission
 
@@ -286,7 +286,7 @@ def arena(request, index):
     if request.method == 'POST':
         if(contest.running):
             if(contest.contest_format == 'AIME'):
-                form = ProblemForm(request.POST)
+                form = AIMEProblemForm(request.POST)
             else:
                 form = MultipleChoiceForm(request.POST)
 
@@ -322,6 +322,8 @@ def arena(request, index):
                     else:
                         user_submissions[0].answer_choice_in_contest = user_answer
                         user_submissions[0].save()
+            else:
+                return JsonResponse(status=400, data={})
         return JsonResponse(status=200, data={})
 
     idx = 0
@@ -350,9 +352,9 @@ def arena(request, index):
             if(len(user_submissions) > 0):
                 inital_answer = user_submissions[0].answer_in_contest
             if(inital_answer != ''):
-                problem.form = ProblemForm(auto_id=str(idx) + '_%s', initial={'problem_id': idx, 'answer': inital_answer})
+                problem.form = AIMEProblemForm(auto_id=str(idx) + '_%s', initial={'problem_id': idx, 'answer': inital_answer})
             else:
-                problem.form = ProblemForm(auto_id=str(idx) + '_%s', initial={'problem_id': idx})
+                problem.form = AIMEProblemForm(auto_id=str(idx) + '_%s', initial={'problem_id': idx})
         idx += 1
     
     context = {

@@ -7,6 +7,10 @@ class ProblemForm(forms.Form):
     answer = forms.IntegerField(label='Your answer (should be an integer)')
     problem_id = forms.IntegerField(label='', widget=forms.NumberInput(attrs={'class': 'problemId'}))
 
+class AIMEProblemForm(forms.Form):
+    answer = forms.IntegerField(label='Your answer (should be an integer)', widget=forms.NumberInput(attrs={'autocomplete': 'off'}))
+    problem_id = forms.IntegerField(label='', widget=forms.NumberInput(attrs={'class': 'problemId'}))
+
 class MultipleChoiceForm(forms.Form):
     ANSWER_CHOICES = [
         ('A', 'A'),
