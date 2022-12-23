@@ -218,10 +218,13 @@
 							} else if(XHR.status === 400) {
 								status.style = "color: tomato; font-weight: bold;";
 								status.innerText = "Your submission was not accepted! It likely was not a valid integer!";
-								status.innerText += " Currently saved answer: " + previousAnswer.toString();
-								if(previousAnswer.toString() === "") {
-									status.innerText += "N/A";
-								}
+								setTimeout(function() {
+									status.style = "color: skyblue; font-weight: bold;";
+									status.innerText = "Currently saved answer: " + previousAnswer.toString();
+									if(previousAnswer.toString() === "") {
+										status.innerText += " N/A";
+									}
+								}, 2500);
 							} else {
 								status.style = "color: tomato; font-weight: bold;";
 								status.innerText = "An error occured when submitting! Try checking your connection. Maybe refresh the page.";
