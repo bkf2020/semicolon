@@ -244,5 +244,52 @@
 		<script type="text/javascript" src="{% static 'js/timers.js' %}"></script>
 		<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 		<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+		<style>
+			.networkStatus {
+				position: sticky;
+				bottom: 0;
+				color: black;
+				font-family: 'Roboto', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+				text-align: center;
+			}
+			.online {
+				background-color: lightgreen;
+			}
+			.offline {
+				background-color: tomato;
+			}
+			.hidden {
+				display: none;
+			}
+		</style>
+		<div class="networkStatus hidden" id="netStatus">
+			<p>You appear to be offline!</p>
+		</div>
+		<script>
+			function offline() {
+				document.getElementById("netStatus").className = "networkStatus offline";
+				document.getElementById("netStatus").firstElementChild.innerText = "You appear to be offline!";
+				alert("You appear to be offline! The answers you recently submitted may not have been saved! When you go \
+back online, make sure to check that the saved answers have the correct values! You may have to resubmit some answers!");
+			}
+			function online() {
+				document.getElementById("netStatus").className = "networkStatus online";
+				document.getElementById("netStatus").firstElementChild.innerText = "Connected!";
+				setTimeout(function() {
+					document.getElementById("netStatus").className = "networkStatus hidden";
+				}, 2000);
+			}
+			window.addEventListener("load", () => {
+				if(!navigator.onLine) {
+					offline();
+				}
+			});
+			window.addEventListener("offline", () => {
+				offline();
+				window.addEventListener("online", () => {
+					online();
+				});
+			});
+		</script>
   	</body>
 </html>
