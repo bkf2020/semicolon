@@ -39,4 +39,6 @@ class Registration(models.Model):
     time_joined = models.DateTimeField(default=timezone.now)
     total_points = models.IntegerField(default=0)
     total_penalty = models.IntegerField(default=0)
+    confirmed_honest = models.BooleanField(default=False)
+    verify_end_time = models.DateTimeField(default=timezone.now)
 
