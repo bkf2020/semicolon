@@ -5,6 +5,7 @@ for(var i = 0; i < timers.length; i++) {
 	endTimes.push(Date.now() + 1000 * secondsDiff);
 }
 
+var interval = setInterval(updateTimers, 100);
 function updateTimers() {
 	var timers = document.getElementsByClassName('timer');
 	for(var i = 0; i < timers.length; i++) {
@@ -28,9 +29,9 @@ function updateTimers() {
 			var timeToDisplay = days.toString() + "d " + hours.toString() + "h " + minutes.toString() + "m " + seconds.toString() + "s";
 			timers[i].innerText = timeToDisplay;
 
-		} else {
+		} else if(millisecondsLeft < 1000) {
+			clearInterval(interval);
 			setTimeout(location.reload(), 1000);
 		}
 	}
 }
-setInterval(updateTimers, 100);
