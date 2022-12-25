@@ -103,7 +103,9 @@
 								{% csrf_token %}
 								{{ contest_problem.form.as_p }}
 							</form>
-							<button id="save{{ forloop.counter }}">Save</button>
+							{% if contest.contest_format == "AIME" %}
+								<button id="save{{ forloop.counter }}">Save</button>
+							{% endif %}
 						{% elif contest.ended_for_all %}
 							{% if contest_problem.solved %}
 								<h3 style="color: lightgreen;">Problem status: solved</h3>
