@@ -55,6 +55,7 @@ def home(request):
     }
     return render(request, 'contests/home.html', context)
 
+@never_cache
 def confirm(request, index):
     contest = Contest.objects.get(pk=index)
 
@@ -104,6 +105,7 @@ def confirm(request, index):
     }
     return render(request, 'contests/confirm.html', context)
 
+@never_cache
 def submit(request, index):
     contest = Contest.objects.get(pk=index)
     user_registration = Registration.objects.filter(
@@ -146,6 +148,7 @@ def submit(request, index):
     }
     return render(request, 'contests/submit.html', context)
 
+@never_cache
 def semiarena(request, index):
     contest = Contest.objects.get(pk=index)
     user_registration = Registration.objects.filter(
@@ -289,6 +292,7 @@ def semiarena(request, index):
     }
     return render(request, 'contests/semiarena.html', context)
 
+@never_cache
 def arena(request, index):
     contest = Contest.objects.get(pk=index)
     user_registration = Registration.objects.filter(
