@@ -316,13 +316,23 @@ def arena(request, index):
                 contest.user_end_time = contest.end_time
             user_registration[0].verify_end_time = contest.user_end_time + datetime.timedelta(minutes=20)
             user_registration[0].save()
-            if timezone.now() <= contest.user_end_time and not user_registration[0].confirmed_honest:
+            if user_registration[0].confirmed_honest:
+                contest.user_finished_but_running = True
+                messages.info(request, "Your attempt for the contest has finished. You can view the problems and submit after the contest \
+                ends for everyone. Make sure to follow the rules regarding discussion!")
+            elif timezone.now() <= contest.user_end_time:
                 contest.running = True
+            elif timezone.now() < user_registration[0].verify_end_time:
+                messages.error(request, "You must submit the contest now!")
+                return redirect(f'/contests/{index}/submit')
             else:
                 contest.user_finished_but_running = True
                 messages.info(request, "Your attempt for the contest has finished. You can view the problems and submit after the contest \
                 ends for everyone. Make sure to follow the rules regarding discussion!")
     else:
+        if(len(user_registration) > 0 and timezone.now() < user_registration[0].verify_end_time and not user_registration[0].confirmed_honest):
+            messages.error(request, "You must submit the contest now!")
+            return redirect(f'/contests/{index}/submit')
         messages.info(request, "The contest is over, but you can view and submit the problems unofficially.")
         contest.ended_for_all = True
     
