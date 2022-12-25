@@ -32,7 +32,7 @@ def home(request):
                 contest.user_end_time = contest.end_time
             if timezone.now() <= contest.user_end_time and not user_registration[0].confirmed_honest:
                 contest.running = True
-            if not user_registration[0].confirmed_honest:
+            if timezone.now() < user_registration[0].verify_end_time and not user_registration[0].confirmed_honest:
                 contest.needs_to_submit = True
                 contest.submit_end_time = user_registration[0].verify_end_time
 
