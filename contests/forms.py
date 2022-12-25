@@ -3,6 +3,9 @@ from django import forms
 class RegisterForm(forms.Form):
     agree = forms.BooleanField(label="I agree to follow the rules")
 
+class SubmitForm(forms.Form):
+    agree = forms.BooleanField(label="I agreed that I followed the rules:")
+
 class ProblemForm(forms.Form):
     answer = forms.IntegerField(label='Your answer (should be an integer)')
     problem_id = forms.IntegerField(label='', widget=forms.NumberInput(attrs={'class': 'problemId'}))

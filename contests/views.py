@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.utils import timezone
 from .models import Contest, ContestProblem, Registration
-from .forms import RegisterForm, ProblemForm, MultipleChoiceForm, AIMEProblemForm
+from .forms import RegisterForm, ProblemForm, MultipleChoiceForm, AIMEProblemForm, SubmitForm
 import math
 from problemset.models import Submission
 
@@ -99,6 +99,48 @@ def confirm(request, index):
         'current_server_time': math.floor(timezone.now().timestamp())
     }
     return render(request, 'contests/confirm.html', context)
+
+def submit(request, index):
+    contest = Contest.objects.get(pk=index)
+    user_registration = Registration.objects.filter(
+        contest_id=index,
+        user_id=request.user.id
+    )
+    if(len(user_registration) == 0):
+        messages.error(request, f"You can't submit because you didn't register")
+        return redirect('contests-home')
+    if timezone.now() > user_registration[0].verify_end_time or user_registration[0].confirmed_honest:
+        messages.error(request, f"You cannot submit {contest.name} anymore.")
+        return redirect('contests-home')
+
+    if not request.user.is_authenticated:
+        messages.error(request, "Please log in before submitting the contest!")
+        return redirect(f'/login/?next={request.path}')
+    
+    if request.method == 'POST':
+        form = SubmitForm(request.POST)
+        if form.is_valid():
+            agreed = form.cleaned_data.get('agree')
+
+            if(agreed):
+                user_registration[0].confirmed_honest = True
+                user_registration[0].save()
+                messages.success(request, f"You have successfully submitted {contest.name}!")
+                if(contest.contest_format == 'Semicolon'):
+                    return redirect(f'/contests/{index}/semiarena/')
+                else:
+                    return redirect(f'/contests/{index}/arena/')
+
+    else:
+        form = SubmitForm()
+
+    context = {
+        'contest': contest,
+        'form': form,
+        'user_registration': user_registration[0],
+        'current_server_time': math.floor(timezone.now().timestamp())
+    }
+    return render(request, 'contests/submit.html', context)
 
 def semiarena(request, index):
     contest = Contest.objects.get(pk=index)
@@ -272,7 +314,8 @@ def arena(request, index):
             contest.user_end_time = user_registration[0].time_joined + time_diff
             if contest.user_end_time > contest.end_time:
                 contest.user_end_time = contest.end_time
-            
+            user_registration[0].verify_end_time = contest.user_end_time + datetime.timedelta(minutes=20)
+            user_registration[0].save()
             if timezone.now() <= contest.user_end_time:
                 contest.running = True
             else:
