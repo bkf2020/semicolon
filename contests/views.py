@@ -316,7 +316,7 @@ def arena(request, index):
                 contest.user_end_time = contest.end_time
             user_registration[0].verify_end_time = contest.user_end_time + datetime.timedelta(minutes=20)
             user_registration[0].save()
-            if timezone.now() <= contest.user_end_time:
+            if timezone.now() <= contest.user_end_time and not user_registration[0].confirmed_honest:
                 contest.running = True
             else:
                 contest.user_finished_but_running = True
