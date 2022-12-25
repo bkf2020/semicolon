@@ -75,11 +75,18 @@
 											<span class="timer" current-server-time="{{ current_server_time }}" end-time="{{ contest.user_end_time|date:"U"}}"></span>
 										</p>
 										{% else %}
+										{% if contest.needs_to_submit %}
+										<p>
+											You need to submit within
+											<span class="timer" current-server-time="{{ current_server_time }}" end-time="{{ contest.submit_end_time|date:"U"}}"></span>
+										</p>
+										{% else %}
 										<p>Your attempt has finished</p>
 										<p>
 											Contest ends in
 											<span class="timer" current-server-time="{{ current_server_time }}" end-time="{{ contest.end_time|date:"U"}}"></span>
 										</p>
+										{% endif %}
 										{% endif %}
 									{% else %}
 										<p>

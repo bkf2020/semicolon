@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
+from django.views.decorators.cache import never_cache
 from django.utils import timezone
 from .models import Contest, ContestProblem, Registration
 from .forms import RegisterForm, ProblemForm, MultipleChoiceForm, AIMEProblemForm, SubmitForm
@@ -29,8 +30,11 @@ def home(request):
             contest.user_end_time = user_registration[0].time_joined + time_diff
             if contest.user_end_time > contest.end_time:
                 contest.user_end_time = contest.end_time
-            if timezone.now() <= contest.user_end_time:
+            if timezone.now() <= contest.user_end_time and not user_registration[0].confirmed_honest:
                 contest.running = True
+            if not user_registration[0].confirmed_honest:
+                contest.needs_to_submit = True
+                contest.submit_end_time = user_registration[0].verify_end_time
 
         if timezone.now() > contest.end_time:
             contest.ended = True
