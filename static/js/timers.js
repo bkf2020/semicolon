@@ -5,13 +5,12 @@ for(var i = 0; i < timers.length; i++) {
 	endTimes.push(Date.now() + 1000 * secondsDiff);
 }
 
-var interval = setInterval(updateTimers, 100);
 function updateTimers() {
 	var timers = document.getElementsByClassName('timer');
 	for(var i = 0; i < timers.length; i++) {
 		var millisecondsLeft = endTimes[i] - Date.now();
-		if(millisecondsLeft > 0) {
-			var totSeconds = Math.ceil(millisecondsLeft / 1000);
+		if(millisecondsLeft >= 1000) {
+			var totSeconds = Math.floor(millisecondsLeft / 1000);
 			var seconds = totSeconds % 60;
 			totSeconds -= totSeconds % 60;
 			totSeconds /= 60;
@@ -28,10 +27,12 @@ function updateTimers() {
 
 			var timeToDisplay = days.toString() + "d " + hours.toString() + "h " + minutes.toString() + "m " + seconds.toString() + "s";
 			timers[i].innerText = timeToDisplay;
-
-		} else if(millisecondsLeft < 1000) {
-			clearInterval(interval);
-			setTimeout(location.reload(), 1000);
+			setTimeout(updateTimers, 100);
+		} else if(millisecondsLeft > 0) {
+			setTimeout(function() {
+				location.reload();
+			}, 1300);
 		}
 	}
 }
+updateTimers();
