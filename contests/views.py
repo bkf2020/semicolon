@@ -310,7 +310,7 @@ def arena(request, index):
     if timezone.now() < contest.start_time:
         messages.error(request, f"{contest.name} hasn't started yet!")
         return redirect('contests-home')
-    elif timezone.now() <= contest.end_time:
+    elif timezone.now() < contest.end_time:
         if not request.user.is_authenticated:
             messages.error(request, f"Please login before taking {contest.name}! Note you must have started this contest on your account!")
             return redirect(f'/login/?next={request.path}')

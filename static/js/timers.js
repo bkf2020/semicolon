@@ -8,6 +8,7 @@ for(var i = 0; i < timers.length; i++) {
 function updateTimers() {
 	var timers = document.getElementsByClassName('timer');
 	for(var i = 0; i < timers.length; i++) {
+		var newLocation = timers[i].getAttribute('redirect');
 		var millisecondsLeft = endTimes[i] - Date.now();
 		if(millisecondsLeft >= 1000) {
 			var totSeconds = Math.floor(millisecondsLeft / 1000);
@@ -28,10 +29,38 @@ function updateTimers() {
 			var timeToDisplay = days.toString() + "d " + hours.toString() + "h " + minutes.toString() + "m " + seconds.toString() + "s";
 			timers[i].innerText = timeToDisplay;
 			setTimeout(updateTimers, 100);
-		} else if(millisecondsLeft > 0) {
+		} else if(newLocation === "refresh") {
+			if(millisecondsLeft > 0) {
+				setTimeout(function() {
+					location.reload();
+				}, 1600);
+			}
+		} else if(newLocation === "home") {
 			setTimeout(function() {
-				location.reload();
-			}, 1300);
+				var linkParts = document.URL.match(/[^/]+/g);
+				var newLink = "";
+				linkParts.splice(-2);
+				for(var i = 0; i < linkParts.length; i++) {
+					newLink += linkParts[i];
+					newLink += "/";
+					if(i == 0) newLink += "/";
+				}
+				location.href = newLink;
+			}, 1200);
+		} else {
+			setTimeout(function() {
+				var linkParts = document.URL.match(/[^/]+/g);
+				var newLink = "";
+				linkParts.splice(-1);
+				for(var i = 0; i < linkParts.length; i++) {
+					newLink += linkParts[i];
+					newLink += "/";
+					if(i == 0) newLink += "/";
+				}
+				newLink += newLocation;
+				newLink += "/";
+				location.href = newLink;
+			}, 1200);
 		}
 	}
 }

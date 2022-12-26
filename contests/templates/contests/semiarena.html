@@ -36,7 +36,7 @@
 				<div class="timerDiv">
 					<h2>
 						Time left:
-						<span class="timer" current-server-time="{{ current_server_time }}" end-time="{{ contest.user_end_time|date:"U" }}"></span>
+						<span class="timer" redirect="refresh" current-server-time="{{ current_server_time }}" end-time="{{ contest.user_end_time|date:"U" }}"></span>
 					</h2>
 				</div>
 			{% endif %}
@@ -56,7 +56,7 @@
 			{% elif contest.user_finished_but_running %}
 				<p>
 					Your attempt has finished, contest ends in:
-					<span class="timer" current-server-time="{{ current_server_time }}" end-time="{{ contest.end_time|date:"U" }}"></span>
+					<span class="timer" redirect="refresh" current-server-time="{{ current_server_time }}" end-time="{{ contest.end_time|date:"U" }}"></span>
 				</p>
 			{% endif %}
 			{% if contest_problems %}

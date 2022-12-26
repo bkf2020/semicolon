@@ -72,32 +72,32 @@
 										{% if contest.running %}
 										<p>
 											Your attempt ends in
-											<span class="timer" current-server-time="{{ current_server_time }}" end-time="{{ contest.user_end_time|date:"U"}}"></span>
+											<span class="timer" redirect="refresh" current-server-time="{{ current_server_time }}" end-time="{{ contest.user_end_time|date:"U"}}"></span>
 										</p>
 										{% else %}
 										{% if contest.needs_to_submit %}
 										<p>
 											You need to submit within
-											<span class="timer" current-server-time="{{ current_server_time }}" end-time="{{ contest.submit_end_time|date:"U"}}"></span>
+											<span class="timer" redirect="refresh" current-server-time="{{ current_server_time }}" end-time="{{ contest.submit_end_time|date:"U"}}"></span>
 										</p>
 										{% else %}
 										<p>Your attempt has finished</p>
 										<p>
 											Contest ends in
-											<span class="timer" current-server-time="{{ current_server_time }}" end-time="{{ contest.end_time|date:"U"}}"></span>
+											<span class="timer" redirect="refresh" current-server-time="{{ current_server_time }}" end-time="{{ contest.end_time|date:"U"}}"></span>
 										</p>
 										{% endif %}
 										{% endif %}
 									{% else %}
 										<p>
 											Ends in
-											<span class="timer" current-server-time="{{ current_server_time }}" end-time="{{ contest.end_time|date:"U"}}"></span>
+											<span class="timer" redirect="refresh" current-server-time="{{ current_server_time }}" end-time="{{ contest.end_time|date:"U"}}"></span>
 										</p>
 									{% endif %}
 								{% else %}
 									<p>
 										Starts in:
-										<span class="timer" current-server-time="{{ current_server_time }}" end-time="{{ contest.start_time|date:"U"}}"></span>
+										<span class="timer" redirect="refresh" current-server-time="{{ current_server_time }}" end-time="{{ contest.start_time|date:"U"}}"></span>
 									</p>
 								{% endif %}
 							</td>
