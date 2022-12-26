@@ -95,6 +95,14 @@
 						{% endif %}
 					</div>
 
+					{% if contest.ended_for_all %}
+						{% if contest_problem.solved %}
+							<h3 style="color: lightgreen;">Problem status: solved</h3>
+						{% else %}
+							<h3 style="color: tomato;">Problem status: not solved</h3>
+						{% endif %}
+					{% endif %}
+
 					<div>{{ contest_problem.problem.content|safe }}</div>
 
 					{% if user.is_authenticated %}
@@ -107,16 +115,11 @@
 								<button id="save{{ forloop.counter }}">Save</button>
 							{% endif %}
 						{% elif contest.ended_for_all %}
-							{% if contest_problem.solved %}
-								<h3 style="color: lightgreen;">Problem status: solved</h3>
-							{% else %}
-								<h3 style="color: tomato;">Problem status: not solved</h3>
-							{% endif %}
-							<form method="POST">
-								{% csrf_token %}
-								{{ contest_problem.form.as_p }}
-								<button type="submit">Submit</button>
-							</form>
+						<form method="POST">
+							{% csrf_token %}
+							{{ contest_problem.form.as_p }}
+							<button type="submit">Submit</button>
+						</form>
 						{% endif %}
 					{% else %}
 						<div class="alert alert-error">
