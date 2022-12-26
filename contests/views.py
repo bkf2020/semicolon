@@ -395,14 +395,15 @@ def arena(request, index):
                 user_id=request.user.id,
                 problem_id=problem.problem.id
             )
-            if(len(user_submissions) == 0):
-                new_user_submission = Submission(
-                    user_id=request.user.id,
-                    problem_id=problem.problem.id,
-                )
-                new_user_submission.save()
-            else:
-                inital_answer = user_submissions[0].answer_choice_in_contest
+            if(request.user.is_authenticated):
+                if(len(user_submissions) == 0):
+                    new_user_submission = Submission(
+                        user_id=request.user.id,
+                        problem_id=problem.problem.id,
+                    )
+                    new_user_submission.save()
+                else:
+                    inital_answer = user_submissions[0].answer_choice_in_contest
             problem.form = MultipleChoiceForm(auto_id=str(idx) + '_%s', initial={'problem_id': idx, 'answer': inital_answer})
         else:
             inital_answer = ''
