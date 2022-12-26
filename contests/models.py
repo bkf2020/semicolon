@@ -21,6 +21,8 @@ class Contest(models.Model):
     has_solutions = models.BooleanField(default=False)
     solutions_url = models.URLField(default="")
     contest_format = models.CharField(max_length=9, choices=CONTEST_FORMATS, default='Semicolon')
+    form_user_submit_solutions = models.BooleanField(default=False)
+    form_link = models.URLField(default="")
     
     def __str__(self):
         return self.name

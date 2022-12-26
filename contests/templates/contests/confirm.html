@@ -58,6 +58,12 @@
 				Failing to follow the rules may result in your account
 				getting DELETED.
 			</b></p>
+			{% if contest.form_user_submit_solutions %}
+			<p style="font-size: 22px;"><b>
+				At the end of the contest, you MUST submit images of your work to a form
+				(link on the submission page after you click the submit button or your time runs out).
+			</b><p>
+			{% endif %}
 			<p style="font-size: 22px;"><b>
 				Contest ends at
 				<a href="{{ contest.end_time_url }}" style="color: blue;">

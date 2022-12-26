@@ -45,6 +45,13 @@
 				<a href="{{ contest.announcement_link}}" style="color: blue;">
 					the contest announcement</a>. You CANNOT continue your attempt after submitting!
 			</b></p>
+			{% if contest.form_user_submit_solutions %}
+			<p style="font-size: 22px;"><b>
+				You also MUST submit images of your work to 
+				<a href="{{ contest.form_link }}" style="color: blue;">
+					this form</a>. PDFs are preferred.
+			</b><p>
+			{% endif %}
             <p style="font-size: 22px;"><b>
 				Time remaining to submit contest:
 				<span class="timer" redirect="home" current-server-time="{{ current_server_time }}" end-time="{{ user_registration.verify_end_time|date:"U"}}"></span>
