@@ -66,7 +66,14 @@
 									<b>Time limit:</b> {{ contest.time_limit }} minutes
 								</p>
 								{% if contest.ended %}
-									<p><b>Contest has finished.</b></p>
+									{% if contest.needs_to_submit %}
+										<p>
+											You need to submit within
+											<span class="timer" redirect="refresh" current-server-time="{{ current_server_time }}" end-time="{{ contest.submit_end_time|date:"U"}}"></span>
+										</p>
+									{% else %}
+										<p><b>Contest has finished.</b></p>
+									{% endif %}
 								{% elif contest.started %}
 									{% if contest.joined %}
 										{% if contest.running %}
@@ -75,7 +82,7 @@
 											<span class="timer" redirect="refresh" current-server-time="{{ current_server_time }}" end-time="{{ contest.user_end_time|date:"U"}}"></span>
 										</p>
 										{% else %}
-										{% if contest.needs_to_submit %}
+										{% if contest.needs_to_submit and contest.format != "Semicolon" %}
 										<p>
 											You need to submit within
 											<span class="timer" redirect="refresh" current-server-time="{{ current_server_time }}" end-time="{{ contest.submit_end_time|date:"U"}}"></span>
@@ -109,7 +116,11 @@
 									{% if contest.contest_format == "Semicolon" %}
 										<a href="{% url 'contests-semiarena' contest.id %}" style="color: lightgreen;">Enter contest arena</a>
 									{% else %}
-										<a href="{% url 'contests-arena' contest.id %}" style="color: lightgreen;">Enter contest arena</a>
+										{% if contest.needs_to_submit %}
+											<a href="{% url 'contests-submit' contest.id %}" style="color: lightgreen;">Submit contest</a>
+										{% else %}
+											<a href="{% url 'contests-arena' contest.id %}" style="color: lightgreen;">Enter contest arena</a>
+										{% endif %}
 									{% endif %}
 
 								{% elif contest.started %}
@@ -118,7 +129,11 @@
 										{% if contest.contest_format == "Semicolon" %}
 											<a href="{% url 'contests-semiarena' contest.id %}" style="color: lightgreen;">Enter contest arena</a>
 										{% else %}
-											<a href="{% url 'contests-arena' contest.id %}" style="color: lightgreen;">Enter contest arena</a>
+											{% if contest.running or not contest.needs_to_submit %}
+												<a href="{% url 'contests-arena' contest.id %}" style="color: lightgreen;">Enter contest arena</a>
+											{% elif contest.needs_to_submit %}
+												<a href="{% url 'contests-submit' contest.id %}" style="color: lightgreen;">Submit contest</a>
+											{% endif %}
 										{% endif %}
 									{% else %}
 										<a href="{% url 'contests-confirm' contest.id %}" style="color: lightgreen;">Join the contest</a>
