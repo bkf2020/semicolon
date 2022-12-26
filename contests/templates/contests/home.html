@@ -66,7 +66,7 @@
 									<b>Time limit:</b> {{ contest.time_limit }} minutes
 								</p>
 								{% if contest.ended %}
-									{% if contest.needs_to_submit %}
+									{% if contest.needs_to_submit and contest.format != "Semicolon" %}
 										<p>
 											You need to submit within
 											<span class="timer" redirect="refresh" current-server-time="{{ current_server_time }}" end-time="{{ contest.submit_end_time|date:"U"}}"></span>
