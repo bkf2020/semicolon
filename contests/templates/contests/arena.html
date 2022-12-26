@@ -47,6 +47,22 @@
 					</div>
 				{% endfor %}
 			{% endif %}
+			{% if contest.running %}
+				<button id="submitBtn">Submit contest</button><br/>
+				<small><p><b>
+					You must submit the contest once you finish!
+				</b></p></small>
+				<script>
+					var submitBtn = document.getElementById("submitBtn");
+					submitBtn.addEventListener('click', function() {
+						var message = "Are you sure you want to submit the contest? Note you have until 20 minutes AFTER \
+your contest attempt ends to submit. Press OK to continue.\n(If you want to go back to the arena and haven't submitted, use the back button in your browser.)"
+						if(confirm(message)) {
+							location.href = document.URL.slice(0, -6) + "submit/";
+						}
+					});
+				</script>
+			{% endif %}
 			<a href="#announcements">Note on announcements</a> /
 			{% if contest.has_solutions %}
 				<a href="{{ contest.solutions_url }}">View contest solutions</a> /
@@ -84,6 +100,10 @@
 					We will post fixes to any problems AFTER the contest has finished, to make it fair to everyone.
 					The fixes will be available in the problem statements.
 				</p>
+				<p><b>
+					You must submit the contest once you finish! Note you have
+					20 minutes after your attempt finishes to do so!
+				</b></p>
 			</div>
 
 			{% for contest_problem in contest_problems %}
