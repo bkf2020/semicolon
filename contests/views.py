@@ -498,6 +498,8 @@ def scoreboard(request, index):
     current_user_rank = 0
 
     for user in user_registrations:
+        if user.confirmed_honest == False and contest.contest_format != "Semicolon":
+            continue
         if first:
             prev_score = user.total_points
             prev_penalty = user.total_penalty
