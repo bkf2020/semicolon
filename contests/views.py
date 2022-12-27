@@ -310,6 +310,7 @@ def arena(request, index):
 
     contest.running = False
     contest.ended_for_all = False
+    contest.user_registered = len(user_registration) > 0
     if timezone.now() < contest.start_time:
         messages.error(request, f"{contest.name} hasn't started yet!")
         return redirect('contests-home')

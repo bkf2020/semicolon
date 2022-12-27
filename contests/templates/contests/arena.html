@@ -68,7 +68,9 @@ your contest attempt ends to submit. Press OK to continue.\n(If you want to go b
 				<a href="{{ contest.solutions_url }}">View contest solutions</a> /</br>
 			{% endif %}
 			{% if contest.ended_for_all %}
-				<a href="#userResults">Your results</a> /<br/>
+				{% if contest.user_registered %}
+					<a href="#userResults">Your results</a> /<br/>
+				{% endif %}
 				<a href="{% url 'contests-scoreboard' contest.id %}">View scoreboard</a> /
 			{% elif contest.user_finished_but_running %}
 				<p>
@@ -134,7 +136,7 @@ your contest attempt ends to submit. Press OK to continue.\n(If you want to go b
 					20 minutes after your attempt finishes to do so!
 				</b></p>
 			</div>
-			{% if contest.ended_for_all %}
+			{% if contest.ended_for_all and contest.user_registered %}
 			<div class="box" id="userResults" style="overflow: scroll;">
 				<h2>Your results</h2>
 				<p><a href="{% url 'contests-scoreboard' contest.id %}">Scoreboard available at this link</a></p>
