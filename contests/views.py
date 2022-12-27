@@ -345,7 +345,7 @@ def arena(request, index):
         contest.ended_for_all = True
     
     if request.method == 'POST':
-        if(contest.running):
+        if(contest.running or contest.ended_for_all):
             if(contest.contest_format == 'AIME'):
                 form = AIMEProblemForm(request.POST)
             else:
@@ -361,26 +361,40 @@ def arena(request, index):
                 )
                 if(len(user_submissions) == 0):
                     if(contest.contest_format == 'AIME'):
+                        user_solved_in_contest = contest.running and (user_answer == problem.correct_answer)
+                        user_solved = user_answer == problem.correct_answer
                         new_user_submission = Submission(
                             user_id=request.user.id,
                             problem_id=problem.id,
                             answer_in_contest=user_answer,
-                            solved_in_contest=True
+                            solved_in_contest=user_solved_in_contest,
+                            problem_solved=user_solved
                         )
                         new_user_submission.save()
                     else:
+                        user_solved_in_contest = contest.running and (user_answer == problem.correct_answer_choice)
+                        user_solved = user_answer == problem.correct_answer_choice
                         new_user_submission = Submission(
                             user_id=request.user.id,
                             problem_id=problem.id,
-                            answer_choice_in_contest=user_answer
+                            answer_choice_in_contest=user_answer,
+                            solved_in_contest=user_solved_in_contest,
+                            problem_solved=user_solved
                         )
                         new_user_submission.save()
                 else:
                     if(contest.contest_format == 'AIME'):
-                        user_submissions[0].solved_in_contest = True
+                        user_solved_in_contest = contest.running and (user_answer == problem.correct_answer)
+                        user_solved = user_answer == problem.correct_answer
+                        user_submissions[0].solved_in_contest = user_solved_in_contest
+                        user_submissions[0].problem_solved = user_solved
                         user_submissions[0].answer_in_contest = user_answer
                         user_submissions[0].save()
                     else:
+                        user_solved_in_contest = contest.running and (user_answer == problem.correct_answer_choice)
+                        user_solved = user_answer == problem.correct_answer_choice
+                        user_submissions[0].solved_in_contest = user_solved_in_contest
+                        user_submissions[0].problem_solved = user_solved
                         user_submissions[0].answer_choice_in_contest = user_answer
                         user_submissions[0].save()
             else:
