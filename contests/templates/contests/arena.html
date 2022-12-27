@@ -76,16 +76,45 @@ your contest attempt ends to submit. Press OK to continue.\n(If you want to go b
 				</p>
 			{% endif %}
 			{% if contest_problems %}
+				<p><b>Problems</b></p>
+				<div style="display: grid; grid-template-columns: repeat(5, 1fr); grid-gap: 0.4em;">
 				{% for contest_problem in contest_problems %}
+					{% if contest.ended_for_all %}
 					{% if contest_problem.solved %}
-						<a href="#{{ forloop.counter }}" style="color: lightgreen;">Problem {{ forloop.counter }} (s)</a> /
+						<a style="color: black;" href="#{{ forloop.counter }}">
+							<div id="link{{ forloop.counter }}" style="border: 2px solid white; text-align: center; background-color: lightgreen;">{{ forloop.counter }}</div>
+						</a>
 					{% else %}
-						<a href="#{{ forloop.counter }}" style="color: tomato;">Problem {{ forloop.counter }} (u)</a> /
+						<a style="color: black;" href="#{{ forloop.counter }}">
+							<div id="link{{ forloop.counter }}" style="border: 2px solid white; text-align: center; background-color: coral;">{{ forloop.counter }}</div>
+						</a>
+					{% endif %}
+					{% elif contest.running %}
+					{% if contest_problem.attempted %}
+						<a style="color: black;" href="#{{ forloop.counter }}">
+							<div id="link{{ forloop.counter }}" style="border: 2px solid white; text-align: center; background-color: lightblue;">{{ forloop.counter }}</div>
+						</a>
+					{% else %}
+						<a style="color: black;" href="#{{ forloop.counter }}">
+							<div id="link{{ forloop.counter }}" style="border: 2px solid white; text-align: center; background-color: lightgray;">{{ forloop.counter }}</div>
+						</a>
+					{% endif %}
+					{% else %}
+						<a href="#{{ forloop.counter }}">
+							<div id="link{{ forloop.counter }}" style="border: 2px solid white; text-align: center;">{{ forloop.counter }}</div>
+						</a>
 					{% endif %}
 				{% endfor %}
+				</div>
+				{% if contest.ended_for_all %}
 				<small><p>
-					Note <b>'s'</b> means solved and <b>'u'</b> means unsolved.
+					Note <b>green</b> means solved and <b>red</b> means unsolved.
 				</p></small>
+				{% elif contest.running %}
+				<small><p>
+					Note <b>blue</b> means attempted and <b>gray</b> means unattempted.
+				</p></small>
+				{% endif %}
 			{% endif %}
 		</div>
 		
@@ -192,6 +221,12 @@ your contest attempt ends to submit. Press OK to continue.\n(If you want to go b
 								if(XHR.status === 200) {
 									status.style = "color: lightgreen; font-weight: bold;";
 									status.innerText = "Answer saved successfully!";
+									var statusLink = document.getElementById("link" + e.currentTarget.problemNum.toString());
+									if(radioButton.value === "Blank") {
+										statusLink.style = "border: 2px solid white; text-align: center; background-color: lightgray;"
+									} else {
+										statusLink.style = "border: 2px solid white; text-align: center; background-color: lightblue;"
+									}
 								} else {
 									status.style = "color: tomato; font-weight: bold;";
 									status.innerText = "An error occured when submitting! Try checking your connection. Maybe refresh the page.";
@@ -235,6 +270,8 @@ your contest attempt ends to submit. Press OK to continue.\n(If you want to go b
 							if(XHR.status === 200) {
 								status.style = "color: lightgreen; font-weight: bold;";
 								status.innerText = "Answer saved successfully!";
+								var statusLink = document.getElementById("link" + e.currentTarget.problemNum.toString());
+								statusLink.style = "border: 2px solid white; text-align: center; background-color: lightgray;"
 								setTimeout(function() {
 									status.style = "color: skyblue; font-weight: bold;";
 									status.innerText = "Currently saved answer: " + form.value.toString();

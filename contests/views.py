@@ -308,6 +308,8 @@ def arena(request, index):
         messages.error(request, "You can't use this arena for this type of contest!")
         return redirect('/contests/')
 
+    contest.running = False
+    contest.ended_for_all = False
     if timezone.now() < contest.start_time:
         messages.error(request, f"{contest.name} hasn't started yet!")
         return redirect('contests-home')
@@ -457,6 +459,8 @@ def arena(request, index):
                 else:
                     inital_answer = user_submissions[0].answer_choice_in_contest
             problem.form = MultipleChoiceForm(auto_id=str(idx) + '_%s', initial={'problem_id': idx, 'answer': inital_answer})
+            problem.solved = len(user_submissions) > 0 and user_submissions[0].problem_solved
+            problem.attempted = contest.running and (inital_answer != 'Blank')
         else:
             inital_answer = ''
             user_submissions = Submission.objects.filter(
@@ -469,6 +473,8 @@ def arena(request, index):
                 problem.form = AIMEProblemForm(auto_id=str(idx) + '_%s', initial={'problem_id': idx, 'answer': inital_answer})
             else:
                 problem.form = AIMEProblemForm(auto_id=str(idx) + '_%s', initial={'problem_id': idx})
+            problem.solved = len(user_submissions) > 0 and user_submissions[0].problem_solved
+            problem.attempted = contest.running and len(user_submissions) > 0
         idx += 1
     
     context = {
