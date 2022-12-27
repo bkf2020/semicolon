@@ -39,15 +39,21 @@
 		{% if current_user_rank != 0 %}
 			<h2>Your rank: {{ current_user_rank }} out of {{ total_num_ranks }}</h2>
 		{% endif %}
-
-		<p><a href="{% url 'contests-arena' contest.id %}">Back to contest arena</a></p>
+		
+		{% if contest.contest_format == "Semicolon" %}
+			<p><a href="{% url 'contests-semiarena' contest.id %}">Back to contest arena</a></p>
+		{% else %}
+			<p><a href="{% url 'contests-arena' contest.id %}">Back to contest arena</a></p>
+		{% endif %}
 		<table>
 		<tbody>
 			<tr>
 				<th>Rank</th>
 				<th>Username</th>
 				<th>Total points</th>
-				<th>Total penalty</th>
+				{% if contest.contest_format == "Semicolon" %}
+					<th>Total penalty</th>
+				{% endif %}
 				{% for contest_problem in contest_problems %}
 					<th><a href="/contests/{{ contest.id }}/arena/#{{ forloop.counter }}">{{ forloop.counter }}</a></th>
 				{% endfor %}
@@ -64,20 +70,38 @@
 				<td>{{ user.rank }}</td>
 				<td>{{ user.username }}</td>
 				<td>{{ user.total_points }}</td>
-				<td>{{ user.total_penalty }}</td>
+				{% if contest.contest_format == "Semicolon" %}
+					<td>{{ user.total_penalty }}</td>
+				{% endif %}
 				{% for problem in user.problem_info %}
 				<td>
 					{% if problem %}
 						{% if problem.solved_in_contest %}
-						<span style="color: lightgreen;"><b>{{ problem.value }}</b></span>
+							{% if contest.contest_format == "Semicolon" %}
+								<span style="color: lightgreen;"><b>{{ problem.value }}</b></span>
+							{% elif contest.contest_format == "AMC10" %}
+								<span style="color: lightgreen;"><b>6</b></span>
+							{% else %}
+								<span style="color: lightgreen;"><b>1</b></span>
+							{% endif %}
+						{% else %}
+							{% if contest.contest_format == "AMC10" %}
+								{% if problem.answer_choice_in_contest == "Blank" %}
+									<span style="color: orange;"><b>1.5</b></span>
+								{% else %}
+									<span style="color: tomato;"><b>0</b></span>
+								{% endif %}
+							{% elif contest.contest_format != "Semicolon" %}
+								<span style="color: tomato;"><b>0</b></span>
+							{% endif %}
 						{% endif %}
 
-						{% if problem.wrong_submissions_in_contest > 0 %}
+						{% if problem.wrong_submissions_in_contest > 0 and contest.contest_format == "Semicolon" %}
 						<span style="color: tomato;"><b>({{ problem.wrong_submissions_in_contest }})</b></span>
 						{% endif %}
 						<br/>
 
-						{% if problem.solved_in_contest %}
+						{% if problem.solved_in_contest and contest.contest_format == "Semicolon" %}
 						<small>
 						<span style="color: lightgray;">{{ problem.time_solved_in_contest }} minute(s)</span>
 						</small>
