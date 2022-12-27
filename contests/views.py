@@ -460,6 +460,9 @@ def arena(request, index):
                     inital_answer = user_submissions[0].answer_choice_in_contest
             problem.form = MultipleChoiceForm(auto_id=str(idx) + '_%s', initial={'problem_id': idx, 'answer': inital_answer})
             problem.solved = len(user_submissions) > 0 and user_submissions[0].problem_solved
+            problem.solved_in_contest = len(user_submissions) > 0 and user_submissions[0].solved_in_contest
+            if len(user_submissions) > 0:
+                problem.user_answer = user_submissions[0].answer_choice_in_contest
             problem.attempted = contest.running and (inital_answer != 'Blank')
         else:
             inital_answer = ''
@@ -474,6 +477,9 @@ def arena(request, index):
             else:
                 problem.form = AIMEProblemForm(auto_id=str(idx) + '_%s', initial={'problem_id': idx})
             problem.solved = len(user_submissions) > 0 and user_submissions[0].problem_solved
+            problem.solved_in_contest = len(user_submissions) > 0 and user_submissions[0].solved_in_contest
+            if len(user_submissions) > 0:
+                problem.user_answer = user_submissions[0].answer_in_contest
             problem.attempted = contest.running and len(user_submissions) > 0
         idx += 1
     

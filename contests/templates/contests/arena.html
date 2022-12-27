@@ -65,9 +65,10 @@ your contest attempt ends to submit. Press OK to continue.\n(If you want to go b
 			{% endif %}
 			<a href="#announcements">Note on announcements</a> /
 			{% if contest.has_solutions %}
-				<a href="{{ contest.solutions_url }}">View contest solutions</a> /
+				<a href="{{ contest.solutions_url }}">View contest solutions</a> /</br>
 			{% endif %}
 			{% if contest.ended_for_all %}
+				<a href="#userResults">Your results</a> /<br/>
 				<a href="{% url 'contests-scoreboard' contest.id %}">View scoreboard</a> /
 			{% elif contest.user_finished_but_running %}
 				<p>
@@ -118,7 +119,6 @@ your contest attempt ends to submit. Press OK to continue.\n(If you want to go b
 			{% endif %}
 		</div>
 		
-
 		{% if contest_problems %}
 			<div style="margin-right: 13em;">
 			<div class="box" id="announcements">
@@ -134,6 +134,46 @@ your contest attempt ends to submit. Press OK to continue.\n(If you want to go b
 					20 minutes after your attempt finishes to do so!
 				</b></p>
 			</div>
+			{% if contest.ended_for_all %}
+			<div class="box" id="userResults" style="overflow: scroll;">
+				<h2>Your results</h2>
+				<p><a href="{% url 'contests-scoreboard' contest.id %}">Scoreboard available at this link</a></p>
+				<table>
+				<tr>
+					<th>Problem number:</th>
+					{% for contest_problem in contest_problems %}
+						<th>{{ forloop.counter }}</th>
+					{% endfor %}
+				</tr>
+				<tr>
+					<th>Your answer:</th>
+					{% for contest_problem in contest_problems %}
+						{% if contest_problem.user_answer %}
+							<td>{{ contest_problem.user_answer }}</td>
+						{% else %}
+							<td>N/A</td>
+						{% endif %}
+					{% endfor %}
+				</tr>
+				<tr>
+					<th>Verdict:</th>
+					{% for contest_problem in contest_problems %}
+						{% if contest_problem.solved_in_contest %}
+							{% if contest.contest_format == "AMC10" %}
+								<th style="color: lightgreen;">+6</th>
+							{% else %}
+								<th style="color: lightgreen;">+1</th>
+							{% endif %}
+						{% elif contest.contest_format == "AMC10" and contest_problem.user_answer == "Blank" %}
+							<th style="color: orange;">+1.5</td>
+						{% else %}
+							<th style="color: tomato;">+0</td>
+						{% endif %}
+					{% endfor %}
+				</tr>
+				</table>
+			</div>
+			{% endif %}
 
 			{% for contest_problem in contest_problems %}
 				<div class="box" id="{{ forloop.counter }}">
