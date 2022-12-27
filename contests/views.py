@@ -1,4 +1,5 @@
 import datetime
+from decimal import Decimal
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.contrib import messages
@@ -218,7 +219,7 @@ def semiarena(request, index):
                     if(len(user_submissions) > 0):
                         prev_penalty = user_submissions[0].penalty
                     user_registration[0].total_penalty += prev_penalty + penalty_diff
-                    user_registration[0].total_points += contest_problems[problem_id].value
+                    user_registration[0].total_points += Decimal(contest_problems[problem_id].value)
                     user_registration[0].save()
                 else:
                     penalty_diff = 10 # 10 point penalty for every wrong submission
@@ -455,7 +456,7 @@ def scoreboard(request, index):
     
     current_rank = 1
     first = True
-    prev_score = 0
+    prev_score = Decimal(0)
     prev_penalty = 0
     current_user_rank = 0
 

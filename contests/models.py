@@ -39,7 +39,7 @@ class Registration(models.Model):
     user_id = models.IntegerField()
     contest_id = models.IntegerField()
     time_joined = models.DateTimeField(default=timezone.now)
-    total_points = models.IntegerField(default=0)
+    total_points = models.DecimalField(default=0, max_digits=10, decimal_places=1)
     total_penalty = models.IntegerField(default=0)
     confirmed_honest = models.BooleanField(default=False)
     verify_end_time = models.DateTimeField(default=timezone.now)
