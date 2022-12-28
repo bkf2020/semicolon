@@ -306,6 +306,7 @@ your contest attempt ends to submit. Press OK to continue.\n(If you want to go b
 					saveButton.problemNum = i;
 					saveButton.previousAnswer = document.getElementById((i - 1).toString() + "_answer").value;
 					saveButton.addEventListener('click', function(e) {
+						var saveButton2 = document.getElementById("save" + e.currentTarget.problemNum.toString());
 						var status = document.getElementById("status" + e.currentTarget.problemNum.toString());
 						status.style = "color: orange; font-weight: bold;";
 						status.innerText = "Saving answer..."
@@ -313,6 +314,7 @@ your contest attempt ends to submit. Press OK to continue.\n(If you want to go b
 						var form = document.getElementById((e.currentTarget.problemNum - 1).toString() + "_answer");
 						var userAnswer = new FormData(form.parentElement.parentElement);
 						var previousAnswer = e.currentTarget.previousAnswer;
+						var currentAnswer = form.value.toString();
 						var statusLink = document.getElementById("link" + e.currentTarget.problemNum.toString());
 						XHR.open("POST", document.URL);
 						XHR.addEventListener("load", (event) => {
@@ -320,9 +322,10 @@ your contest attempt ends to submit. Press OK to continue.\n(If you want to go b
 								status.style = "color: lightgreen; font-weight: bold;";
 								status.innerText = "Answer saved successfully!";
 								statusLink.style = "border: 2px solid white; text-align: center; background-color: lightblue;";
+								saveButton2.previousAnswer = currentAnswer;
 								setTimeout(function() {
 									status.style = "color: skyblue; font-weight: bold;";
-									status.innerText = "Currently saved answer: " + form.value.toString();
+									status.innerText = "Currently saved answer: " + currentAnswer;
 								}, 2000);
 							} else if(XHR.status === 400) {
 								status.style = "color: tomato; font-weight: bold;";
