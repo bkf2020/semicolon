@@ -106,6 +106,8 @@
 						<span style="color: lightgray;">{{ problem.time_solved_in_contest }} minute(s)</span>
 						</small>
 						{% endif %}
+					{% elif contest.contest_format == 'AIME' %}
+						<span style="color: tomato;"><b>0</b></span>
 					{% endif %}
 				</td>
 				{% endfor %}
