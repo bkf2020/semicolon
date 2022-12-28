@@ -82,7 +82,11 @@
 				<br/>
 				<medium>From these contests:
 				{% for contest_problem in contest_problems %}
-					<a href="{% url 'contests-semiarena' contest_problem.contest.id %}">{{ contest_problem.contest.name }}</a> /
+					{% if contest_problem.contest.contest_format == "Semicolon" %}
+						<a href="{% url 'contests-semiarena' contest_problem.contest.id %}">{{ contest_problem.contest.name }}</a> /
+					{% else %}
+						<a href="{% url 'contests-arena' contest_problem.contest.id %}">{{ contest_problem.contest.name }}</a> /
+					{% endif %}
 				{% endfor %}
 				</medium>
 			{% endif %}
