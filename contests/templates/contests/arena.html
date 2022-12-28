@@ -36,7 +36,7 @@
 				<div class="timerDiv">
 					<h2>
 						Time left:
-						<span class="timer" redirect="submit" current-server-time="{{ current_server_time }}" end-time="{{ contest.user_end_time|date:"U" }}"></span>
+						<span class="timer" redirect="{% url 'contests-submit' contest.id %}" current-server-time="{{ current_server_time }}" end-time="{{ contest.user_end_time|date:"U" }}"></span>
 					</h2>
 				</div>
 			{% endif %}

@@ -35,31 +35,9 @@ function updateTimers() {
 					location.reload();
 				}, 1600);
 			}
-		} else if(newLocation === "home") {
-			setTimeout(function() {
-				var linkParts = document.URL.match(/[^/]+/g);
-				var newLink = "";
-				linkParts.splice(-2);
-				for(var i = 0; i < linkParts.length; i++) {
-					newLink += linkParts[i];
-					newLink += "/";
-					if(i == 0) newLink += "/";
-				}
-				location.href = newLink;
-			}, 1200);
 		} else {
 			setTimeout(function() {
-				var linkParts = document.URL.match(/[^/]+/g);
-				var newLink = "";
-				linkParts.splice(-1);
-				for(var i = 0; i < linkParts.length; i++) {
-					newLink += linkParts[i];
-					newLink += "/";
-					if(i == 0) newLink += "/";
-				}
-				newLink += newLocation;
-				newLink += "/";
-				location.href = newLink;
+				location.href = newLocation;
 			}, 1200);
 		}
 	}
