@@ -40,30 +40,24 @@
 		<div class="alert alert-warning">
 
 			<p style="font-size: 22px;"><b>
-				Before joining, make sure you are familiar with
-				<a href="{% url 'blog-about' %}#rules" style="color: blue;">
-					the rules</a>,
-				and you have read
+				By joining you agree to follow the rules and understand the contest format,
+				both of which can be found in the
 				<a href="{{ contest.announcement_link}}" style="color: blue;">
 					the contest announcement</a>. Make sure to join
 				our <a href="https://discord.gg/9deBe7WnEM" style="color: blue;">
 					Discord server</a>
 				to be aware of any announcements regarding technical issues.
 			</b></p>
+
 			<p style="font-size: 22px;"><b>
-				By clicking the 'join contest' button, you agree you will
-				follow
-				<a href="{% url 'blog-about' %}#rules" style="color: blue;">
-					the rules</a>.
-				Failing to follow the rules may result in your account
-				getting DELETED.
-			</b></p>
-			{% if contest.form_user_submit_solutions %}
-			<p style="font-size: 22px;"><b>
-				At the end of the contest, you MUST submit images of your work to a form
-				(link on the submission page after you click the submit button or your time runs out).
+				Note that you will have to verify that you followed the rules by pressing the submit button
+				in the contest arena. This will take you to a page to do so.
+				{% if contest.form_user_submit_solutions %}
+					You also MUST submit images of your work to a form (the link is also available on this 'submit' page).
+				{% endif %}
+				You will have 20 minutes after your contest attempt ends to do this task. You will be redirected to this page
+				automatically when your contest attempt ends.
 			</b><p>
-			{% endif %}
 			<p style="font-size: 22px;"><b>
 				Contest ends at
 				<a href="{{ contest.end_time_url }}" style="color: blue;">
@@ -80,6 +74,11 @@
 			<p style="font-size: 22px;"><b>
 				YOUR ATTEMPT WILL END WHEN THE CONTEST ENDS,
 				EVEN IF YOU ARE UNDER THE TIME LIMIT.
+			</b></p>
+			<p style="font-size: 22px;"><b>
+				It is recommended to open the arena in only one tab, use a tablet/laptop/desktop instead of a phone,
+				and you can navigate back to the contest arena by going to the semicolon math website and clicking contests
+				in case you close it by accident.
 			</b></p>
 
 		</div>
