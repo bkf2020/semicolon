@@ -457,6 +457,9 @@ def arena(request, index):
                         problem_id=problem.problem.id,
                     )
                     new_user_submission.save()
+                    if(contest.running and contest.contest_format == 'AMC10' and len(user_registration) > 0):
+                        user_registration[0].total_points += Decimal(1.5)
+                        user_registration[0].save()
                 else:
                     inital_answer = user_submissions[0].answer_choice_in_contest
             problem.form = MultipleChoiceForm(auto_id=str(idx) + '_%s', initial={'problem_id': idx, 'answer': inital_answer})
