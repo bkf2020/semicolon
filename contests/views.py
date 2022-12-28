@@ -345,7 +345,8 @@ def arena(request, index):
         if(len(user_registration) > 0 and timezone.now() < user_registration[0].verify_end_time and not user_registration[0].confirmed_honest):
             messages.error(request, "You must submit the contest now!")
             return redirect(f'/contests/{index}/submit')
-        messages.info(request, "The contest is over, but you can view and submit the problems unofficially.")
+        if request.method != 'POST':
+            messages.info(request, "The contest is over, but you can view and submit the problems unofficially.")
         contest.ended_for_all = True
     
     if request.method == 'POST':
@@ -363,6 +364,7 @@ def arena(request, index):
                     user_id=request.user.id,
                     problem_id=problem.id
                 )
+                user_solved = False
                 if(len(user_submissions) == 0):
                     if(contest.contest_format == 'AIME'):
                         user_solved_in_contest = contest.running and (user_answer == problem.correct_answer)
@@ -420,7 +422,10 @@ def arena(request, index):
                         current_points = Decimal(0)
                         if user_solved_in_contest:
                             current_points = Decimal(1)
-                        user_submissions[0].problem_solved = user_solved
+                        if contest.ended_for_all:
+                            user_submissions[0].problem_solved |= user_solved
+                        else:
+                            user_submissions[0].problem_solved = user_solved
                         if contest.running:
                             user_submissions[0].answer_in_contest = user_answer
                         user_submissions[0].save()
@@ -447,7 +452,10 @@ def arena(request, index):
                                 current_points = Decimal(6)
                             else:
                                 current_points = Decimal(1)
-                        user_submissions[0].problem_solved = user_solved
+                        if contest.ended_for_all:
+                            user_submissions[0].problem_solved |= user_solved
+                        else:
+                            user_submissions[0].problem_solved = user_solved
                         if contest.running:
                             user_submissions[0].answer_choice_in_contest = user_answer
                         user_submissions[0].save()
@@ -455,6 +463,10 @@ def arena(request, index):
                             user_registration[0].total_points += current_points - previous_points
                             user_registration[0].save()
                 if contest.ended_for_all:
+                    if(user_solved):
+                        messages.success(request, f'Your answer {user_answer} for problem {problem_id + 1} is correct!')
+                    else:
+                        messages.error(request, f'Your answer {user_answer} for problem {problem_id + 1} is wrong!')
                     redirect_url = '/contests/' + str(index) + '/arena/'
                     problem_id = int(form.cleaned_data.get('problem_id'))
                     redirect_url += '#' + str(problem_id + 1)
@@ -485,7 +497,10 @@ def arena(request, index):
                         user_registration[0].save()
                 else:
                     inital_answer = user_submissions[0].answer_choice_in_contest
-            problem.form = MultipleChoiceForm(auto_id=str(idx) + '_%s', initial={'problem_id': idx, 'answer': inital_answer})
+            if contest.running:
+                problem.form = MultipleChoiceForm(auto_id=str(idx) + '_%s', initial={'problem_id': idx, 'answer': inital_answer})
+            elif contest.ended_for_all:
+                problem.form = MultipleChoiceForm(auto_id=str(idx) + '_%s', initial={'problem_id': idx})
             problem.solved = len(user_submissions) > 0 and user_submissions[0].problem_solved
             problem.solved_in_contest = len(user_submissions) > 0 and user_submissions[0].solved_in_contest
             if len(user_submissions) > 0:
@@ -499,7 +514,7 @@ def arena(request, index):
             )
             if(len(user_submissions) > 0):
                 inital_answer = user_submissions[0].answer_in_contest
-            if(inital_answer != ''):
+            if(inital_answer != '' and contest.running):
                 problem.form = AIMEProblemForm(auto_id=str(idx) + '_%s', initial={'problem_id': idx, 'answer': inital_answer})
             else:
                 problem.form = AIMEProblemForm(auto_id=str(idx) + '_%s', initial={'problem_id': idx})
