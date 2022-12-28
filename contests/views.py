@@ -367,13 +367,20 @@ def arena(request, index):
                     if(contest.contest_format == 'AIME'):
                         user_solved_in_contest = contest.running and (user_answer == problem.correct_answer)
                         user_solved = user_answer == problem.correct_answer
-                        new_user_submission = Submission(
-                            user_id=request.user.id,
-                            problem_id=problem.id,
-                            answer_in_contest=user_answer,
-                            solved_in_contest=user_solved_in_contest,
-                            problem_solved=user_solved
-                        )
+                        if contest.running:
+                            new_user_submission = Submission(
+                                user_id=request.user.id,
+                                problem_id=problem.id,
+                                answer_in_contest=user_answer,
+                                solved_in_contest=user_solved_in_contest,
+                                problem_solved=user_solved
+                            )
+                        else:
+                            new_user_submission = Submission(
+                                user_id=request.user.id,
+                                problem_id=problem.id,
+                                problem_solved=user_solved
+                            )
                         new_user_submission.save()
                         if(contest.running and len(user_registration) > 0 and user_solved):
                             user_registration[0].total_points += Decimal(1)
@@ -381,13 +388,20 @@ def arena(request, index):
                     else:
                         user_solved_in_contest = contest.running and (user_answer == problem.correct_answer_choice)
                         user_solved = user_answer == problem.correct_answer_choice
-                        new_user_submission = Submission(
-                            user_id=request.user.id,
-                            problem_id=problem.id,
-                            answer_choice_in_contest=user_answer,
-                            solved_in_contest=user_solved_in_contest,
-                            problem_solved=user_solved
-                        )
+                        if contest.running:
+                            new_user_submission = Submission(
+                                user_id=request.user.id,
+                                problem_id=problem.id,
+                                answer_choice_in_contest=user_answer,
+                                solved_in_contest=user_solved_in_contest,
+                                problem_solved=user_solved
+                            )
+                        else:
+                            new_user_submission = Submission(
+                                user_id=request.user.id,
+                                problem_id=problem.id,
+                                problem_solved=user_solved
+                            )
                         new_user_submission.save()
                         if(contest.running and len(user_registration) > 0 and user_solved):
                             if contest.contest_format == 'AMC8':
@@ -407,7 +421,8 @@ def arena(request, index):
                         if user_solved_in_contest:
                             current_points = Decimal(1)
                         user_submissions[0].problem_solved = user_solved
-                        user_submissions[0].answer_in_contest = user_answer
+                        if contest.running:
+                            user_submissions[0].answer_in_contest = user_answer
                         user_submissions[0].save()
                         if(contest.running and len(user_registration) > 0):
                             user_registration[0].total_points += current_points - previous_points
@@ -433,11 +448,17 @@ def arena(request, index):
                             else:
                                 current_points = Decimal(1)
                         user_submissions[0].problem_solved = user_solved
-                        user_submissions[0].answer_choice_in_contest = user_answer
+                        if contest.running:
+                            user_submissions[0].answer_choice_in_contest = user_answer
                         user_submissions[0].save()
                         if(contest.running and len(user_registration) > 0):
                             user_registration[0].total_points += current_points - previous_points
                             user_registration[0].save()
+                if contest.ended_for_all:
+                    redirect_url = '/contests/' + str(index) + '/arena/'
+                    problem_id = int(form.cleaned_data.get('problem_id'))
+                    redirect_url += '#' + str(problem_id + 1)
+                    return redirect(redirect_url)
             else:
                 return JsonResponse(status=400, data={})
         return JsonResponse(status=200, data={})
