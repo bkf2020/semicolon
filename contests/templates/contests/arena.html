@@ -253,22 +253,27 @@ your contest attempt ends to submit. Press OK to continue.\n(If you want to go b
 					for(var j = 0; j < form.children.length; j++) {
 						var radioButton = document.getElementById(i.toString() + "_answer_" + j.toString());
 						radioButton.problemNum = i + 1;
+						radioButton.isBlank = false;
+						if(radioButton.value === "Blank") {
+							radioButton.isBlank = true;
+						}
 						radioButton.addEventListener('change', function(e) {
 							var status = document.getElementById("status" + e.currentTarget.problemNum.toString());
+							var statusLink = document.getElementById("link" + e.currentTarget.problemNum.toString());
 							status.style = "color: orange; font-weight: bold;";
 							status.innerText = "Saving answer..."
 							var XHR = new XMLHttpRequest();
 							var userAnswer = new FormData(document.getElementsByTagName("form")[e.currentTarget.problemNum - 1]);
+							var isBlank = e.currentTarget.isBlank;
 							XHR.open("POST", document.URL);
 							XHR.addEventListener("load", (event) => {
 								if(XHR.status === 200) {
 									status.style = "color: lightgreen; font-weight: bold;";
 									status.innerText = "Answer saved successfully!";
-									var statusLink = document.getElementById("link" + e.currentTarget.problemNum.toString());
-									if(radioButton.value === "Blank") {
-										statusLink.style = "border: 2px solid white; text-align: center; background-color: lightgray;"
+									if(isBlank) {
+										statusLink.style = "border: 2px solid white; text-align: center; background-color: lightgray;";
 									} else {
-										statusLink.style = "border: 2px solid white; text-align: center; background-color: lightblue;"
+										statusLink.style = "border: 2px solid white; text-align: center; background-color: lightblue;";
 									}
 								} else {
 									status.style = "color: tomato; font-weight: bold;";
@@ -308,13 +313,13 @@ your contest attempt ends to submit. Press OK to continue.\n(If you want to go b
 						var form = document.getElementById((e.currentTarget.problemNum - 1).toString() + "_answer");
 						var userAnswer = new FormData(form.parentElement.parentElement);
 						var previousAnswer = e.currentTarget.previousAnswer;
+						var statusLink = document.getElementById("link" + e.currentTarget.problemNum.toString());
 						XHR.open("POST", document.URL);
 						XHR.addEventListener("load", (event) => {
 							if(XHR.status === 200) {
 								status.style = "color: lightgreen; font-weight: bold;";
 								status.innerText = "Answer saved successfully!";
-								var statusLink = document.getElementById("link" + e.currentTarget.problemNum.toString());
-								statusLink.style = "border: 2px solid white; text-align: center; background-color: lightgray;"
+								statusLink.style = "border: 2px solid white; text-align: center; background-color: lightblue;";
 								setTimeout(function() {
 									status.style = "color: skyblue; font-weight: bold;";
 									status.innerText = "Currently saved answer: " + form.value.toString();
