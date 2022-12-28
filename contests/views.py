@@ -41,7 +41,8 @@ def home(request):
             contest.ended = True
         elif timezone.now() >= contest.start_time:
             contest.started = True
-            messages.info(request, f"{contest.name} is in progress!")
+            if(contest.visible):
+                messages.info(request, f"{contest.name} is in progress!")
 
         if(contest.visible):
             visible_contests.append(contest)
@@ -59,7 +60,9 @@ def home(request):
 @never_cache
 def confirm(request, index):
     contest = Contest.objects.get(pk=index)
-
+    if not contest.visible:
+        return redirect('contests-home')
+        
     if timezone.now() > contest.end_time:
         messages.error(request, f"You cannot take {contest.name} officially anymore.")
         return redirect('contests-home')
@@ -159,6 +162,9 @@ def semiarena(request, index):
     contest_problems = ContestProblem.objects.filter(
         contest=contest
     ).order_by('id')
+
+    if not contest.visible:
+        return redirect('contests-home')
 
     if(contest.contest_format != 'Semicolon'):
         messages.error(request, "You can't use this arena for this type of contest!")
@@ -303,6 +309,9 @@ def arena(request, index):
     contest_problems = ContestProblem.objects.filter(
         contest=contest
     ).order_by('id')
+
+    if not contest.visible:
+        return redirect('contests-home')
 
     if(contest.contest_format == 'Semicolon'):
         messages.error(request, "You can't use this arena for this type of contest!")
