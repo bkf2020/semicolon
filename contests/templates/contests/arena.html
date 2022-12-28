@@ -139,6 +139,7 @@ your contest attempt ends to submit. Press OK to continue.\n(If you want to go b
 			{% if contest.ended_for_all and contest.user_registered %}
 			<div class="box" id="userResults" style="overflow: scroll;">
 				<h2>Your results</h2>
+				<h3>Your score: {{ contest.user_score }}</h3>
 				<p><a href="{% url 'contests-scoreboard' contest.id %}">Scoreboard available at this link</a></p>
 				<table>
 				<tr>

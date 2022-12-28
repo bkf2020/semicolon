@@ -464,6 +464,8 @@ def arena(request, index):
         return JsonResponse(status=200, data={})
 
     idx = 0
+    if contest.ended_for_all and len(user_registration) > 0:
+        contest.user_score = user_registration[0].total_points
     for problem in contest_problems:
         if(problem.problem.multiple_choice):
             inital_answer = 'Blank'
