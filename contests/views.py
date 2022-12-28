@@ -418,7 +418,6 @@ def arena(request, index):
                         previous_points = Decimal(0)
                         if user_submissions[0].solved_in_contest:
                             previous_points = Decimal(1)
-                        user_submissions[0].solved_in_contest = user_solved_in_contest
                         current_points = Decimal(0)
                         if user_solved_in_contest:
                             current_points = Decimal(1)
@@ -427,6 +426,7 @@ def arena(request, index):
                         else:
                             user_submissions[0].problem_solved = user_solved
                         if contest.running:
+                            user_submissions[0].solved_in_contest = user_solved_in_contest
                             user_submissions[0].answer_in_contest = user_answer
                         user_submissions[0].save()
                         if(contest.running and len(user_registration) > 0):
@@ -443,7 +443,6 @@ def arena(request, index):
                                 previous_points = Decimal(6)
                             else:
                                 previous_points = Decimal(1)
-                        user_submissions[0].solved_in_contest = user_solved_in_contest
                         current_points = Decimal(0)
                         if(user_answer == 'Blank' and contest.contest_format == 'AMC10'):
                             current_points = Decimal(1.5)
@@ -457,6 +456,7 @@ def arena(request, index):
                         else:
                             user_submissions[0].problem_solved = user_solved
                         if contest.running:
+                            user_submissions[0].solved_in_contest = user_solved_in_contest
                             user_submissions[0].answer_choice_in_contest = user_answer
                         user_submissions[0].save()
                         if(contest.running and len(user_registration) > 0):
