@@ -63,7 +63,7 @@ your contest attempt ends to submit. Press OK to continue.\n(If you want to go b
 					});
 				</script>
 			{% endif %}
-			<a href="#announcements">Note on announcements</a> /
+			<a href="#announcements">Note on announcements</a> /</br>
 			{% if contest.has_solutions %}
 				<a href="{{ contest.solutions_url }}">View contest solutions</a> /</br>
 			{% endif %}
@@ -71,7 +71,7 @@ your contest attempt ends to submit. Press OK to continue.\n(If you want to go b
 				{% if contest.user_registered %}
 					<a href="#userResults">Your results</a> /<br/>
 				{% endif %}
-				<a href="{% url 'contests-scoreboard' contest.id %}">View scoreboard</a> /
+				<a href="{% url 'contests-scoreboard' contest.id %}">View scoreboard</a> /</br>
 			{% elif contest.user_finished_but_running %}
 				<p>
 					Your attempt has finished, contest ends in:
