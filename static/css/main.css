@@ -6,7 +6,7 @@ body {
 	margin-right: auto;
 	color: #fff;
 	background-color: #181818;
-	font-family: "Roboto", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+	font-family: "Segoe UI", "Roboto", BlinkMacSystemFont, -apple-system, Helvetica, Arial, sans-serif;
 	line-height: 1.8;
 	font-size: 18px;
 }
