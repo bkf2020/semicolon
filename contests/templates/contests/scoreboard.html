@@ -60,7 +60,7 @@
 			</tr>
 			{% if page_obj %}
 			{% for user in page_obj %}
-
+			{% if user.confirmed_honest %}
 			{% if user.username == request.user.username %}
 			<tr style="background-color: darkslateblue;">
 			{% else %}
@@ -112,6 +112,7 @@
 				</td>
 				{% endfor %}
 			</tr>
+			{% endif %}
 			{% endfor %}
 			{% endif %}
 		</tbody>
