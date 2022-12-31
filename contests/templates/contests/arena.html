@@ -278,12 +278,12 @@ your contest attempt ends to submit. Press OK to continue.\n(If you want to go b
 									}
 								} else {
 									status.style = "color: tomato; font-weight: bold;";
-									status.innerText = "An error occured when submitting! Try checking your connection. When you fix the connection, make sure the intended answers are saved!";
+									status.innerText = "An error occured when submitting! Try checking your connection. When you fix the connection, make sure the intended answers are saved! (To save the current answer, click on another answer and then the intended answer.)";
 								}
 							});
 							XHR.addEventListener("error", (event) => {
 								status.style = "color: tomato; font-weight: bold;";
-								status.innerText = "An error occured when submitting! Try checking your connection. When you fix the connection, make sure the intended answers are saved!";
+								status.innerText = "An error occured when submitting! Try checking your connection. When you fix the connection, make sure the intended answers are saved! (To save the current answer, click on another answer and then the intended answer.)";
 							});
 							XHR.send(userAnswer);
 						});
