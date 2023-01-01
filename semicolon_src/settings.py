@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = (os.environ.get('DEBUG_VALUE') == 'True')
 
-ALLOWED_HOSTS = ['*.up.railway.app', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['scmath.up.railway.app', '127.0.0.1', 'localhost']
 
 # Application definition
 
