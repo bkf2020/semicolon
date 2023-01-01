@@ -1,7 +1,5 @@
 # (;) semicolon math
-(;) Semicolon Math is a platform that offers math contests every month with 2 easy, 2 medium, and 2 hard AIME level problems.
-The format is similar to contests you will find on some competitive programming contests.
-
+Semicolon Math is an open source platform that offers math contests every month, including mock AMC (American Math Competition) and AIME (American Invitational Mathematics Examination) contests meant to simulate the real contests. We try to provide some features that competitive programming platforms provide such as rating or a large archive of problems to improve the experience. Rating has not been implemented yet but will come if there is enough interest in this project. 
 
 Access it at: https://scmath.herokuapp.com
 
@@ -26,18 +24,6 @@ See `CONTRIBUTING.md`
 - `semicolon_src/`: contains django settings
 - `static/`: contains global static settings
 - `users/`: user authentication and profiles
-
-Current goal: work on contests
-
-Each contest needs:
-- Which problems to pull from the problemset
-- Start time and end time
-- Allow users to register
-- Only allow registered users to participate
-- Display a scoreboard of all the users
-- Calculate the scores of each user (based on submission time)
-- Limit number of submissions for each problem (maybe?)
-- Subtract points from a problem for every wrong submission (depends on scoring format?)
 
 # LICENSE
 Licensed under the GNU Affero General Public License v3.0.

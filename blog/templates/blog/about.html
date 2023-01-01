@@ -47,19 +47,13 @@
 
 		<h2 id="what">What is Semicolon Math?</h2>
 		<p>
-			Semicolon Math is a platform that offers math contests every month
-			with 2 easy, 2 medium, and 2 hard AIME level problems. The format
-			is similar to contests you will find on some competitive programming contests.
-		</p>
-		<p>
-			All problems on this website of FINISHED contests are licensed under a
-			<a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
-				Creative Commons Attribution 4.0 International License</a>.
-			<b>
-				This license only applies to contests that are FINISHED. The
-				problems of a RUNNING contest CANNOT be available
-				anywhere other than this website.
-			</b>
+			Semicolon Math is an open source platform that offers math contests every month,
+			including mock <a href="https://artofproblemsolving.com/wiki/index.php/American_Mathematics_Competitions">AMC (American Math Competition)</a>
+			and <a href="https://artofproblemsolving.com/wiki/index.php/American_Invitational_Mathematics_Examination">AIME (American Invitational Mathematics Examination)</a>
+			contests meant to simulate the real contests.
+			We try to provide some features that competitive programming platforms provide
+			such as rating or a large archive of problems to improve the experience.
+			Rating has not been implemented yet but will come if there is enough interest in this project.
 		</p>
 		<p>
 			The code for this website is available at
@@ -86,83 +80,48 @@
 		<p>
 			We store your username and a <b>hashed and salted</b> version of your password.
 			However, you <b>should use a unique and strong password</b> for this website for security reasons.
+			By default, django (the framework used to build this project) also logs the last time you logged in
+			and the time an account was created.
 		</p>
 		<p>
 			We also store the answers you submit to a problem, your rating, the scores of the contests you participate in,
-			and during a contest, the time you submitted a problem in order to calculate your score.
+			and during "Semicolon" format contests (see contest format for more details),
+			the time you submitted a problem in order to calculate your score.
 		</p>
 		<p>
 			We do not knowingly log any other personal data, such as your email.
 		</p>
-		<h2 id="rules">Contest Rules</h2>
-		<ul>
-			<li>You CAN ONLY use scratch paper, pencils, erasers, colored pencils/pens/markers, rulers, and compasses</li>
-			<li>You CANNOT use protractors or graph paper</li>
-			<li>
-				You CANNOT use any calculator (online or offline) or any computing services
-				(like WolframAlpha). You also cannot write any code to solve the problems.
-				All problems must be solved by YOU and not a computer.
-			</li>
-			<li>
-				You CANNOT discuss the problems with any other person when the contest is RUNNING.
-				ONLY SOLVE THE PROBLEMS BY YOURSELF.
-			</li>
-			<li>
-				You can make AT MOST 5 submissions per problem in a contest. Also, keep in mind
-				if you submit the same answer twice, it will count as two submissions, so be organized in your work!
-			</li>
-			<li>
-				You can only use ONE account to participate in contests. Alt accounts are NOT ALLOWED.
-			</li>
-			<li>
-				If you have a technical issue DURING the contest that is within our control
-				(e.g. the server goes down but your wifi works fine), please DM mathmastersd on Discord (using our server).
-				DO NOT ASK PUBLICLY ON THE SERVER. Also, DO NOT ask how to solve a problem, the answer to a problem,
-				or anything regarding the problems. If a problem is unclear, please move on and try it later.
-			</li>
-			<li>
-				All technical issues will be posted on our Discord server. Any problem fixes will be posted
-				AFTER the contest ends for everyone. The fixes are available directly in the problem statements.
-			</li>
-			<li>
-				Tip: After submitting an answer, please wait at least 15 seconds
-				for the website to load and return your verdict. DO NOT refresh the page.
-			</li>
-			<li>
-				If you are a current staff or former member (i.e. you joined staff in the past), you CANNOT participate
-				in ANY rounds.
-			</li>
-			<li>
-				Failure to follow the rules MAY result in your account getting DELETED.
-			</li>
-		</ul>
 		<p>
-			If you know someone who cheated, please DM mathmastersd on the Discord server. It is difficult to get around
-			cheating, so please do not be discouraged. The point of these contests is to have fun, at the end
-			of the day!
+			This website is hosted using fly.io. Please see their <a href="https://fly.io/legal/terms-of-service/">Terms of service</a>
+			and <a href="https://fly.io/legal/privacy-policy/">Privacy policy</a> as there may be things relevant to websites like this one
+			that are hosted on it.
 		</p>
-		<h2 id="format">Contest format</h2>
+		<h2 id="rules">Contest Rules</h2>
+		<p>Please see the contest announcement of the contest for the full set of rules, as they may differ from round to round.
+		Here's are some things to expect:</p>
 		<ul>
-			<li>
-				The usual contests have the following format, but this can vary:
-				<ul>
-					<li>6 problems</li>
-					<li>1-1.5 hours to solve them</li>
-					<li>2 easy AIME-like problems (difficulty problems 1-5)</li>
-					<li>2 medium AIME-like problems (difficulty of problems 6-10)</li>
-					<li>2 hard AIME-like problems (difficulty of problems 11-15)</li>
-				</ul>
+			<li>There won't be clarifications of the contest problems during the contest. This will happen AFTERWARDS. Do NOT
+				contact the problem writers with clarifications about the problems during the contest, please wait until the contest ends.
 			</li>
-			<li>Users have a long interval where they can pick the 1-1.5 hours to participate in the contest</li>
-			<li>Users get instant feedback after submitting a problem</li>
-			<li>Problems can have any integer values (including negative ones)</li>
-			<li>Each problem has a value/certain number of points attached to it</li>
-			<li>Users cannot view the contest scoreboard until the contest ends for everyone</li>
-			<li>The contest scoreboard is ranked by total points from problems solved, and then total penalty from all the problems</li>
-			<li>The penalty of one problems is computed as:
-				<center>
-					time problem gets solved in minutes + 10 &times; (number of wrong submissions)
-				</center>
+			<li>You will have to go to a submit page AFTER the contest (you will be redirected when your attempt finishes) to confirm
+				you did not cheat. You may have to submit images of your work for some contests.</li>
+		</ul>
+
+		<h2 id="format">Contest format</h2>
+		<p>Here are the mock contests we plan on offering:</p>
+		<ul>
+			<li><b>AMC8:</b> 25 multiple choice problems, 40 minutes time limit, each problem is 1 point, wrong/blank answers are 0 points.</li>
+			<li><b>AMC10/12:</b> 25 multiple choice problems, 75 minutes time limit,
+				each problem is 6 points, wrong answers are 0 points, blank answers are 1.5 points.</li>
+			<li><b>AIME:</b> 15 problems, 3 hours to solve them, integers answers between 000 to 999. Each problem is 1 point,
+			and wrong/blank answers mean 0 points.</li>
+			<li><b>AIME:</b> 15 problems, 3 hours to solve them, integers answers between 000 to 999. Each problem is 1 point,
+			and wrong/blank answers mean 0 points.</li>
+			<li><b>Semicolon:</b> A new take on math contests combining the format of competitive programming. 6 problems (usually
+				2 "easy", 2 "medium", and 2 "hard" AIME level) with instant feedback, 5 attempts total for a problem, and
+				the points you receive from a problem will vary. Users are ranked by their total points and then penalty.
+				The penalty for one problem is
+				<center>time solved in minutes from start of contest + 10 &times; (number of wrong submissions).</center>
 			</li>
 		</ul>
 
