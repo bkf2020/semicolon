@@ -27,6 +27,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = (os.environ.get('DEBUG_VALUE') == 'True')
 
 ALLOWED_HOSTS = ['scmath.up.railway.app', '127.0.0.1', 'localhost']
+CSRF_TRUSTED_ORIGINS = ['scmath.up.railway.app']
 
 # Application definition
 
