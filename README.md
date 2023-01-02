@@ -1,13 +1,13 @@
 # (;) semicolon math
 Semicolon Math is an open source platform that offers math contests every month, including mock AMC (American Math Competition) and AIME (American Invitational Mathematics Examination) contests meant to simulate the real contests. We try to provide some features that competitive programming platforms provide such as rating or a large archive of problems to improve the experience. Rating has not been implemented yet but will come if there is enough interest in this project. 
 
-Access it at: https://scmath.herokuapp.com
+Access it at: https://scmath.up.railway.app/
 
 # Project info
 - **Original Announcement**: https://artofproblemsolving.com/community/c5h2779644
 - **New AoPS Announcement**: https://artofproblemsolving.com/community/c5h2823066
 - **Discord**: https://discord.gg/9deBe7WnEM
-- **Website link**: https://scmath.herokuapp.com/
+- **Website link**: https://scmath.up.railway.app/
 
 ## Contributing
 See `CONTRIBUTING.md`
