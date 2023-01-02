@@ -1,1 +1,1 @@
-web: gunicorn semicolon_src.wsgi
+web: python manage.py collectstatic && gunicorn semicolon_src.wsgi
